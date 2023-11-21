@@ -1,0 +1,126 @@
+
+// ===============
+// === AppUser ===
+// ===============
+/**
+* AppUser is a customizable User, linked with OneToOne to the JHipster User.
+* @See https://www.jhipster.tech/user-entity/
+*/
+entity AppUser {
+}
+
+relationship OneToOne {
+    AppUser{internalUser(login) required} to User
+}
+
+// ============
+// === Game ===
+// ============
+/**
+* Game represents a video game.
+*/
+entity Game {
+    title String required unique
+    description String maxlength(1024)
+    imgUrl String
+}
+
+// ===============
+// === GameSub ===
+// ===============
+/**
+* GameSub represents the subscription of an AppUser to a Game.
+*/
+entity GameSub {
+}
+
+relationship ManyToOne {
+    GameSub{appUser(id) required} to AppUser,
+    GameSub{game(title) required} to Game
+}
+
+// ==================
+// === Friendship ===
+// ==================
+/**
+* Friendship represents the friendship relation between two AppUsers.
+*/
+entity Friendship {
+    isAccepted Boolean required
+}
+
+relationship ManyToOne {
+    Friendship{appUserOwner(id) required} to AppUser,
+    Friendship{appUserReceiver(id) required} to AppUser
+}
+
+// ======================
+// === FriendshipChat ===
+// ======================
+/**
+* FriendshipChat represents a message of the chat between two AppUsers friends.
+*/
+entity FriendshipChat {
+    message String required maxlength(512)
+    sendAt Instant required
+}
+
+relationship ManyToOne {
+    FriendshipChat{friendship(id) required} to Friendship
+}
+
+// =============
+// === Event ===
+// =============
+/**
+* Event represents the organization of a meeting between AppUsers around a Game.
+*/
+entity Event {
+    title String required
+    description String maxlength(1024)
+    meetingDate ZonedDateTime required
+    isPrivate Boolean required
+}
+
+relationship ManyToOne {
+    Event{owner(id) required} to AppUser,
+    Event{game(title) required} to Game
+}
+
+// ================
+// === EventSub ===
+// ================
+/**
+* EventSub represents subscription of an AppUser to this Event.
+*/
+entity EventSub {
+    isAccepted Boolean required
+}
+
+relationship ManyToOne {
+    EventSub{event(id) required} to Event,
+    EventSub{appUser(id) required} to AppUser
+}
+
+// =================
+// === EventChat ===
+// =================
+/**
+* EventChat represents a message of the chat in the Event.
+*/
+entity EventChat {
+    message String required maxlength(512)
+    sendAt Instant required
+}
+
+relationship ManyToOne {
+    EventChat{event(id) required} to Event,
+    EventChat{appUser(id) required} to AppUser
+}
+
+// =================
+// === Options ===
+// =================
+
+dto * with mapstruct
+service * with serviceClass
