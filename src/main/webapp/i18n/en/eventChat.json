@@ -1,0 +1,27 @@
+{
+  "gamerSquadApp": {
+    "eventChat": {
+      "home": {
+        "title": "Event Chats",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Event Chat",
+        "createOrEditLabel": "Create or edit a Event Chat",
+        "notFound": "No Event Chats found"
+      },
+      "created": "A new Event Chat is created with identifier {{ param }}",
+      "updated": "A Event Chat is updated with identifier {{ param }}",
+      "deleted": "A Event Chat is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Event Chat {{ id }}?"
+      },
+      "detail": {
+        "title": "Event Chat"
+      },
+      "id": "ID",
+      "message": "Message",
+      "sendAt": "Send At",
+      "event": "Event",
+      "appUser": "App User"
+    }
+  }
+}

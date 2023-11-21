@@ -1,0 +1,26 @@
+{
+  "gamerSquadApp": {
+    "friendshipChat": {
+      "home": {
+        "title": "FriendshipChats",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Friendship Chat",
+        "createOrEditLabel": "Créer ou éditer un Friendship Chat",
+        "notFound": "Aucun Friendship Chat trouvé"
+      },
+      "created": "Un nouveau Friendship Chat a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Friendship Chat avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Friendship Chat avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Friendship Chat {{ id }} ?"
+      },
+      "detail": {
+        "title": "Friendship Chat"
+      },
+      "id": "ID",
+      "message": "Message",
+      "sendAt": "Send At",
+      "friendship": "Friendship"
+    }
+  }
+}

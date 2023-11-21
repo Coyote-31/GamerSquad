@@ -1,0 +1,36 @@
+{
+  "applications": "*",
+  "changelogDate": "20231121185614",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "friendship_chat",
+  "fields": [
+    {
+      "fieldName": "message",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "512"
+    },
+    {
+      "fieldName": "sendAt",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "FriendshipChat represents a message of the chat between two AppUsers friends.",
+  "jpaMetamodelFiltering": false,
+  "name": "FriendshipChat",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "friendship",
+      "relationshipName": "friendship",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "service": "serviceClass"
+}

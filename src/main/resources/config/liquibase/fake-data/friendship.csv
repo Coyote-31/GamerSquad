@@ -1,0 +1,11 @@
+id;is_accepted;app_user_owner_id;app_user_receiver_id
+1;false;1;1
+2;false;2;2
+3;false;1;2
+4;true;2;2
+5;false;1;1
+6;true;2;1
+7;false;2;2
+8;false;1;2
+9;true;2;1
+10;true;2;2

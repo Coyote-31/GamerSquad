@@ -1,0 +1,43 @@
+{
+  "applications": "*",
+  "changelogDate": "20231121185617",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "event_chat",
+  "fields": [
+    {
+      "fieldName": "message",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "512"
+    },
+    {
+      "fieldName": "sendAt",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "EventChat represents a message of the chat in the Event.",
+  "jpaMetamodelFiltering": false,
+  "name": "EventChat",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "event",
+      "relationshipName": "event",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "appUser",
+      "relationshipName": "appUser",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "service": "serviceClass"
+}

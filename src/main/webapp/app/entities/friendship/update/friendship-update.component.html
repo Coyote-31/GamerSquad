@@ -1,0 +1,118 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-friendship-heading"
+        data-cy="FriendshipCreateUpdateHeading"
+        jhiTranslate="gamerSquadApp.friendship.home.createOrEditLabel"
+      >
+        Créer ou éditer un Friendship
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="gamerSquadApp.friendship.isAccepted" for="field_isAccepted">Is Accepted</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="isAccepted"
+            id="field_isAccepted"
+            data-cy="isAccepted"
+            formControlName="isAccepted"
+          />
+          <div *ngIf="editForm.get('isAccepted')!.invalid && (editForm.get('isAccepted')!.dirty || editForm.get('isAccepted')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('isAccepted')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              Ce champ est obligatoire.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="gamerSquadApp.friendship.appUserOwner" for="field_appUserOwner">App User Owner</label>
+          <select
+            class="form-control"
+            id="field_appUserOwner"
+            data-cy="appUserOwner"
+            name="appUserOwner"
+            formControlName="appUserOwner"
+            [compareWith]="compareAppUser"
+          >
+            <option *ngIf="!editForm.get('appUserOwner')!.value" [ngValue]="null" selected></option>
+            <option [ngValue]="appUserOption" *ngFor="let appUserOption of appUsersSharedCollection">{{ appUserOption.id }}</option>
+          </select>
+        </div>
+        <div
+          *ngIf="
+            editForm.get(['appUserOwner'])!.invalid && (editForm.get(['appUserOwner'])!.dirty || editForm.get(['appUserOwner'])!.touched)
+          "
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['appUserOwner'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            Ce champ est obligatoire.
+          </small>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="gamerSquadApp.friendship.appUserReceiver" for="field_appUserReceiver"
+            >App User Receiver</label
+          >
+          <select
+            class="form-control"
+            id="field_appUserReceiver"
+            data-cy="appUserReceiver"
+            name="appUserReceiver"
+            formControlName="appUserReceiver"
+            [compareWith]="compareAppUser"
+          >
+            <option *ngIf="!editForm.get('appUserReceiver')!.value" [ngValue]="null" selected></option>
+            <option [ngValue]="appUserOption" *ngFor="let appUserOption of appUsersSharedCollection">{{ appUserOption.id }}</option>
+          </select>
+        </div>
+        <div
+          *ngIf="
+            editForm.get(['appUserReceiver'])!.invalid &&
+            (editForm.get(['appUserReceiver'])!.dirty || editForm.get(['appUserReceiver'])!.touched)
+          "
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['appUserReceiver'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            Ce champ est obligatoire.
+          </small>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Annuler</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Sauvegarder</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

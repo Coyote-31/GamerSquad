@@ -1,5 +1,6 @@
 package com.coyote.gamersquad.config;
 
+import com.coyote.gamersquad.GeneratedByJHipster;
 import java.time.Duration;
 import org.ehcache.config.builders.*;
 import org.ehcache.jsr107.Eh107Configuration;
@@ -17,6 +18,7 @@ import tech.jhipster.config.cache.PrefixedKeyGenerator;
 
 @Configuration
 @EnableCaching
+@GeneratedByJHipster
 public class CacheConfiguration {
 
     private GitProperties gitProperties;
@@ -48,6 +50,14 @@ public class CacheConfiguration {
             createCache(cm, com.coyote.gamersquad.domain.User.class.getName());
             createCache(cm, com.coyote.gamersquad.domain.Authority.class.getName());
             createCache(cm, com.coyote.gamersquad.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.coyote.gamersquad.domain.AppUser.class.getName());
+            createCache(cm, com.coyote.gamersquad.domain.Game.class.getName());
+            createCache(cm, com.coyote.gamersquad.domain.GameSub.class.getName());
+            createCache(cm, com.coyote.gamersquad.domain.Friendship.class.getName());
+            createCache(cm, com.coyote.gamersquad.domain.FriendshipChat.class.getName());
+            createCache(cm, com.coyote.gamersquad.domain.Event.class.getName());
+            createCache(cm, com.coyote.gamersquad.domain.EventSub.class.getName());
+            createCache(cm, com.coyote.gamersquad.domain.EventChat.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

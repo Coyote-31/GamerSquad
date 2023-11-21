@@ -7,6 +7,14 @@
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entités",
+        "appUser": "App User",
+        "game": "Game",
+        "gameSub": "Game Sub",
+        "friendship": "Friendship",
+        "friendshipChat": "Friendship Chat",
+        "event": "Event",
+        "eventSub": "Event Sub",
+        "eventChat": "Event Chat",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

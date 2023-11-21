@@ -1,0 +1,37 @@
+{
+  "applications": "*",
+  "changelogDate": "20231121185616",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "event_sub",
+  "fields": [
+    {
+      "fieldName": "isAccepted",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "EventSub represents subscription of an AppUser to this Event.",
+  "jpaMetamodelFiltering": false,
+  "name": "EventSub",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "event",
+      "relationshipName": "event",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "appUser",
+      "relationshipName": "appUser",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "service": "serviceClass"
+}

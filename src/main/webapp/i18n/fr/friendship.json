@@ -1,0 +1,26 @@
+{
+  "gamerSquadApp": {
+    "friendship": {
+      "home": {
+        "title": "Friendships",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Friendship",
+        "createOrEditLabel": "Créer ou éditer un Friendship",
+        "notFound": "Aucun Friendship trouvé"
+      },
+      "created": "Un nouveau Friendship a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Friendship avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Friendship avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Friendship {{ id }} ?"
+      },
+      "detail": {
+        "title": "Friendship"
+      },
+      "id": "ID",
+      "isAccepted": "Is Accepted",
+      "appUserOwner": "App User Owner",
+      "appUserReceiver": "App User Receiver"
+    }
+  }
+}

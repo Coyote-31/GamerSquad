@@ -1,0 +1,117 @@
+<div>
+  <h2 id="page-heading" data-cy="EventChatHeading">
+    <span jhiTranslate="gamerSquadApp.eventChat.home.title">EventChats</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="gamerSquadApp.eventChat.home.refreshListLabel">Actualiser la liste</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-event-chat"
+        [routerLink]="['/event-chat/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="gamerSquadApp.eventChat.home.createLabel"> Créer un nouveau Event Chat </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="eventChats?.length === 0">
+    <span jhiTranslate="gamerSquadApp.eventChat.home.notFound">Aucun Event Chat trouvé</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="eventChats && eventChats.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="message">
+            <div class="d-flex">
+              <span jhiTranslate="gamerSquadApp.eventChat.message">Message</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="sendAt">
+            <div class="d-flex">
+              <span jhiTranslate="gamerSquadApp.eventChat.sendAt">Send At</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="event.id">
+            <div class="d-flex">
+              <span jhiTranslate="gamerSquadApp.eventChat.event">Event</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="appUser.id">
+            <div class="d-flex">
+              <span jhiTranslate="gamerSquadApp.eventChat.appUser">App User</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let eventChat of eventChats; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/event-chat', eventChat.id, 'view']">{{ eventChat.id }}</a>
+          </td>
+          <td>{{ eventChat.message }}</td>
+          <td>{{ eventChat.sendAt | formatMediumDatetime }}</td>
+          <td>
+            <div *ngIf="eventChat.event">
+              <a [routerLink]="['/event', eventChat.event.id, 'view']">{{ eventChat.event.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="eventChat.appUser">
+              <a [routerLink]="['/app-user', eventChat.appUser.id, 'view']">{{ eventChat.appUser.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/event-chat', eventChat.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">Voir</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/event-chat', eventChat.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Editer</span>
+              </button>
+
+              <button type="submit" (click)="delete(eventChat)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Supprimer</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

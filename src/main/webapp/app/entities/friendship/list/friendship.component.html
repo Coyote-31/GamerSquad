@@ -1,0 +1,110 @@
+<div>
+  <h2 id="page-heading" data-cy="FriendshipHeading">
+    <span jhiTranslate="gamerSquadApp.friendship.home.title">Friendships</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="gamerSquadApp.friendship.home.refreshListLabel">Actualiser la liste</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-friendship"
+        [routerLink]="['/friendship/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="gamerSquadApp.friendship.home.createLabel"> Créer un nouveau Friendship </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="friendships?.length === 0">
+    <span jhiTranslate="gamerSquadApp.friendship.home.notFound">Aucun Friendship trouvé</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="friendships && friendships.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="isAccepted">
+            <div class="d-flex">
+              <span jhiTranslate="gamerSquadApp.friendship.isAccepted">Is Accepted</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="appUserOwner.id">
+            <div class="d-flex">
+              <span jhiTranslate="gamerSquadApp.friendship.appUserOwner">App User Owner</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="appUserReceiver.id">
+            <div class="d-flex">
+              <span jhiTranslate="gamerSquadApp.friendship.appUserReceiver">App User Receiver</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let friendship of friendships; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/friendship', friendship.id, 'view']">{{ friendship.id }}</a>
+          </td>
+          <td>{{ friendship.isAccepted }}</td>
+          <td>
+            <div *ngIf="friendship.appUserOwner">
+              <a [routerLink]="['/app-user', friendship.appUserOwner.id, 'view']">{{ friendship.appUserOwner.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="friendship.appUserReceiver">
+              <a [routerLink]="['/app-user', friendship.appUserReceiver.id, 'view']">{{ friendship.appUserReceiver.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/friendship', friendship.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">Voir</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/friendship', friendship.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Editer</span>
+              </button>
+
+              <button type="submit" (click)="delete(friendship)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Supprimer</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

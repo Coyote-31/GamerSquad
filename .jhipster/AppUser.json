@@ -1,0 +1,25 @@
+{
+  "applications": "*",
+  "changelogDate": "20231121185610",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "app_user",
+  "fields": [],
+  "fluentMethods": true,
+  "javadoc": "AppUser is a customizable User, linked with OneToOne to the JHipster User.\\n@See https:",
+  "jpaMetamodelFiltering": false,
+  "name": "AppUser",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "ownerSide": true,
+      "relationshipName": "internalUser",
+      "relationshipType": "one-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "service": "serviceClass"
+}

@@ -1,0 +1,25 @@
+{
+  "gamerSquadApp": {
+    "gameSub": {
+      "home": {
+        "title": "GameSubs",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Game Sub",
+        "createOrEditLabel": "Créer ou éditer un Game Sub",
+        "notFound": "Aucun Game Sub trouvé"
+      },
+      "created": "Un nouveau Game Sub a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Game Sub avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Game Sub avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Game Sub {{ id }} ?"
+      },
+      "detail": {
+        "title": "Game Sub"
+      },
+      "id": "ID",
+      "appUser": "App User",
+      "game": "Game"
+    }
+  }
+}

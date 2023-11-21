@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="event">
+      <h2 data-cy="eventDetailsHeading"><span jhiTranslate="gamerSquadApp.event.detail.title">Event</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ event.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="gamerSquadApp.event.title">Title</span></dt>
+        <dd>
+          <span>{{ event.title }}</span>
+        </dd>
+        <dt><span jhiTranslate="gamerSquadApp.event.description">Description</span></dt>
+        <dd>
+          <span>{{ event.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="gamerSquadApp.event.meetingDate">Meeting Date</span></dt>
+        <dd>
+          <span>{{ event.meetingDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="gamerSquadApp.event.isPrivate">Is Private</span></dt>
+        <dd>
+          <span>{{ event.isPrivate }}</span>
+        </dd>
+        <dt><span jhiTranslate="gamerSquadApp.event.owner">Owner</span></dt>
+        <dd>
+          <div *ngIf="event.owner">
+            <a [routerLink]="['/app-user', event.owner.id, 'view']">{{ event.owner.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="gamerSquadApp.event.game">Game</span></dt>
+        <dd>
+          <div *ngIf="event.game">
+            <a [routerLink]="['/game', event.game.id, 'view']">{{ event.game.title }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Retour</span>
+      </button>
+
+      <button type="button" [routerLink]="['/event', event.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editer</span>
+      </button>
+    </div>
+  </div>
+</div>

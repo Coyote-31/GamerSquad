@@ -1,0 +1,110 @@
+<div>
+  <h2 id="page-heading" data-cy="EventSubHeading">
+    <span jhiTranslate="gamerSquadApp.eventSub.home.title">EventSubs</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="gamerSquadApp.eventSub.home.refreshListLabel">Actualiser la liste</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-event-sub"
+        [routerLink]="['/event-sub/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="gamerSquadApp.eventSub.home.createLabel"> Créer un nouveau Event Sub </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="eventSubs?.length === 0">
+    <span jhiTranslate="gamerSquadApp.eventSub.home.notFound">Aucun Event Sub trouvé</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="eventSubs && eventSubs.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="isAccepted">
+            <div class="d-flex">
+              <span jhiTranslate="gamerSquadApp.eventSub.isAccepted">Is Accepted</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="event.id">
+            <div class="d-flex">
+              <span jhiTranslate="gamerSquadApp.eventSub.event">Event</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="appUser.id">
+            <div class="d-flex">
+              <span jhiTranslate="gamerSquadApp.eventSub.appUser">App User</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let eventSub of eventSubs; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/event-sub', eventSub.id, 'view']">{{ eventSub.id }}</a>
+          </td>
+          <td>{{ eventSub.isAccepted }}</td>
+          <td>
+            <div *ngIf="eventSub.event">
+              <a [routerLink]="['/event', eventSub.event.id, 'view']">{{ eventSub.event.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="eventSub.appUser">
+              <a [routerLink]="['/app-user', eventSub.appUser.id, 'view']">{{ eventSub.appUser.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/event-sub', eventSub.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">Voir</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/event-sub', eventSub.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Editer</span>
+              </button>
+
+              <button type="submit" (click)="delete(eventSub)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Supprimer</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

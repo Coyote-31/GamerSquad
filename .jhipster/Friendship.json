@@ -1,0 +1,37 @@
+{
+  "applications": "*",
+  "changelogDate": "20231121185613",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "friendship",
+  "fields": [
+    {
+      "fieldName": "isAccepted",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "Friendship represents the friendship relation between two AppUsers.",
+  "jpaMetamodelFiltering": false,
+  "name": "Friendship",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "appUser",
+      "relationshipName": "appUserOwner",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "appUser",
+      "relationshipName": "appUserReceiver",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "service": "serviceClass"
+}

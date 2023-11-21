@@ -21,11 +21,13 @@
     "enableHibernateCache": true,
     "enableSwaggerCodegen": false,
     "enableTranslation": true,
+    "entities": ["AppUser", "Game", "GameSub", "Friendship", "FriendshipChat", "Event", "EventSub", "EventChat"],
     "entitySuffix": "",
     "jhiPrefix": "jhi",
     "jhipsterVersion": "7.9.4",
     "jwtSecretKey": "NmE2ZWU3NWIxYWQyYzIwODY0Y2E5OTMzODRiYjdjYzEyNzYwYjYyZDcwZjNhZDZiOTljYjEwMzRkMTNiNzBjY2QyNzM3NTExODIwM2Q1NTdiZjkyYzQ2NzRlMTlkNDlkMTFlNDUxZGZmZmJkNjgyYmI5OGIwNDNmMDQ3MGM0Yzg=",
     "languages": ["fr", "en"],
+    "lastLiquibaseTimestamp": 1700592977000,
     "messageBroker": false,
     "microfrontend": false,
     "microfrontends": [],
@@ -45,6 +47,7 @@
     "skipUserManagement": false,
     "testFrameworks": ["cypress"],
     "websocket": "spring-websocket",
-    "withAdminUi": true
+    "withAdminUi": true,
+    "withGeneratedFlag": true
   }
 }

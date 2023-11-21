@@ -1,0 +1,40 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="gameSub">
+      <h2 data-cy="gameSubDetailsHeading"><span jhiTranslate="gamerSquadApp.gameSub.detail.title">Game Sub</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ gameSub.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="gamerSquadApp.gameSub.appUser">App User</span></dt>
+        <dd>
+          <div *ngIf="gameSub.appUser">
+            <a [routerLink]="['/app-user', gameSub.appUser.id, 'view']">{{ gameSub.appUser.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="gamerSquadApp.gameSub.game">Game</span></dt>
+        <dd>
+          <div *ngIf="gameSub.game">
+            <a [routerLink]="['/game', gameSub.game.id, 'view']">{{ gameSub.game.title }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Retour</span>
+      </button>
+
+      <button type="button" [routerLink]="['/game-sub', gameSub.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editer</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="friendship">
+      <h2 data-cy="friendshipDetailsHeading"><span jhiTranslate="gamerSquadApp.friendship.detail.title">Friendship</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ friendship.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="gamerSquadApp.friendship.isAccepted">Is Accepted</span></dt>
+        <dd>
+          <span>{{ friendship.isAccepted }}</span>
+        </dd>
+        <dt><span jhiTranslate="gamerSquadApp.friendship.appUserOwner">App User Owner</span></dt>
+        <dd>
+          <div *ngIf="friendship.appUserOwner">
+            <a [routerLink]="['/app-user', friendship.appUserOwner.id, 'view']">{{ friendship.appUserOwner.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="gamerSquadApp.friendship.appUserReceiver">App User Receiver</span></dt>
+        <dd>
+          <div *ngIf="friendship.appUserReceiver">
+            <a [routerLink]="['/app-user', friendship.appUserReceiver.id, 'view']">{{ friendship.appUserReceiver.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Retour</span>
+      </button>
+
+      <button type="button" [routerLink]="['/friendship', friendship.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editer</span>
+      </button>
+    </div>
+  </div>
+</div>

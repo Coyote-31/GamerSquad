@@ -1,0 +1,26 @@
+{
+  "gamerSquadApp": {
+    "eventSub": {
+      "home": {
+        "title": "EventSubs",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Event Sub",
+        "createOrEditLabel": "Créer ou éditer un Event Sub",
+        "notFound": "Aucun Event Sub trouvé"
+      },
+      "created": "Un nouveau Event Sub a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Event Sub avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Event Sub avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Event Sub {{ id }} ?"
+      },
+      "detail": {
+        "title": "Event Sub"
+      },
+      "id": "ID",
+      "isAccepted": "Is Accepted",
+      "event": "Event",
+      "appUser": "App User"
+    }
+  }
+}

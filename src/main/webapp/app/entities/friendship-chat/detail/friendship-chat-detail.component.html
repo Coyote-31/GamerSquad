@@ -1,0 +1,42 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="friendshipChat">
+      <h2 data-cy="friendshipChatDetailsHeading"><span jhiTranslate="gamerSquadApp.friendshipChat.detail.title">Friendship Chat</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ friendshipChat.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="gamerSquadApp.friendshipChat.message">Message</span></dt>
+        <dd>
+          <span>{{ friendshipChat.message }}</span>
+        </dd>
+        <dt><span jhiTranslate="gamerSquadApp.friendshipChat.sendAt">Send At</span></dt>
+        <dd>
+          <span>{{ friendshipChat.sendAt | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="gamerSquadApp.friendshipChat.friendship">Friendship</span></dt>
+        <dd>
+          <div *ngIf="friendshipChat.friendship">
+            <a [routerLink]="['/friendship', friendshipChat.friendship.id, 'view']">{{ friendshipChat.friendship.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Retour</span>
+      </button>
+
+      <button type="button" [routerLink]="['/friendship-chat', friendshipChat.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editer</span>
+      </button>
+    </div>
+  </div>
+</div>

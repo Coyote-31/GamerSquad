@@ -1,0 +1,103 @@
+<div>
+  <h2 id="page-heading" data-cy="GameSubHeading">
+    <span jhiTranslate="gamerSquadApp.gameSub.home.title">GameSubs</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="gamerSquadApp.gameSub.home.refreshListLabel">Actualiser la liste</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-game-sub"
+        [routerLink]="['/game-sub/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="gamerSquadApp.gameSub.home.createLabel"> Créer un nouveau Game Sub </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="gameSubs?.length === 0">
+    <span jhiTranslate="gamerSquadApp.gameSub.home.notFound">Aucun Game Sub trouvé</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="gameSubs && gameSubs.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="appUser.id">
+            <div class="d-flex">
+              <span jhiTranslate="gamerSquadApp.gameSub.appUser">App User</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="game.title">
+            <div class="d-flex">
+              <span jhiTranslate="gamerSquadApp.gameSub.game">Game</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let gameSub of gameSubs; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/game-sub', gameSub.id, 'view']">{{ gameSub.id }}</a>
+          </td>
+          <td>
+            <div *ngIf="gameSub.appUser">
+              <a [routerLink]="['/app-user', gameSub.appUser.id, 'view']">{{ gameSub.appUser.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="gameSub.game">
+              <a [routerLink]="['/game', gameSub.game.id, 'view']">{{ gameSub.game.title }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/game-sub', gameSub.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">Voir</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/game-sub', gameSub.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Editer</span>
+              </button>
+
+              <button type="submit" (click)="delete(gameSub)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Supprimer</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

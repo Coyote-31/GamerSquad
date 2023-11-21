@@ -1,0 +1,31 @@
+{
+  "applications": "*",
+  "changelogDate": "20231121185612",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "game_sub",
+  "fields": [],
+  "fluentMethods": true,
+  "javadoc": "GameSub represents the subscription of an AppUser to a Game.",
+  "jpaMetamodelFiltering": false,
+  "name": "GameSub",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "appUser",
+      "relationshipName": "appUser",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityField": "title",
+      "otherEntityName": "game",
+      "relationshipName": "game",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "service": "serviceClass"
+}

@@ -1,0 +1,48 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="eventChat">
+      <h2 data-cy="eventChatDetailsHeading"><span jhiTranslate="gamerSquadApp.eventChat.detail.title">Event Chat</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ eventChat.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="gamerSquadApp.eventChat.message">Message</span></dt>
+        <dd>
+          <span>{{ eventChat.message }}</span>
+        </dd>
+        <dt><span jhiTranslate="gamerSquadApp.eventChat.sendAt">Send At</span></dt>
+        <dd>
+          <span>{{ eventChat.sendAt | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="gamerSquadApp.eventChat.event">Event</span></dt>
+        <dd>
+          <div *ngIf="eventChat.event">
+            <a [routerLink]="['/event', eventChat.event.id, 'view']">{{ eventChat.event.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="gamerSquadApp.eventChat.appUser">App User</span></dt>
+        <dd>
+          <div *ngIf="eventChat.appUser">
+            <a [routerLink]="['/app-user', eventChat.appUser.id, 'view']">{{ eventChat.appUser.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Retour</span>
+      </button>
+
+      <button type="button" [routerLink]="['/event-chat', eventChat.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editer</span>
+      </button>
+    </div>
+  </div>
+</div>
