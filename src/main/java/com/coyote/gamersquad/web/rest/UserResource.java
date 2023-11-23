@@ -5,15 +5,17 @@ import com.coyote.gamersquad.domain.User;
 import com.coyote.gamersquad.repository.UserRepository;
 import com.coyote.gamersquad.security.AuthoritiesConstants;
 import com.coyote.gamersquad.service.MailService;
-import com.coyote.gamersquad.service.UserService;
 import com.coyote.gamersquad.service.dto.AdminUserDTO;
+import com.coyote.gamersquad.service.extended.UserServiceExtended;
 import com.coyote.gamersquad.web.rest.errors.BadRequestAlertException;
 import com.coyote.gamersquad.web.rest.errors.EmailAlreadyUsedException;
 import com.coyote.gamersquad.web.rest.errors.LoginAlreadyUsedException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import org.slf4j.Logger;
@@ -81,13 +83,13 @@ public class UserResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final UserService userService;
+    private final UserServiceExtended userService;
 
     private final UserRepository userRepository;
 
     private final MailService mailService;
 
-    public UserResource(UserService userService, UserRepository userRepository, MailService mailService) {
+    public UserResource(UserServiceExtended userService, UserRepository userRepository, MailService mailService) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.mailService = mailService;

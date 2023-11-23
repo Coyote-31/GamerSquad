@@ -4,13 +4,15 @@ import com.coyote.gamersquad.domain.User;
 import com.coyote.gamersquad.repository.UserRepository;
 import com.coyote.gamersquad.security.SecurityUtils;
 import com.coyote.gamersquad.service.MailService;
-import com.coyote.gamersquad.service.UserService;
 import com.coyote.gamersquad.service.dto.AdminUserDTO;
 import com.coyote.gamersquad.service.dto.PasswordChangeDTO;
-import com.coyote.gamersquad.web.rest.errors.*;
+import com.coyote.gamersquad.service.extended.UserServiceExtended;
+import com.coyote.gamersquad.web.rest.errors.EmailAlreadyUsedException;
+import com.coyote.gamersquad.web.rest.errors.InvalidPasswordException;
+import com.coyote.gamersquad.web.rest.errors.LoginAlreadyUsedException;
 import com.coyote.gamersquad.web.rest.vm.KeyAndPasswordVM;
 import com.coyote.gamersquad.web.rest.vm.ManagedUserVM;
-import java.util.*;
+import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
@@ -37,11 +39,11 @@ public class AccountResource {
 
     private final UserRepository userRepository;
 
-    private final UserService userService;
+    private final UserServiceExtended userService;
 
     private final MailService mailService;
 
-    public AccountResource(UserRepository userRepository, UserService userService, MailService mailService) {
+    public AccountResource(UserRepository userRepository, UserServiceExtended userService, MailService mailService) {
         this.userRepository = userRepository;
         this.userService = userService;
         this.mailService = mailService;
