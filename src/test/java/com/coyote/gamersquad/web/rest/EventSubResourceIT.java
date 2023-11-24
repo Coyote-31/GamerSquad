@@ -11,6 +11,7 @@ import com.coyote.gamersquad.domain.AppUser;
 import com.coyote.gamersquad.domain.Event;
 import com.coyote.gamersquad.domain.EventSub;
 import com.coyote.gamersquad.repository.EventSubRepository;
+import com.coyote.gamersquad.security.AuthoritiesConstants;
 import com.coyote.gamersquad.service.dto.EventSubDTO;
 import com.coyote.gamersquad.service.mapper.EventSubMapper;
 import java.util.List;
@@ -31,7 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @IntegrationTest
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
 @GeneratedByJHipster
 class EventSubResourceIT {
 

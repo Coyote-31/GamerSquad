@@ -13,6 +13,7 @@ import com.coyote.gamersquad.domain.AppUser;
 import com.coyote.gamersquad.domain.Event;
 import com.coyote.gamersquad.domain.Game;
 import com.coyote.gamersquad.repository.EventRepository;
+import com.coyote.gamersquad.security.AuthoritiesConstants;
 import com.coyote.gamersquad.service.EventService;
 import com.coyote.gamersquad.service.dto.EventDTO;
 import com.coyote.gamersquad.service.mapper.EventMapper;
@@ -46,7 +47,7 @@ import org.springframework.transaction.annotation.Transactional;
 @IntegrationTest
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
 @GeneratedByJHipster
 class EventResourceIT {
 

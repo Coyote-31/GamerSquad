@@ -11,6 +11,7 @@ import com.coyote.gamersquad.IntegrationTest;
 import com.coyote.gamersquad.domain.AppUser;
 import com.coyote.gamersquad.domain.User;
 import com.coyote.gamersquad.repository.AppUserRepository;
+import com.coyote.gamersquad.security.AuthoritiesConstants;
 import com.coyote.gamersquad.service.AppUserService;
 import com.coyote.gamersquad.service.dto.AppUserDTO;
 import com.coyote.gamersquad.service.mapper.AppUserMapper;
@@ -40,7 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 @IntegrationTest
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
 @GeneratedByJHipster
 class AppUserResourceIT {
 

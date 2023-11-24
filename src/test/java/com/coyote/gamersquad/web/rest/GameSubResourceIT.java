@@ -12,6 +12,7 @@ import com.coyote.gamersquad.domain.AppUser;
 import com.coyote.gamersquad.domain.Game;
 import com.coyote.gamersquad.domain.GameSub;
 import com.coyote.gamersquad.repository.GameSubRepository;
+import com.coyote.gamersquad.security.AuthoritiesConstants;
 import com.coyote.gamersquad.service.GameSubService;
 import com.coyote.gamersquad.service.dto.GameSubDTO;
 import com.coyote.gamersquad.service.mapper.GameSubMapper;
@@ -41,7 +42,7 @@ import org.springframework.transaction.annotation.Transactional;
 @IntegrationTest
 @ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
 @GeneratedByJHipster
 class GameSubResourceIT {
 

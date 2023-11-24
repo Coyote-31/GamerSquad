@@ -10,6 +10,7 @@ import com.coyote.gamersquad.IntegrationTest;
 import com.coyote.gamersquad.domain.Friendship;
 import com.coyote.gamersquad.domain.FriendshipChat;
 import com.coyote.gamersquad.repository.FriendshipChatRepository;
+import com.coyote.gamersquad.security.AuthoritiesConstants;
 import com.coyote.gamersquad.service.dto.FriendshipChatDTO;
 import com.coyote.gamersquad.service.mapper.FriendshipChatMapper;
 import java.time.Instant;
@@ -32,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @IntegrationTest
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
 @GeneratedByJHipster
 class FriendshipChatResourceIT {
 

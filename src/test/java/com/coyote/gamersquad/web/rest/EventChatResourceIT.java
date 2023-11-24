@@ -11,6 +11,7 @@ import com.coyote.gamersquad.domain.AppUser;
 import com.coyote.gamersquad.domain.Event;
 import com.coyote.gamersquad.domain.EventChat;
 import com.coyote.gamersquad.repository.EventChatRepository;
+import com.coyote.gamersquad.security.AuthoritiesConstants;
 import com.coyote.gamersquad.service.dto.EventChatDTO;
 import com.coyote.gamersquad.service.mapper.EventChatMapper;
 import java.time.Instant;
@@ -33,7 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @IntegrationTest
 @AutoConfigureMockMvc
-@WithMockUser
+@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
 @GeneratedByJHipster
 class EventChatResourceIT {
 
