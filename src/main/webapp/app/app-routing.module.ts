@@ -30,6 +30,10 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
         },
         {
           path: '',
+          data: {
+            authorities: [Authority.ADMIN],
+          },
+          canActivate: [UserRouteAccessService],
           loadChildren: () => import(`./entities/entity-routing.module`).then(m => m.EntityRoutingModule),
         },
         navbarRoute,

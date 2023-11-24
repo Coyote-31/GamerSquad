@@ -10,6 +10,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { LoginService } from 'app/login/login.service';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { EntityNavbarItems } from 'app/entities/entity-navbar-items';
+import { Authority } from '../../config/authority.constants';
 
 @Component({
   selector: 'jhi-navbar',
@@ -18,6 +19,7 @@ import { EntityNavbarItems } from 'app/entities/entity-navbar-items';
 })
 export class NavbarComponent implements OnInit {
   inProduction?: boolean;
+  protected readonly Authority = Authority;
   isNavbarCollapsed = true;
   languages = LANGUAGES;
   openAPIEnabled?: boolean;

@@ -79,14 +79,19 @@ public class SecurityConfiguration {
             .antMatchers("/swagger-ui/**").permitAll()
             .antMatchers("/test/**").permitAll()
             .antMatchers("/h2-console/**").permitAll()
+            // User account management
             .antMatchers("/api/authenticate").permitAll()
             .antMatchers("/api/register").permitAll()
             .antMatchers("/api/activate").permitAll()
+            .antMatchers("/api/account").authenticated()
+            .antMatchers("/api/account/change-password").authenticated()
             .antMatchers("/api/account/reset-password/init").permitAll()
             .antMatchers("/api/account/reset-password/finish").permitAll()
+            // Admin
             .antMatchers("/api/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
-            .antMatchers("/api/**").authenticated()
+            .antMatchers("/api/**").hasAuthority(AuthoritiesConstants.ADMIN)
             .antMatchers("/websocket/**").authenticated()
+            // Management
             .antMatchers("/management/health").permitAll()
             .antMatchers("/management/health/**").permitAll()
             .antMatchers("/management/info").permitAll()
