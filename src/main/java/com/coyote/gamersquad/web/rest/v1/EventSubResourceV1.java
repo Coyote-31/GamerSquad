@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/v1")
-public class EventSubResource {
+public class EventSubResourceV1 {
 
-    private final Logger log = LoggerFactory.getLogger(EventSubResource.class);
+    private final Logger log = LoggerFactory.getLogger(EventSubResourceV1.class);
 
     private static final String ENTITY_NAME = "eventSub";
 
@@ -23,7 +23,7 @@ public class EventSubResource {
 
     private final EventSubServiceExtended eventSubService;
 
-    public EventSubResource(EventSubServiceExtended eventSubService) {
+    public EventSubResourceV1(EventSubServiceExtended eventSubService) {
         this.eventSubService = eventSubService;
     }
 }

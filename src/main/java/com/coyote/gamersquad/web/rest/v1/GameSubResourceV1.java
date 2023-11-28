@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/v1")
-public class GameSubResource {
+public class GameSubResourceV1 {
 
-    private final Logger log = LoggerFactory.getLogger(GameSubResource.class);
+    private final Logger log = LoggerFactory.getLogger(GameSubResourceV1.class);
 
     private static final String ENTITY_NAME = "gameSub";
 
@@ -23,7 +23,7 @@ public class GameSubResource {
 
     private final GameSubServiceExtended gameSubService;
 
-    public GameSubResource(GameSubServiceExtended gameSubService) {
+    public GameSubResourceV1(GameSubServiceExtended gameSubService) {
         this.gameSubService = gameSubService;
     }
 }

@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/v1")
-public class AppUserResource {
+public class AppUserResourceV1 {
 
-    private final Logger log = LoggerFactory.getLogger(AppUserResource.class);
+    private final Logger log = LoggerFactory.getLogger(AppUserResourceV1.class);
 
     private static final String ENTITY_NAME = "appUser";
 
@@ -23,7 +23,7 @@ public class AppUserResource {
 
     private final AppUserServiceExtended appUserService;
 
-    public AppUserResource(AppUserServiceExtended appUserService) {
+    public AppUserResourceV1(AppUserServiceExtended appUserService) {
         this.appUserService = appUserService;
     }
 }

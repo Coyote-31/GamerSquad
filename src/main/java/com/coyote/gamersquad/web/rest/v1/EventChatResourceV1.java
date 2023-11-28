@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/v1")
-public class EventChatResource {
+public class EventChatResourceV1 {
 
-    private final Logger log = LoggerFactory.getLogger(EventChatResource.class);
+    private final Logger log = LoggerFactory.getLogger(EventChatResourceV1.class);
 
     private static final String ENTITY_NAME = "eventChat";
 
@@ -23,7 +23,7 @@ public class EventChatResource {
 
     private final EventChatServiceExtended eventChatService;
 
-    public EventChatResource(EventChatServiceExtended eventChatService) {
+    public EventChatResourceV1(EventChatServiceExtended eventChatService) {
         this.eventChatService = eventChatService;
     }
 }

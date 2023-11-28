@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/v1")
-public class UserResource {
+public class UserResourceV1 {
 
-    private final Logger log = LoggerFactory.getLogger(UserResource.class);
+    private final Logger log = LoggerFactory.getLogger(UserResourceV1.class);
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
     private final UserServiceExtended userService;
 
-    public UserResource(UserServiceExtended userService) {
+    public UserResourceV1(UserServiceExtended userService) {
         this.userService = userService;
     }
 }

@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/v1")
-public class FriendshipChatResource {
+public class FriendshipChatResourceV1 {
 
-    private final Logger log = LoggerFactory.getLogger(FriendshipChatResource.class);
+    private final Logger log = LoggerFactory.getLogger(FriendshipChatResourceV1.class);
 
     private static final String ENTITY_NAME = "friendshipChat";
 
@@ -23,7 +23,7 @@ public class FriendshipChatResource {
 
     private final FriendshipChatServiceExtended friendshipChatService;
 
-    public FriendshipChatResource(FriendshipChatServiceExtended friendshipChatService) {
+    public FriendshipChatResourceV1(FriendshipChatServiceExtended friendshipChatService) {
         this.friendshipChatService = friendshipChatService;
     }
 }

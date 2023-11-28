@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/v1")
-public class EventResource {
+public class EventResourceV1 {
 
-    private final Logger log = LoggerFactory.getLogger(EventResource.class);
+    private final Logger log = LoggerFactory.getLogger(EventResourceV1.class);
 
     private static final String ENTITY_NAME = "event";
 
@@ -23,7 +23,7 @@ public class EventResource {
 
     private final EventServiceExtended eventService;
 
-    public EventResource(EventServiceExtended eventService) {
+    public EventResourceV1(EventServiceExtended eventService) {
         this.eventService = eventService;
     }
 }
