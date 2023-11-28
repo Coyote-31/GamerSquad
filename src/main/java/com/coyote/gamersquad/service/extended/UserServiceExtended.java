@@ -3,8 +3,9 @@ package com.coyote.gamersquad.service.extended;
 import com.coyote.gamersquad.config.Constants;
 import com.coyote.gamersquad.domain.Authority;
 import com.coyote.gamersquad.domain.User;
-import com.coyote.gamersquad.repository.AuthorityRepository;
 import com.coyote.gamersquad.repository.UserRepository;
+import com.coyote.gamersquad.repository.extended.AuthorityRepositoryExtended;
+import com.coyote.gamersquad.repository.extended.UserRepositoryExtended;
 import com.coyote.gamersquad.security.AuthoritiesConstants;
 import com.coyote.gamersquad.service.EmailAlreadyUsedException;
 import com.coyote.gamersquad.service.UserService;
@@ -35,20 +36,20 @@ public class UserServiceExtended extends UserService {
 
     private final Logger log = LoggerFactory.getLogger(UserServiceExtended.class);
 
-    private final UserRepository userRepository;
+    private final UserRepositoryExtended userRepository;
 
     private final PasswordEncoder passwordEncoder;
 
-    private final AuthorityRepository authorityRepository;
+    private final AuthorityRepositoryExtended authorityRepository;
 
     private final CacheManager cacheManager;
 
     private final AppUserServiceExtended appUserService;
 
     public UserServiceExtended(
-        UserRepository userRepository,
+        UserRepositoryExtended userRepository,
         PasswordEncoder passwordEncoder,
-        AuthorityRepository authorityRepository,
+        AuthorityRepositoryExtended authorityRepository,
         CacheManager cacheManager,
         AppUserServiceExtended appUserService
     ) {
