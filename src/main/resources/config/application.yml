@@ -130,6 +130,19 @@ spring:
       naming:
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+  # Fix Intellij : Could not autowire. No beans of 'JavaMailSender' type found.
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${GAMERSQUAD_MAIL_USERNAME}
+    password: ${GAMERSQUAD_MAIL_PASSWORD}
+    protocol: smtp
+    tls: true
+    properties.mail.smtp:
+      auth: true
+      starttls.enable: true
+      ssl.trust: smtp.gmail.com
+  # end Fix Intellij
   messages:
     basename: i18n/messages
   main:
