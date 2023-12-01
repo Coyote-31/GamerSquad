@@ -1,4 +1,5 @@
 {
+  "include": ["src/**/*.ts"],
   "compilerOptions": {
     "baseUrl": "src/main/webapp/",
     "outDir": "./target/classes/static/",
@@ -24,5 +25,6 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true,
     "preserveWhitespaces": true
-  }
+  },
+  "exclude": ["src/test/javascript/cypress/**/*"]
 }
