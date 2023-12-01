@@ -1,0 +1,16 @@
+<div class="container">
+  <jhi-alert></jhi-alert>
+  <jhi-alert-error></jhi-alert-error>
+
+  <h1>Games</h1>
+
+  <hr />
+
+  <div class="alert alert-warning" *ngIf="(games$ | async)?.length === 0">
+    <span>Aucun Game trouvé</span>
+  </div>
+
+  <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3 g-3">
+    <app-games-list-item class="col" *ngFor="let game of games$ | async" [game]="game"> </app-games-list-item>
+  </div>
+</div>

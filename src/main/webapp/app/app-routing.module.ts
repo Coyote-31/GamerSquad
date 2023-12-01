@@ -29,6 +29,14 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
           loadChildren: () => import('./login/login.module').then(m => m.LoginModule),
         },
         {
+          path: 'games',
+          data: {
+            authorities: [Authority.ADMIN, Authority.USER],
+          },
+          canActivate: [UserRouteAccessService],
+          loadChildren: () => import(`./gamer-squad/games/games.module`).then(m => m.GamesModule),
+        },
+        {
           path: '',
           data: {
             authorities: [Authority.ADMIN],

@@ -27,6 +27,17 @@
             </span>
           </a>
         </li>
+
+        <!-- Games menu -->
+        <li *ngIf="account !== null" class="nav-item" routerLinkActive="active">
+          <a class="nav-link" routerLink="/games" (click)="collapseNavbar()">
+            <span>
+              <fa-icon icon="gamepad"></fa-icon>
+              <span>Games</span>
+            </span>
+          </a>
+        </li>
+
         <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
         <li
           *ngIf="account !== null && account.authorities?.includes(Authority.ADMIN)"
