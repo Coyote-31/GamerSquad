@@ -15,4 +15,8 @@ export class GamesService {
   getAllGames(): Observable<IGame[]> {
     return this.http.get<IGame[]>(this.resourceUrl);
   }
+
+  find(id: number): Observable<IGame> {
+    return this.http.get<IGame>(`${this.resourceUrl}/${id}`);
+  }
 }

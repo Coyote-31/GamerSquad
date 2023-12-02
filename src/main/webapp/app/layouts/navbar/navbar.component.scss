@@ -20,13 +20,13 @@ Navbar
 
   a.nav-link {
     font-weight: 400;
+    border-radius: 0.5rem;
   }
 }
 
 .active > .nav-link {
   color: #d5d6d7;
   background-color: #2f343a;
-  border-radius: 0.5rem;
 }
 
 /* ==========================================================================

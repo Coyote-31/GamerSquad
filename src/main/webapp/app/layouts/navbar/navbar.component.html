@@ -29,7 +29,7 @@
         </li>
 
         <!-- Games menu -->
-        <li *ngIf="account !== null" class="nav-item" routerLinkActive="active">
+        <li *ngIf="account !== null" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <a class="nav-link" routerLink="/games" (click)="collapseNavbar()">
             <span>
               <fa-icon icon="gamepad"></fa-icon>

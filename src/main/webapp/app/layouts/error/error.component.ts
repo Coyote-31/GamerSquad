@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'jhi-error',
   templateUrl: './error.component.html',
+  styleUrls: ['./error.component.scss'],
 })
 export class ErrorComponent implements OnInit, OnDestroy {
   errorMessage?: string;

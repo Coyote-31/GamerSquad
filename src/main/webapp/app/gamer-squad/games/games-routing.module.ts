@@ -1,11 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { GamesListComponent } from './components/games-list/games-list.component';
+import { GamesDetailComponent } from './components/games-detail/games-detail.component';
 
 const routes: Routes = [
   {
+    path: ':id',
+    component: GamesDetailComponent,
+  },
+  {
     path: '',
-    title: 'Gamer Squad - Games',
+    title: 'GamerSquad - Games',
     component: GamesListComponent,
   },
 ];
