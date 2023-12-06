@@ -16,6 +16,26 @@
           </div>
         </div>
       </div>
+      <div class="card-footer" [ngSwitch]="isSubscribed$ | async">
+        <div class="row justify-content-between align-items-center" *ngSwitchCase="true">
+          <div class="col-12 col-sm-6">
+            <fa-icon class="text-success" icon="heart-circle-check"></fa-icon>
+            Vous êtes abonné(e)
+          </div>
+          <div class="col-12 col-sm-6 text-end">
+            <button type="button" class="btn btn-danger btn-sm" (click)="unsubscribe()">Se désabonner</button>
+          </div>
+        </div>
+        <div class="row justify-content-between align-items-center" *ngSwitchCase="false">
+          <div class="col-12 col-sm-6">
+            <fa-icon class="text-secondary" icon="heart-circle-xmark"></fa-icon>
+            Vous n'êtes pas abonné(e)
+          </div>
+          <div class="col-12 col-sm-6 text-end">
+            <button type="button" class="btn btn-success btn-sm" (click)="subscribe()">S'abonner</button>
+          </div>
+        </div>
+      </div>
     </div>
   </ng-container>
 </div>
