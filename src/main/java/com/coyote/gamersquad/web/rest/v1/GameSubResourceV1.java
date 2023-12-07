@@ -1,11 +1,13 @@
 package com.coyote.gamersquad.web.rest.v1;
 
 import com.coyote.gamersquad.repository.extended.GameRepositoryExtended;
+import com.coyote.gamersquad.service.dto.AppUserDTO;
 import com.coyote.gamersquad.service.dto.GameSubDTO;
 import com.coyote.gamersquad.service.extended.GameSubServiceExtended;
 import com.coyote.gamersquad.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,5 +102,29 @@ public class GameSubResourceV1 {
         gameSubService.unsubscribe(request.getRemoteUser(), gameId);
 
         return ResponseEntity.noContent().headers(HeaderUtil.createAlert(applicationName, "Vous n'êtes plus abonné(e)", "")).build();
+    }
+
+    /**
+     * {@code GET  /game-subs/game/:gameId/app-users} : Get all AppUsers subscribed to a Game,
+     * without the logged-in User.
+     *
+     * @param gameId the id of the game.
+     * @return the {@link ResponseEntity} with status {@code 200 (Ok)} and with body a list of AppUserDTOs,
+     * or with status {@code 400 (Bad Request)} if the gameId is not found.
+     */
+    @GetMapping("/game-subs/game/{gameId}/app-users")
+    public ResponseEntity<List<AppUserDTO>> getAllAppUsersSubToGame(
+        @PathVariable(value = "gameId") Long gameId,
+        HttpServletRequest request
+    ) {
+        log.debug("REST Request to getAllAppUsersSub to Game : {}", gameId);
+
+        if (!gameRepository.existsById(gameId)) {
+            throw new BadRequestAlertException("Entity not found", "game", "idnotfound");
+        }
+
+        List<AppUserDTO> result = gameSubService.getAllAppUsersSubToGame(request.getRemoteUser(), gameId);
+
+        return ResponseEntity.ok().body(result);
     }
 }

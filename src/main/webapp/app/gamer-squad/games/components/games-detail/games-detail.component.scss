@@ -6,6 +6,24 @@ img {
   border-radius: var(--bs-card-inner-border-radius) 0 0 var(--bs-card-inner-border-radius);
 }
 
+.menu {
+  border-radius: 0.5rem;
+}
+
+button {
+  border-radius: 0.5rem;
+}
+
+.active {
+  color: #d5d6d7;
+  background-color: #2f343a;
+}
+
+.btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 @include media-breakpoint-down(lg) {
   img {
     border-radius: var(--bs-card-inner-border-radius) var(--bs-card-inner-border-radius) 0 0;

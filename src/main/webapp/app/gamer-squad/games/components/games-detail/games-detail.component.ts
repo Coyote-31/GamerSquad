@@ -16,6 +16,8 @@ export class GamesDetailComponent implements OnInit {
   game$!: Observable<IGame>;
   isSubscribed$!: Observable<boolean>;
 
+  activeMenu: 'players' | 'events' = 'players';
+
   constructor(private gamesService: GamesService, private gameSubsService: GameSubsService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
@@ -36,5 +38,9 @@ export class GamesDetailComponent implements OnInit {
       switchMap(() => this.gameSubsService.isSubscribed(this.gameId)),
       catchError(() => this.gameSubsService.isSubscribed(this.gameId))
     );
+  }
+
+  onMenu(menu: 'players' | 'events') {
+    this.activeMenu = menu;
   }
 }

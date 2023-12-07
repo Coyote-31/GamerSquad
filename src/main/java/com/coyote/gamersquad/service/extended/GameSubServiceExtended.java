@@ -7,8 +7,11 @@ import com.coyote.gamersquad.repository.extended.AppUserRepositoryExtended;
 import com.coyote.gamersquad.repository.extended.GameRepositoryExtended;
 import com.coyote.gamersquad.repository.extended.GameSubRepositoryExtended;
 import com.coyote.gamersquad.service.GameSubService;
+import com.coyote.gamersquad.service.dto.AppUserDTO;
 import com.coyote.gamersquad.service.dto.GameSubDTO;
+import com.coyote.gamersquad.service.mapper.AppUserMapper;
 import com.coyote.gamersquad.service.mapper.GameSubMapper;
+import java.util.List;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
@@ -31,18 +34,22 @@ public class GameSubServiceExtended extends GameSubService {
 
     private final AppUserRepositoryExtended appUserRepository;
 
+    private final AppUserMapper appUserMapper;
+
     private final GameRepositoryExtended gameRepository;
 
     public GameSubServiceExtended(
         GameSubRepositoryExtended gameSubRepository,
         GameSubMapper gameSubMapper,
         AppUserRepositoryExtended appUserRepository,
+        AppUserMapper appUserMapper,
         GameRepositoryExtended gameRepository
     ) {
         super(gameSubRepository, gameSubMapper);
         this.gameSubRepository = gameSubRepository;
         this.gameSubMapper = gameSubMapper;
         this.appUserRepository = appUserRepository;
+        this.appUserMapper = appUserMapper;
         this.gameRepository = gameRepository;
     }
 
@@ -92,6 +99,12 @@ public class GameSubServiceExtended extends GameSubService {
         return gameSubMapper.toDto(gameSubSaved);
     }
 
+    /**
+     * Unsubscribes a User from a Game.
+     *
+     * @param userLogin the login of the user.
+     * @param gameId the id of the game.
+     */
     public void unsubscribe(String userLogin, Long gameId) {
         log.debug("Request to unsubscribe User : {} from Game : {}", userLogin, gameId);
 
@@ -105,5 +118,19 @@ public class GameSubServiceExtended extends GameSubService {
             .orElseThrow(() -> new EntityNotFoundException("User : " + userLogin + " is not subscribed to Game : " + gameId));
 
         gameSubRepository.delete(gameSub);
+    }
+
+    /**
+     * Get all AppUsers subscribed to a Game,
+     * without the userLogin.
+     *
+     * @param userLogin the login of the user.
+     * @param gameId the id of the game.
+     * @return list of {@link AppUserDTO}
+     */
+    public List<AppUserDTO> getAllAppUsersSubToGame(String userLogin, Long gameId) {
+        log.debug("Request to getAllAppUsersSub of Game : {} without User : {}", gameId, userLogin);
+
+        return appUserMapper.toDto(appUserRepository.findAllAppUsersSubToGame(userLogin, gameId));
     }
 }
