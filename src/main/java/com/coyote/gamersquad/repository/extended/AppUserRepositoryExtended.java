@@ -25,4 +25,13 @@ public interface AppUserRepositoryExtended extends AppUserRepository {
         "and appUser.internalUser.login != :userLogin"
     )
     List<AppUser> findAllAppUsersSubToGame(@Param("userLogin") String userLogin, @Param("gameId") Long gameId);
+
+    @Query(
+        "from AppUser appUser " +
+        "join Friendship fs on fs.appUserOwner = appUser or fs.appUserReceiver = appUser " +
+        "where (fs.appUserOwner.id = :appUserId " +
+        "or fs.appUserReceiver.id = :appUserId) " +
+        "and appUser.id != :appUserId"
+    )
+    List<AppUser> findAllFriends(@Param("appUserId") Long appUserId);
 }
