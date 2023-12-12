@@ -5,7 +5,7 @@ import { FriendsListComponent } from './components/friends-list/friends-list.com
 const routes: Routes = [
   {
     path: '',
-    title: 'GamerSquad - Amis',
+    title: 'Gamer Squad - Amis',
     component: FriendsListComponent,
   },
 ];

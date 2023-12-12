@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { IGame } from '../../../../entities/game/game.model';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 import { GamesService } from '../../services/games.service';
 import { ActivatedRoute } from '@angular/router';
 import { GameSubsService } from '../../services/game-subs.service';
 import { catchError } from 'rxjs/operators';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-games-detail',
@@ -18,11 +19,16 @@ export class GamesDetailComponent implements OnInit {
 
   activeMenu: 'players' | 'events' = 'players';
 
-  constructor(private gamesService: GamesService, private gameSubsService: GameSubsService, private route: ActivatedRoute) {}
+  constructor(
+    private title: Title,
+    private gamesService: GamesService,
+    private gameSubsService: GameSubsService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.gameId = +this.route.snapshot.params['id'];
-    this.game$ = this.gamesService.find(this.gameId);
+    this.game$ = this.gamesService.find(this.gameId).pipe(tap(game => this.title.setTitle(this.title.getTitle() + ' - ' + game.title!)));
     this.isSubscribed$ = this.gameSubsService.isSubscribed(this.gameId);
   }
 

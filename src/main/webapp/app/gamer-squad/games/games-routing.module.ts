@@ -10,7 +10,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    title: 'GamerSquad - Games',
+    title: 'Gamer Squad - Games',
     component: GamesListComponent,
   },
 ];

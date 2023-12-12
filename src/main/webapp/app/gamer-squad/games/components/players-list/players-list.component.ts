@@ -5,11 +5,11 @@ import { map } from 'rxjs/operators';
 import { IPlayerFriendship } from '../../../models/player-friendship.model';
 
 @Component({
-  selector: 'app-appusers-list',
-  templateUrl: './appusers-list.component.html',
-  styleUrls: ['./appusers-list.component.scss'],
+  selector: 'app-players-list',
+  templateUrl: './players-list.component.html',
+  styleUrls: ['./players-list.component.scss'],
 })
-export class AppusersListComponent implements OnInit {
+export class PlayersListComponent implements OnInit {
   @Input() gameId!: number;
 
   players$!: Observable<IPlayerFriendship[]>;

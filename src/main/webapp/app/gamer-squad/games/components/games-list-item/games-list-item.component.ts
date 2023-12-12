@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { IGame } from '../../../../entities/game/game.model';
 
 @Component({
@@ -6,10 +6,6 @@ import { IGame } from '../../../../entities/game/game.model';
   templateUrl: './games-list-item.component.html',
   styleUrls: ['./games-list-item.component.scss'],
 })
-export class GamesListItemComponent implements OnInit {
+export class GamesListItemComponent {
   @Input() game!: IGame;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

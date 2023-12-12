@@ -46,14 +46,14 @@
           [class.active]="activeMenu === 'players'"
           (click)="onMenu('players')"
         >
-          Players
+          Joueurs
         </button>
         <button type="button" class="btn btn-outline-secondary m-2 p-2" [class.active]="activeMenu === 'events'" (click)="onMenu('events')">
-          Events
+          Évènements
         </button>
       </div>
 
-      <app-appusers-list *ngIf="activeMenu === 'players'" [gameId]="game.id"></app-appusers-list>
+      <app-players-list *ngIf="activeMenu === 'players'" [gameId]="game.id"></app-players-list>
 
       <div class="text-center m-3" *ngIf="activeMenu === 'events'">🚧 En Construction !</div>
     </div>
