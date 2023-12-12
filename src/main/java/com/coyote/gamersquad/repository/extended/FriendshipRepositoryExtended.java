@@ -27,7 +27,8 @@ public interface FriendshipRepositoryExtended extends FriendshipRepository {
         "join Friendship fs on fs.appUserOwner = appUser or fs.appUserReceiver = appUser " +
         "where (fs.appUserOwner.id = :appUserId " +
         "or fs.appUserReceiver.id = :appUserId) " +
-        "and appUser.id != :appUserId"
+        "and appUser.id != :appUserId " +
+        "order by appUser.internalUser.login"
     )
     List<PlayerFriendshipDTO> getAllPlayersFriends(@Param("appUserId") Long appUserId);
 }

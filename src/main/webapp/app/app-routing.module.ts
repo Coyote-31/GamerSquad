@@ -37,6 +37,14 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
           loadChildren: () => import(`./gamer-squad/games/games.module`).then(m => m.GamesModule),
         },
         {
+          path: 'friends',
+          data: {
+            authorities: [Authority.ADMIN, Authority.USER],
+          },
+          canActivate: [UserRouteAccessService],
+          loadChildren: () => import(`./gamer-squad/friends/friends.module`).then(m => m.FriendsModule),
+        },
+        {
           path: '',
           data: {
             authorities: [Authority.ADMIN],

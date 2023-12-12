@@ -22,10 +22,16 @@ export class AppusersListComponent implements OnInit {
 
   sortAppUsers(appUsers: IAppUser[]): IAppUser[] {
     return appUsers.sort((a, b) => {
-      if (a.internalUser?.login == undefined) return 1;
-      if (b.internalUser?.login == undefined) return -1;
-      if (a.internalUser?.login === b.internalUser?.login) return 0;
-      return a.internalUser?.login > b.internalUser?.login ? 1 : -1;
+      if (a.internalUser?.login === undefined) {
+        return 1;
+      }
+      if (b.internalUser?.login === undefined) {
+        return -1;
+      }
+      if (a.internalUser.login === b.internalUser.login) {
+        return 0;
+      }
+      return a.internalUser.login > b.internalUser.login ? 1 : -1;
     });
   }
 }

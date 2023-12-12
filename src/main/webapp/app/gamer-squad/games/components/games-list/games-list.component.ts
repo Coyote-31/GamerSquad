@@ -12,7 +12,7 @@ import { map, tap } from 'rxjs/operators';
 })
 export class GamesListComponent implements OnInit {
   games$!: Observable<IGame[]>;
-  isEmpty: boolean = false;
+  isEmpty = false;
 
   constructor(private route: ActivatedRoute, private gameService: GamesService) {}
 
@@ -21,10 +21,16 @@ export class GamesListComponent implements OnInit {
       tap(games => (this.isEmpty = !games.length)),
       map(games =>
         games.sort((a, b) => {
-          if (a.title == undefined) return 1;
-          if (b.title == undefined) return -1;
-          if (a.title === b.title) return 0;
-          return a.title > b.title! ? 1 : -1;
+          if (a.title === undefined) {
+            return 1;
+          }
+          if (b.title === undefined) {
+            return -1;
+          }
+          if (a.title === b.title) {
+            return 0;
+          }
+          return a.title! > b.title! ? 1 : -1;
         })
       )
     );

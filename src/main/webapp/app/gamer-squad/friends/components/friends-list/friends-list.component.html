@@ -1,0 +1,11 @@
+<div class="container">
+  <jhi-alert></jhi-alert>
+  <jhi-alert-error></jhi-alert-error>
+
+  <h1 class="text-center display-5">Amis</h1>
+  <hr />
+
+  <div class="">
+    <app-friends-list-item *ngFor="let friend of friends$ | async" [friend]="friend"> </app-friends-list-item>
+  </div>
+</div>

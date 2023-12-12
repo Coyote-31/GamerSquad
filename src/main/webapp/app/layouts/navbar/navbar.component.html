@@ -38,6 +38,16 @@
           </a>
         </li>
 
+        <!-- Friends menu -->
+        <li *ngIf="account !== null" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link" routerLink="/friends" (click)="collapseNavbar()">
+            <span>
+              <fa-icon icon="users"></fa-icon>
+              <span>Amis</span>
+            </span>
+          </a>
+        </li>
+
         <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
         <li
           *ngIf="account !== null && account.authorities?.includes(Authority.ADMIN)"
