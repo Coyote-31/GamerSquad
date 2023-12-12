@@ -3,6 +3,7 @@ package com.coyote.gamersquad.web.rest.v1;
 import com.coyote.gamersquad.repository.extended.GameRepositoryExtended;
 import com.coyote.gamersquad.service.dto.AppUserDTO;
 import com.coyote.gamersquad.service.dto.GameSubDTO;
+import com.coyote.gamersquad.service.dto.projection.PlayerFriendshipDTO;
 import com.coyote.gamersquad.service.extended.GameSubServiceExtended;
 import com.coyote.gamersquad.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -124,6 +125,30 @@ public class GameSubResourceV1 {
         }
 
         List<AppUserDTO> result = gameSubService.getAllAppUsersSubToGame(request.getRemoteUser(), gameId);
+
+        return ResponseEntity.ok().body(result);
+    }
+
+    /**
+     * {@code GET  /game-subs/game/:gameId/players} : Get all Players subscribed to a Game,
+     * without the logged-in User.
+     *
+     * @param gameId the id of the game.
+     * @return the {@link ResponseEntity} with status {@code 200 (Ok)} and with body a list of PlayerFriendshipDTOs,
+     * or with status {@code 400 (Bad Request)} if the gameId is not found.
+     */
+    @GetMapping("/game-subs/game/{gameId}/players")
+    public ResponseEntity<List<PlayerFriendshipDTO>> getAllPlayersSubToGame(
+        @PathVariable(value = "gameId") Long gameId,
+        HttpServletRequest request
+    ) {
+        log.debug("REST Request to getAllPlayersSub to Game : {}", gameId);
+
+        if (!gameRepository.existsById(gameId)) {
+            throw new BadRequestAlertException("Entity not found", "game", "idnotfound");
+        }
+
+        List<PlayerFriendshipDTO> result = gameSubService.getAllPlayersSubToGame(request.getRemoteUser(), gameId);
 
         return ResponseEntity.ok().body(result);
     }

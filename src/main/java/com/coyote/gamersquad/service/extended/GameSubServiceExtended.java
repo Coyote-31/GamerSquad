@@ -4,11 +4,13 @@ import com.coyote.gamersquad.domain.AppUser;
 import com.coyote.gamersquad.domain.Game;
 import com.coyote.gamersquad.domain.GameSub;
 import com.coyote.gamersquad.repository.extended.AppUserRepositoryExtended;
+import com.coyote.gamersquad.repository.extended.FriendshipRepositoryExtended;
 import com.coyote.gamersquad.repository.extended.GameRepositoryExtended;
 import com.coyote.gamersquad.repository.extended.GameSubRepositoryExtended;
 import com.coyote.gamersquad.service.GameSubService;
 import com.coyote.gamersquad.service.dto.AppUserDTO;
 import com.coyote.gamersquad.service.dto.GameSubDTO;
+import com.coyote.gamersquad.service.dto.projection.PlayerFriendshipDTO;
 import com.coyote.gamersquad.service.mapper.AppUserMapper;
 import com.coyote.gamersquad.service.mapper.GameSubMapper;
 import java.util.List;
@@ -38,12 +40,15 @@ public class GameSubServiceExtended extends GameSubService {
 
     private final GameRepositoryExtended gameRepository;
 
+    private final FriendshipRepositoryExtended friendshipRepository;
+
     public GameSubServiceExtended(
         GameSubRepositoryExtended gameSubRepository,
         GameSubMapper gameSubMapper,
         AppUserRepositoryExtended appUserRepository,
         AppUserMapper appUserMapper,
-        GameRepositoryExtended gameRepository
+        GameRepositoryExtended gameRepository,
+        FriendshipRepositoryExtended friendshipRepository
     ) {
         super(gameSubRepository, gameSubMapper);
         this.gameSubRepository = gameSubRepository;
@@ -51,6 +56,7 @@ public class GameSubServiceExtended extends GameSubService {
         this.appUserRepository = appUserRepository;
         this.appUserMapper = appUserMapper;
         this.gameRepository = gameRepository;
+        this.friendshipRepository = friendshipRepository;
     }
 
     /**
@@ -132,5 +138,23 @@ public class GameSubServiceExtended extends GameSubService {
         log.debug("Request to getAllAppUsersSub of Game : {} without User : {}", gameId, userLogin);
 
         return appUserMapper.toDto(appUserRepository.findAllAppUsersSubToGame(userLogin, gameId));
+    }
+
+    /**
+     * Get all Players subscribed to a Game,
+     * without the userLogin.
+     *
+     * @param userLogin the login of the user.
+     * @param gameId the id of the game.
+     * @return list of {@link PlayerFriendshipDTO}
+     */
+    public List<PlayerFriendshipDTO> getAllPlayersSubToGame(String userLogin, Long gameId) {
+        log.debug("Request to getAllPlayersSub of Game : {} without User : {}", gameId, userLogin);
+
+        AppUser appUser = appUserRepository
+            .getAppUserByInternalUser_Login(userLogin)
+            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+
+        return friendshipRepository.getAllPlayersSubToGame(appUser.getId(), gameId);
     }
 }

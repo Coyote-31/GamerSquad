@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IPlayerFriendship } from '../../models/player-friendship.model';
+import { IPlayerFriendship } from '../../../models/player-friendship.model';
 
 @Component({
   selector: 'app-friends-list-item',

@@ -31,4 +31,26 @@ public interface FriendshipRepositoryExtended extends FriendshipRepository {
         "order by appUser.internalUser.login"
     )
     List<PlayerFriendshipDTO> getAllPlayersFriends(@Param("appUserId") Long appUserId);
+
+    @Query(
+        "select new com.coyote.gamersquad.service.dto.projection.PlayerFriendshipDTO(" +
+        "appUser.internalUser.id, " +
+        "appUser.internalUser.login, " +
+        "appUser.internalUser.imageUrl, " +
+        "appUser.id, " +
+        "fs.id, " +
+        "fs.isAccepted, " +
+        "(fs.appUserOwner.id = appUser.id), " +
+        "(fs.appUserReceiver.id = appUser.id)" +
+        ") " +
+        "from AppUser appUser " +
+        "join GameSub gameSub on (gameSub.appUser = appUser " +
+        "and gameSub.game.id = :gameId) " +
+        "left join Friendship fs on (fs.appUserOwner = appUser or fs.appUserReceiver = appUser) " +
+        "and (fs.appUserOwner.id = :appUserId " +
+        "or fs.appUserReceiver.id = :appUserId) " +
+        "where appUser.id != :appUserId " +
+        "order by appUser.internalUser.login"
+    )
+    List<PlayerFriendshipDTO> getAllPlayersSubToGame(@Param("appUserId") Long appUserId, @Param("gameId") Long gameId);
 }

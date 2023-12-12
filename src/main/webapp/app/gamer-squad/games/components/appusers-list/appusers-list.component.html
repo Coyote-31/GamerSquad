@@ -1,6 +1,6 @@
 <div class="mt-3">
   <div class="row g-2">
-    <app-appusers-list-item class="col-sm-6 col-lg-4 col-xl-3" *ngFor="let appUser of appUsers$ | async" [appUser]="appUser">
+    <app-appusers-list-item class="col-sm-6 col-lg-4 col-xl-3" *ngFor="let player of players$ | async" [player]="player">
     </app-appusers-list-item>
   </div>
 </div>

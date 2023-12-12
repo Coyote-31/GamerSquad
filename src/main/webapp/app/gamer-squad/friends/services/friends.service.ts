@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ApplicationConfigService } from '../../../core/config/application-config.service';
 import { Observable } from 'rxjs';
-import { IPlayerFriendship } from '../models/player-friendship.model';
+import { IPlayerFriendship } from '../../models/player-friendship.model';
 
 @Injectable({
   providedIn: 'root',

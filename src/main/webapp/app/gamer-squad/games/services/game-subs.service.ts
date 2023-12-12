@@ -3,7 +3,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { ApplicationConfigService } from '../../../core/config/application-config.service';
 import { Observable } from 'rxjs';
 import { IGameSub } from '../../../entities/game-sub/game-sub.model';
-import { IAppUser } from '../../../entities/app-user/app-user.model';
+import { IPlayerFriendship } from '../../models/player-friendship.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +25,7 @@ export class GameSubsService {
     return this.http.delete(`${this.resourceUrl}/unsubscribe/${gameId}`, { observe: 'response' });
   }
 
-  findAllAppUsersSubToGame(gameId: number): Observable<IAppUser[]> {
-    return this.http.get<IAppUser[]>(`${this.resourceUrl}/game/${gameId}/app-users`);
+  findAllAppUsersSubToGame(gameId: number): Observable<IPlayerFriendship[]> {
+    return this.http.get<IPlayerFriendship[]>(`${this.resourceUrl}/game/${gameId}/players`);
   }
 }

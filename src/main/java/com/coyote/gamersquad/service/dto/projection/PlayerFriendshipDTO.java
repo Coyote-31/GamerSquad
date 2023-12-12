@@ -18,11 +18,11 @@ public class PlayerFriendshipDTO implements Serializable {
 
     private Long friendshipId;
 
-    private boolean accepted;
+    private Boolean accepted;
 
-    private boolean owned;
+    private Boolean owned;
 
-    private boolean received;
+    private Boolean received;
 
     public PlayerFriendshipDTO(
         Long userId,
@@ -30,9 +30,9 @@ public class PlayerFriendshipDTO implements Serializable {
         String userImageUrl,
         Long appUserId,
         Long friendshipId,
-        boolean accepted,
-        boolean owned,
-        boolean received
+        Boolean accepted,
+        Boolean owned,
+        Boolean received
     ) {
         this.userId = userId;
         this.userLogin = userLogin;
@@ -84,27 +84,27 @@ public class PlayerFriendshipDTO implements Serializable {
         this.friendshipId = friendshipId;
     }
 
-    public boolean isAccepted() {
+    public Boolean isAccepted() {
         return accepted;
     }
 
-    public void setAccepted(boolean accepted) {
+    public void setAccepted(Boolean accepted) {
         this.accepted = accepted;
     }
 
-    public boolean isOwned() {
+    public Boolean isOwned() {
         return owned;
     }
 
-    public void setOwned(boolean owned) {
+    public void setOwned(Boolean owned) {
         this.owned = owned;
     }
 
-    public boolean isReceived() {
+    public Boolean isReceived() {
         return received;
     }
 
-    public void setReceived(boolean received) {
+    public void setReceived(Boolean received) {
         this.received = received;
     }
 

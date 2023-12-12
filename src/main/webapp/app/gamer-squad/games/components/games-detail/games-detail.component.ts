@@ -26,21 +26,21 @@ export class GamesDetailComponent implements OnInit {
     this.isSubscribed$ = this.gameSubsService.isSubscribed(this.gameId);
   }
 
-  subscribe() {
+  subscribe(): void {
     this.isSubscribed$ = this.gameSubsService.subscribe(this.gameId).pipe(
       switchMap(() => this.gameSubsService.isSubscribed(this.gameId)),
       catchError(() => this.gameSubsService.isSubscribed(this.gameId))
     );
   }
 
-  unsubscribe() {
+  unsubscribe(): void {
     this.isSubscribed$ = this.gameSubsService.unsubscribe(this.gameId).pipe(
       switchMap(() => this.gameSubsService.isSubscribed(this.gameId)),
       catchError(() => this.gameSubsService.isSubscribed(this.gameId))
     );
   }
 
-  onMenu(menu: 'players' | 'events') {
+  onMenu(menu: 'players' | 'events'): void {
     this.activeMenu = menu;
   }
 }

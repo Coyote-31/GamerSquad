@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FriendsService } from '../../services/friends.service';
-import { IPlayerFriendship } from '../../models/player-friendship.model';
+import { IPlayerFriendship } from '../../../models/player-friendship.model';
 import { Observable } from 'rxjs';
 
 @Component({
