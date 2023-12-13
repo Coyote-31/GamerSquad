@@ -25,7 +25,7 @@ export class GameSubsService {
     return this.http.delete(`${this.resourceUrl}/unsubscribe/${gameId}`, { observe: 'response' });
   }
 
-  findAllAppUsersSubToGame(gameId: number): Observable<IPlayerFriendship[]> {
+  findAllPlayersSubToGame(gameId: number): Observable<IPlayerFriendship[]> {
     return this.http.get<IPlayerFriendship[]>(`${this.resourceUrl}/game/${gameId}/players`);
   }
 }

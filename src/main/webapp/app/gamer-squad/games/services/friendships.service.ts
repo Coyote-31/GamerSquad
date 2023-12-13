@@ -7,20 +7,12 @@ import { IPlayerFriendship } from '../../models/player-friendship.model';
 @Injectable({
   providedIn: 'root',
 })
-export class FriendsService {
+export class FriendshipsService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/v1/friendships');
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
-  getAllMyPlayersFriends(): Observable<IPlayerFriendship[]> {
-    return this.http.get<IPlayerFriendship[]>(`${this.resourceUrl}/players`);
-  }
-
-  acceptFriendshipDemand(appUserId: number): Observable<IPlayerFriendship> {
-    return this.http.patch<IPlayerFriendship>(`${this.resourceUrl}/app-user/${appUserId}/accept`, {});
-  }
-
-  deleteFriendship(appUserId: number): Observable<void> {
-    return this.http.delete<void>(`${this.resourceUrl}/app-user/${appUserId}/delete`);
+  createFriendshipDemand(appUserId: number): Observable<IPlayerFriendship> {
+    return this.http.post<IPlayerFriendship>(`${this.resourceUrl}/app-user/${appUserId}/demand`, {});
   }
 }

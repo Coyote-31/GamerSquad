@@ -1,17 +1,19 @@
 package com.coyote.gamersquad.web.rest.v1;
 
 import com.coyote.gamersquad.service.dto.AppUserDTO;
+import com.coyote.gamersquad.service.dto.FriendshipDTO;
 import com.coyote.gamersquad.service.dto.projection.PlayerFriendshipDTO;
 import com.coyote.gamersquad.service.extended.FriendshipServiceExtended;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import tech.jhipster.web.util.HeaderUtil;
 
 /**
  * Api v1 : REST controller for managing {@link com.coyote.gamersquad.domain.Friendship}.
@@ -63,5 +65,62 @@ public class FriendshipResourceV1 {
         List<PlayerFriendshipDTO> result = friendshipService.getAllPlayersFriends(userLogin);
 
         return ResponseEntity.ok().body(result);
+    }
+
+    /**
+     * {@code POST  /friendships/app-user/:appUserId/demand} : Create friendship demand to the AppUser with the logged-in User.
+     *
+     * @return the {@link ResponseEntity} with status {@code 201 (CREATED)} and the created {@link FriendshipDTO} in body.
+     */
+    @PostMapping("/friendships/app-user/{appUserId}/demand")
+    public ResponseEntity<FriendshipDTO> createFriendshipDemand(
+        @PathVariable(value = "appUserId") Long appUserId,
+        HttpServletRequest request
+    ) throws URISyntaxException {
+        String userLogin = request.getRemoteUser();
+
+        log.debug("REST Request to createFriendshipDemand to AppUser : {} for User : {}", appUserId, userLogin);
+
+        FriendshipDTO result = friendshipService.createFriendshipDemand(appUserId, userLogin);
+
+        return ResponseEntity
+            .created(new URI("/api/friendships/" + result.getId()))
+            .headers(HeaderUtil.createAlert(applicationName, "Demande d'ami envoyée", ""))
+            .body(result);
+    }
+
+    /**
+     * {@code PATCH  /friendships/app-user/:appUserId/accept} : Accept the friendship demand from the AppUser with the logged-in User.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the updated {@link FriendshipDTO} in body.
+     */
+    @PatchMapping("/friendships/app-user/{appUserId}/accept")
+    public ResponseEntity<FriendshipDTO> acceptFriendshipDemand(
+        @PathVariable(value = "appUserId") Long appUserId,
+        HttpServletRequest request
+    ) {
+        String userLogin = request.getRemoteUser();
+
+        log.debug("REST Request to acceptFriendshipDemand from AppUser : {} for User : {}", appUserId, userLogin);
+
+        FriendshipDTO result = friendshipService.acceptFriendshipDemand(appUserId, userLogin);
+
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert(applicationName, "Demande d'ami acceptée", "")).body(result);
+    }
+
+    /**
+     * {@code DELETE  /friendships/app-user/:appUserId/delete} : Delete the friendship between the AppUser and the logged-in User.
+     *
+     * @return the {@link ResponseEntity} with status {@code 204 (NO CONTENT)}.
+     */
+    @DeleteMapping("/friendships/app-user/{appUserId}/delete")
+    public ResponseEntity<Void> deleteFriendship(@PathVariable(value = "appUserId") Long appUserId, HttpServletRequest request) {
+        String userLogin = request.getRemoteUser();
+
+        log.debug("REST Request to deleteFriendship between AppUser : {} and User : {}", appUserId, userLogin);
+
+        friendshipService.deleteFriendship(appUserId, userLogin);
+
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert(applicationName, "Ami(e) supprimé(e)", "")).build();
     }
 }

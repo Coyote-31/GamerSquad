@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IPlayerFriendship } from '../../../models/player-friendship.model';
 
 @Component({
@@ -8,4 +8,10 @@ import { IPlayerFriendship } from '../../../models/player-friendship.model';
 })
 export class PlayersListItemComponent {
   @Input() player!: IPlayerFriendship;
+
+  @Output() friendshipDemandEvent = new EventEmitter<number>();
+
+  onFriendshipDemand(): void {
+    this.friendshipDemandEvent.emit(this.player.appUserId);
+  }
 }

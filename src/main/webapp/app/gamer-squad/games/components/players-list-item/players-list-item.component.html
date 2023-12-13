@@ -1,3 +1,23 @@
 <div class="card">
-  <div class="card-body">{{ player.userLogin | titlecase }}</div>
+  <div class="card-body row justify-content-between">
+    <div class="col my-1">{{ player.userLogin | titlecase }}</div>
+
+    <!-- Btn and icons -->
+
+    <!-- Friends -->
+    <div class="col-auto my-1" *ngIf="player.friendshipId && player.accepted === true">
+      <fa-icon class="text-success" icon="user-group"></fa-icon>
+    </div>
+
+    <!-- Pending -->
+    <div class="col-auto my-1" *ngIf="player.friendshipId && player.accepted === false">
+      <fa-icon class="text-warning" icon="user-clock"></fa-icon>
+    </div>
+
+    <!-- Not Friends -->
+    <button class="btn btn-success text-white btn-sm col-auto me-2" *ngIf="!player.friendshipId" (click)="onFriendshipDemand()">
+      <fa-icon icon="user-plus"></fa-icon>
+      Demande
+    </button>
+  </div>
 </div>

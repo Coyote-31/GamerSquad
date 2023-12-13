@@ -39,19 +39,14 @@
     </div>
 
     <div *ngSwitchCase="true">
-      <div class="menu text-center bg-body py-1 mt-3">
-        <button
-          type="button"
-          class="btn btn-outline-secondary m-2 p-2"
-          [class.active]="activeMenu === 'players'"
-          (click)="onMenu('players')"
-        >
-          Joueurs
-        </button>
-        <button type="button" class="btn btn-outline-secondary m-2 p-2" [class.active]="activeMenu === 'events'" (click)="onMenu('events')">
-          Évènements
-        </button>
-      </div>
+      <ul class="nav nav-tabs mt-3">
+        <li class="nav-item">
+          <span class="nav-link" [class.active]="activeMenu === 'players'" (click)="onMenu('players')"> Joueurs </span>
+        </li>
+        <li class="nav-item">
+          <span class="nav-link" [class.active]="activeMenu === 'events'" (click)="onMenu('events')"> Évènements </span>
+        </li>
+      </ul>
 
       <app-players-list *ngIf="activeMenu === 'players'" [gameId]="game.id"></app-players-list>
 

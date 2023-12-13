@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { GameSubsService } from '../../services/game-subs.service';
-import { map } from 'rxjs/operators';
 import { IPlayerFriendship } from '../../../models/player-friendship.model';
+import { FriendshipsService } from '../../services/friendships.service';
 
 @Component({
   selector: 'app-players-list',
@@ -14,13 +14,37 @@ export class PlayersListComponent implements OnInit {
 
   players$!: Observable<IPlayerFriendship[]>;
 
-  constructor(private gameSubsService: GameSubsService) {}
+  friends!: IPlayerFriendship[];
+  pendingFriends!: IPlayerFriendship[];
+  notFriends!: IPlayerFriendship[];
+
+  constructor(private gameSubsService: GameSubsService, private friendshipsService: FriendshipsService) {}
 
   ngOnInit(): void {
-    this.players$ = this.gameSubsService.findAllAppUsersSubToGame(this.gameId).pipe(map(players => this.sortAppUsers(players)));
+    this.getPlayers();
   }
 
-  sortAppUsers(players: IPlayerFriendship[]): IPlayerFriendship[] {
-    return players.sort((a, b) => (a.userLogin > b.userLogin ? 1 : -1));
+  getPlayers(): void {
+    this.players$ = this.gameSubsService.findAllPlayersSubToGame(this.gameId);
+    this.populateLists();
+  }
+
+  populateLists(): void {
+    this.players$
+      .pipe(
+        tap(players => {
+          this.friends = players.filter(player => player.friendshipId && player.accepted === true);
+          this.pendingFriends = players.filter(player => player.friendshipId && player.accepted === false);
+          this.notFriends = players.filter(player => !player.friendshipId);
+        })
+      )
+      .subscribe();
+  }
+
+  onFriendshipDemandEvent(appUserId: number): void {
+    this.friendshipsService
+      .createFriendshipDemand(appUserId)
+      .pipe(tap(() => this.getPlayers()))
+      .subscribe();
   }
 }

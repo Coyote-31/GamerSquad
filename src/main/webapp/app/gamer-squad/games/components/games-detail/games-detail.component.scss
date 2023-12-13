@@ -3,7 +3,7 @@
 @import 'node_modules/bootstrap/scss/mixins';
 
 img {
-  border-radius: var(--bs-card-inner-border-radius) 0 0 var(--bs-card-inner-border-radius);
+  border-radius: var(--bs-card-inner-border-radius) 0 0 0;
 }
 
 .menu {

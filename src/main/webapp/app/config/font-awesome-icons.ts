@@ -42,6 +42,10 @@ import {
   faSquareCheck,
   faHeartCircleXmark,
   faHeartCircleCheck,
+  faUserGroup,
+  faUserSlash,
+  faUserClock,
+  faUserMinus,
   // jhipster-needle-add-icon-import
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -89,5 +93,9 @@ export const fontAwesomeIcons = [
   faSquareCheck,
   faHeartCircleXmark,
   faHeartCircleCheck,
+  faUserGroup,
+  faUserSlash,
+  faUserClock,
+  faUserMinus,
   // jhipster-needle-add-icon-import
 ];

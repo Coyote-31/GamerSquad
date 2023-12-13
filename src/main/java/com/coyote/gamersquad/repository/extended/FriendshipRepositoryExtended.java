@@ -1,8 +1,11 @@
 package com.coyote.gamersquad.repository.extended;
 
+import com.coyote.gamersquad.domain.AppUser;
+import com.coyote.gamersquad.domain.Friendship;
 import com.coyote.gamersquad.repository.FriendshipRepository;
 import com.coyote.gamersquad.service.dto.projection.PlayerFriendshipDTO;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -53,4 +56,21 @@ public interface FriendshipRepositoryExtended extends FriendshipRepository {
         "order by appUser.internalUser.login"
     )
     List<PlayerFriendshipDTO> getAllPlayersSubToGame(@Param("appUserId") Long appUserId, @Param("gameId") Long gameId);
+
+    @Query(
+        "select (count(fs) > 0) " +
+        "from Friendship fs " +
+        "where (fs.appUserOwner = :appUser1 and fs.appUserReceiver = :appUser2) " +
+        "or (fs.appUserOwner = :appUser2 and fs.appUserReceiver = :appUser1)"
+    )
+    boolean existsFriendshipBetweenAppUsers(@Param("appUser1") AppUser AppUser1, @Param("appUser2") AppUser AppUser2);
+
+    @Query(
+        "from Friendship fs " +
+        "where (fs.appUserOwner = :appUser1 and fs.appUserReceiver = :appUser2) " +
+        "or (fs.appUserOwner = :appUser2 and fs.appUserReceiver = :appUser1)"
+    )
+    Optional<Friendship> findFriendshipBetweenAppUsers(@Param("appUser1") AppUser AppUser1, @Param("appUser2") AppUser AppUser2);
+
+    Optional<Friendship> findByAppUserOwnerAndAppUserReceiver(AppUser owner, AppUser receiver);
 }

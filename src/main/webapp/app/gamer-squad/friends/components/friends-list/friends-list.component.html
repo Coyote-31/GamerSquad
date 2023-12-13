@@ -5,7 +5,41 @@
   <h1 class="text-center display-5">Amis</h1>
   <hr />
 
-  <div class="">
-    <app-friends-list-item *ngFor="let friend of friends$ | async" [friend]="friend"> </app-friends-list-item>
-  </div>
+  <!-- Received -->
+  <ng-container *ngIf="receivedFriends">
+    <h2 class="mt-3">Demandes</h2>
+    <div class="row g-2 mt-2">
+      <ng-container *ngFor="let friend of receivedFriends">
+        <app-friends-list-item
+          class="col-sm-6 col-lg-4 col-xl-3"
+          [friend]="friend"
+          (friendshipAcceptEvent)="onFriendshipAccept($event)"
+          (friendshipDeleteEvent)="onFriendshipDelete($event)"
+        >
+        </app-friends-list-item>
+      </ng-container>
+    </div>
+  </ng-container>
+
+  <!-- Pending -->
+  <ng-container *ngIf="pendingFriends">
+    <h2 class="mt-3">En attente</h2>
+    <div class="row g-2 mt-2">
+      <ng-container *ngFor="let friend of pendingFriends">
+        <app-friends-list-item class="col-sm-6 col-lg-4 col-xl-3" [friend]="friend" (friendshipDeleteEvent)="onFriendshipDelete($event)">
+        </app-friends-list-item>
+      </ng-container>
+    </div>
+  </ng-container>
+
+  <!-- Friends -->
+  <ng-container *ngIf="friends">
+    <h2 class="mt-3">Vos amis</h2>
+    <div class="row g-2 mt-2">
+      <ng-container *ngFor="let friend of friends">
+        <app-friends-list-item class="col-sm-6 col-lg-4 col-xl-3" [friend]="friend" (friendshipDeleteEvent)="onFriendshipDelete($event)">
+        </app-friends-list-item>
+      </ng-container>
+    </div>
+  </ng-container>
 </div>
