@@ -20,7 +20,9 @@
       "account": {
         "main": "Compte",
         "settings": "Profil",
+        "settings-title": "Gamer Squad - Profil",
         "password": "Mot de passe",
+        "password-title": "Gamer Squad - Mot de passe",
         "sessions": "Sessions",
         "login": "S'authentifier",
         "logout": "Déconnexion",
