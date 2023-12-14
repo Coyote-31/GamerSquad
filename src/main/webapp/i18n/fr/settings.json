@@ -6,6 +6,8 @@
       "firstname.placeholder": "Votre prénom",
       "lastname": "Nom",
       "lastname.placeholder": "Votre nom",
+      "imageUrl": "Image de profil",
+      "imageUrl.placeholder": "Url de votre image de profil",
       "language": "Langue",
       "button": "Sauvegarder"
     },
@@ -25,6 +27,11 @@
           "required": "Votre nom est requis.",
           "minlength": "Votre nom doit comporter au moins un caractère.",
           "maxlength": "Votre nom ne doit pas comporter plus de 50 caractères."
+        },
+        "imageUrl": {
+          "maxlength": "Votre url de profil ne doit pas comporter plus de 256 caractères.",
+          "maxImageSize": "Votre image de profil ne doit pas avoir une taille supérieure à 512x512 pixels.",
+          "loadImageError": "Votre image de profil n'arrive pas à se charger."
         }
       }
     }

@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { LANGUAGES } from 'app/config/language.constants';
+import { UserValidatorService } from '../../shared/validators/user-validator.service';
 
 const initialAccount: Account = {} as Account;
 
@@ -19,25 +20,33 @@ export class SettingsComponent implements OnInit {
   settingsForm = new FormGroup({
     firstName: new FormControl(initialAccount.firstName, {
       nonNullable: true,
-      validators: [Validators.required, Validators.minLength(1), Validators.maxLength(50)],
+      validators: [Validators.minLength(1), Validators.maxLength(50)],
     }),
     lastName: new FormControl(initialAccount.lastName, {
       nonNullable: true,
-      validators: [Validators.required, Validators.minLength(1), Validators.maxLength(50)],
+      validators: [Validators.minLength(1), Validators.maxLength(50)],
     }),
     email: new FormControl(initialAccount.email, {
       nonNullable: true,
       validators: [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email],
     }),
     langKey: new FormControl(initialAccount.langKey, { nonNullable: true }),
+    imageUrl: new FormControl(initialAccount.imageUrl, {
+      nonNullable: true,
+      validators: [Validators.maxLength(256)],
+      asyncValidators: [this.userValidatorService.urlImageMaxSize(512)],
+    }),
 
     activated: new FormControl(initialAccount.activated, { nonNullable: true }),
     authorities: new FormControl(initialAccount.authorities, { nonNullable: true }),
-    imageUrl: new FormControl(initialAccount.imageUrl, { nonNullable: true }),
     login: new FormControl(initialAccount.login, { nonNullable: true }),
   });
 
-  constructor(private accountService: AccountService, private translateService: TranslateService) {}
+  constructor(
+    private accountService: AccountService,
+    private translateService: TranslateService,
+    private userValidatorService: UserValidatorService
+  ) {}
 
   ngOnInit(): void {
     this.accountService.identity().subscribe(account => {

@@ -148,6 +148,47 @@
           </div>
         </div>
 
+        <div class="mb-3">
+          <label class="form-label" for="imageUrl" jhiTranslate="settings.form.imageUrl">Image de profil</label>
+          <input
+            type="url"
+            class="form-control"
+            id="imageUrl"
+            name="imageUrl"
+            placeholder="{{ 'settings.form.imageUrl.placeholder' | translate }}"
+            formControlName="imageUrl"
+            data-cy="imageUrl"
+          />
+
+          <div
+            *ngIf="settingsForm.get('imageUrl')!.invalid && (settingsForm.get('imageUrl')!.dirty || settingsForm.get('imageUrl')!.touched)"
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="settingsForm.get('imageUrl')?.errors?.maxlength"
+              jhiTranslate="settings.messages.validate.imageUrl.maxlength"
+            >
+              Votre url de profil ne doit pas comporter plus de 256 caractères.
+            </small>
+
+            <small
+              class="form-text text-danger"
+              *ngIf="settingsForm.get('imageUrl')?.errors?.maxImageSize"
+              jhiTranslate="settings.messages.validate.imageUrl.maxImageSize"
+            >
+              Votre image de profil ne doit pas avoir une taille supérieure à 512x512 pixels.
+            </small>
+
+            <small
+              class="form-text text-danger"
+              *ngIf="settingsForm.get('imageUrl')?.errors?.loadImageError"
+              jhiTranslate="settings.messages.validate.imageUrl.loadImageError"
+            >
+              Votre image de profil n'arrive pas à se charger.
+            </small>
+          </div>
+        </div>
+
         <div class="mb-3" *ngIf="languages && languages.length > 0">
           <label for="langKey" jhiTranslate="settings.form.language">Langue</label>
           <select class="form-control" id="langKey" name="langKey" formControlName="langKey" data-cy="langKey">

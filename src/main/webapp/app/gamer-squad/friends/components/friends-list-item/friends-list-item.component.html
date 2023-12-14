@@ -1,6 +1,12 @@
 <div class="card">
   <div class="card-body">
-    <div class="row">
+    <div class="row align-items-center">
+      <div class="avatar-cropper col-auto">
+        <img *ngIf="!friend.userImageUrl" src="/content/images/default/avatar.png" class="avatar-image" alt="Avatar" />
+
+        <img *ngIf="friend.userImageUrl" [src]="friend.userImageUrl" class="avatar-image" alt="Avatar" />
+      </div>
+
       <div class="col my-1">{{ friend.userLogin | titlecase }}</div>
 
       <!-- Icon Friends -->
@@ -16,7 +22,7 @@
       <!-- Button Delete -->
       <button
         *ngIf="friend.accepted || friend.received"
-        class="btn btn-danger text-white btn-sm col-auto me-2"
+        class="btn btn-danger text-white btn-sm col-auto me-1"
         data-gs-tooltip="Supprimer"
         (click)="onDelete(friend)"
       >
@@ -30,14 +36,14 @@
     <div class="row">
       <!-- Accept -->
       <div class="col-6 text-center">
-        <button class="btn btn-success text-white btn-sm me-2" (click)="onAccept(friend)">
+        <button class="btn btn-success text-white btn-sm" (click)="onAccept(friend)">
           <fa-icon icon="user-plus" class="me-1"></fa-icon>Accepter
         </button>
       </div>
 
       <!-- Refuse -->
       <div class="col-6 text-center">
-        <button class="btn btn-danger text-white col btn-sm me-2" (click)="onRefuse(friend)">
+        <button class="btn btn-danger text-white col btn-sm" (click)="onRefuse(friend)">
           <fa-icon icon="user-slash" class="me-1"></fa-icon>Refuser
         </button>
       </div>

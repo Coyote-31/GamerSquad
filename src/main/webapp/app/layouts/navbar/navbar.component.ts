@@ -19,13 +19,13 @@ import { Authority } from '../../config/authority.constants';
 })
 export class NavbarComponent implements OnInit {
   inProduction?: boolean;
-  protected readonly Authority = Authority;
   isNavbarCollapsed = true;
   languages = LANGUAGES;
   openAPIEnabled?: boolean;
   version = '';
   account: Account | null = null;
   entitiesNavbarItems: any[] = [];
+  protected readonly Authority = Authority;
 
   constructor(
     private loginService: LoginService,

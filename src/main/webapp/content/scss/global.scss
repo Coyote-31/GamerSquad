@@ -301,4 +301,22 @@ angular-cli removes postcss-rtl processed inline css, processed rules must be ad
   margin-right: auto;
 }
 
+/* ===========================
+         Avatar image
+============================== */
+
+.avatar-cropper {
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  border-radius: 50%;
+  padding: 0;
+}
+
+.avatar-cropper .avatar-image {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
 /* jhipster-needle-scss-add-main JHipster will add new css style */

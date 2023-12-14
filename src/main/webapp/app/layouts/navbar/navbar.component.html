@@ -57,7 +57,13 @@
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
-          <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu" data-cy="entity">
+          <a
+            class="nav-link dropdown-toggle d-flex align-items-center"
+            ngbDropdownToggle
+            href="javascript:void(0);"
+            id="entity-menu"
+            data-cy="entity"
+          >
             <span>
               <fa-icon icon="th-list"></fa-icon>
               <span jhiTranslate="global.menu.entities.main">Entités</span>
@@ -171,7 +177,13 @@
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
-          <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu" data-cy="adminMenu">
+          <a
+            class="nav-link dropdown-toggle d-flex align-items-center"
+            ngbDropdownToggle
+            href="javascript:void(0);"
+            id="admin-menu"
+            data-cy="adminMenu"
+          >
             <span>
               <fa-icon icon="users-cog"></fa-icon>
               <span jhiTranslate="global.menu.admin.main">Administration</span>
@@ -230,7 +242,12 @@
           </ul>
         </li>
         <li ngbDropdown class="nav-item dropdown pointer" display="dynamic" *ngIf="languages && languages.length > 1">
-          <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="languagesnavBarDropdown">
+          <a
+            class="nav-link dropdown-toggle d-flex align-items-center"
+            ngbDropdownToggle
+            href="javascript:void(0);"
+            id="languagesnavBarDropdown"
+          >
             <span>
               <fa-icon icon="flag"></fa-icon>
               <span jhiTranslate="global.menu.language">Langue</span>
@@ -255,14 +272,20 @@
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
-          <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu" data-cy="accountMenu">
-            <span *ngIf="!account?.imageUrl">
-              <fa-icon icon="user"></fa-icon>
-              <span jhiTranslate="global.menu.account.main">Compte</span>
-            </span>
-            <span *ngIf="account?.imageUrl">
-              <img [src]="account!.imageUrl" class="profile-image rounded-circle" alt="Avatar" />
-            </span>
+          <a
+            class="nav-link dropdown-toggle d-flex align-items-center"
+            ngbDropdownToggle
+            href="javascript:void(0);"
+            id="account-menu"
+            data-cy="accountMenu"
+          >
+            <div class="avatar-cropper">
+              <img *ngIf="!account?.imageUrl" src="/content/images/default/avatar.png" class="avatar-image me-1" alt="Avatar" />
+              <img *ngIf="account?.imageUrl" [src]="account!.imageUrl" class="avatar-image me-1" alt="Avatar" />
+            </div>
+
+            <span *ngIf="!account?.login" jhiTranslate="global.menu.account.main">Compte</span>
+            <span *ngIf="account?.login">{{ account?.login | titlecase }}</span>
           </a>
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="account-menu">
             <li *ngSwitchCase="true">

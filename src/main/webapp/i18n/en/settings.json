@@ -6,6 +6,8 @@
       "firstname.placeholder": "Your first name",
       "lastname": "Last Name",
       "lastname.placeholder": "Your last name",
+      "imageUrl": "Profil picture",
+      "imageUrl.placeholder": "Url of your profile picture",
       "language": "Language",
       "button": "Save"
     },
@@ -25,6 +27,11 @@
           "required": "Your last name is required.",
           "minlength": "Your last name is required to be at least 1 character",
           "maxlength": "Your last name cannot be longer than 50 characters"
+        },
+        "imageUrl": {
+          "maxlength": "Your profile picture url cannot be longer than 256 characters",
+          "maxImageSize": "Your profile picture size cannot be more than 512x512 pixels.",
+          "loadImageError": "Your profile picture cannot be loaded."
         }
       }
     }

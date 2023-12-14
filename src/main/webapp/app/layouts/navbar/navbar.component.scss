@@ -24,9 +24,28 @@ Navbar
   }
 }
 
+.navbar-nav {
+  --bs-nav-link-padding-x: 0.5rem;
+}
+
+.navbar ul.navbar-nav .nav-item {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
 .active > .nav-link {
   color: #d5d6d7;
   background-color: #2f343a;
+}
+
+/* ==========================================================================
+Avatar
+========================================================================== */
+.avatar-cropper {
+  height: 32px;
+  width: 32px;
+  margin-right: 0.5rem;
 }
 
 /* ==========================================================================

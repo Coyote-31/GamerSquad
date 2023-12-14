@@ -1,28 +1,33 @@
 <!-- Friends -->
-<div class="row g-2 mt-2" *ngIf="friends">
-  <ng-container *ngFor="let player of friends">
-    <app-players-list-item class="col-sm-6 col-lg-4 col-xl-3" *ngIf="player.friendshipId && player.accepted === true" [player]="player">
-    </app-players-list-item>
-  </ng-container>
-</div>
+<ng-container *ngIf="friends">
+  <h2>Amis</h2>
+  <hr />
+  <div class="row g-2 mt-2">
+    <app-players-list-item *ngFor="let player of friends" [player]="player" class="col-sm-6 col-lg-4 col-xl-3"> </app-players-list-item>
+  </div>
+</ng-container>
 
 <!-- Pending -->
-<div class="row g-2 mt-2" *ngIf="pendingFriends">
-  <ng-container *ngFor="let player of pendingFriends">
-    <app-players-list-item class="col-sm-6 col-lg-4 col-xl-3" *ngIf="player.friendshipId && player.accepted === false" [player]="player">
+<ng-container *ngIf="pendingFriends">
+  <h2>En attente</h2>
+  <hr />
+  <div class="row g-2 mt-2">
+    <app-players-list-item *ngFor="let player of pendingFriends" [player]="player" class="col-sm-6 col-lg-4 col-xl-3">
     </app-players-list-item>
-  </ng-container>
-</div>
+  </div>
+</ng-container>
 
 <!-- Not Friends -->
-<div class="row g-2 mt-2" *ngIf="notFriends">
-  <ng-container *ngFor="let player of notFriends">
+<ng-container *ngIf="notFriends">
+  <h2>Autres</h2>
+  <hr />
+  <div class="row g-2 mt-2">
     <app-players-list-item
-      class="col-sm-6 col-lg-4 col-xl-3"
-      *ngIf="!player.friendshipId"
+      *ngFor="let player of notFriends"
       [player]="player"
       (friendshipDemandEvent)="onFriendshipDemandEvent($event)"
+      class="col-sm-6 col-lg-4 col-xl-3"
     >
     </app-players-list-item>
-  </ng-container>
-</div>
+  </div>
+</ng-container>
