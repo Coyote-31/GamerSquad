@@ -93,6 +93,26 @@
             Ce champ est obligatoire.
           </small>
         </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="gamerSquadApp.friendshipChat.sender" for="field_sender">Sender</label>
+          <select
+            class="form-control"
+            id="field_sender"
+            data-cy="sender"
+            name="sender"
+            formControlName="sender"
+            [compareWith]="compareAppUser"
+          >
+            <option *ngIf="!editForm.get('sender')!.value" [ngValue]="null" selected></option>
+            <option [ngValue]="appUserOption" *ngFor="let appUserOption of appUsersSharedCollection">{{ appUserOption.id }}</option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['sender'])!.invalid && (editForm.get(['sender'])!.dirty || editForm.get(['sender'])!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get(['sender'])?.errors?.required" jhiTranslate="entity.validation.required">
+            Ce champ est obligatoire.
+          </small>
+        </div>
       </div>
 
       <div>

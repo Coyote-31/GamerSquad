@@ -20,7 +20,8 @@
       "id": "ID",
       "message": "Message",
       "sendAt": "Send At",
-      "friendship": "Friendship"
+      "friendship": "Friendship",
+      "sender": "Sender"
     }
   }
 }

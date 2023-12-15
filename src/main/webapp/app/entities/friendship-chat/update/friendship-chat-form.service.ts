@@ -34,6 +34,7 @@ type FriendshipChatFormGroupContent = {
   message: FormControl<FriendshipChatFormRawValue['message']>;
   sendAt: FormControl<FriendshipChatFormRawValue['sendAt']>;
   friendship: FormControl<FriendshipChatFormRawValue['friendship']>;
+  sender: FormControl<FriendshipChatFormRawValue['sender']>;
 };
 
 export type FriendshipChatFormGroup = FormGroup<FriendshipChatFormGroupContent>;
@@ -60,6 +61,9 @@ export class FriendshipChatFormService {
         validators: [Validators.required],
       }),
       friendship: new FormControl(friendshipChatRawValue.friendship, {
+        validators: [Validators.required],
+      }),
+      sender: new FormControl(friendshipChatRawValue.sender, {
         validators: [Validators.required],
       }),
     });

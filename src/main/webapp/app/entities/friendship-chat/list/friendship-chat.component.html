@@ -56,6 +56,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="sender.id">
+            <div class="d-flex">
+              <span jhiTranslate="gamerSquadApp.friendshipChat.sender">Sender</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -69,6 +75,11 @@
           <td>
             <div *ngIf="friendshipChat.friendship">
               <a [routerLink]="['/friendship', friendshipChat.friendship.id, 'view']">{{ friendshipChat.friendship.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="friendshipChat.sender">
+              <a [routerLink]="['/app-user', friendshipChat.sender.id, 'view']">{{ friendshipChat.sender.id }}</a>
             </div>
           </td>
           <td class="text-end">

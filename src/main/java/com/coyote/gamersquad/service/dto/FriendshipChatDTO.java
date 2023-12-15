@@ -26,6 +26,8 @@ public class FriendshipChatDTO implements Serializable {
 
     private FriendshipDTO friendship;
 
+    private AppUserDTO sender;
+
     public Long getId() {
         return id;
     }
@@ -58,6 +60,14 @@ public class FriendshipChatDTO implements Serializable {
         this.friendship = friendship;
     }
 
+    public AppUserDTO getSender() {
+        return sender;
+    }
+
+    public void setSender(AppUserDTO sender) {
+        this.sender = sender;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -87,6 +97,7 @@ public class FriendshipChatDTO implements Serializable {
             ", message='" + getMessage() + "'" +
             ", sendAt='" + getSendAt() + "'" +
             ", friendship=" + getFriendship() +
+            ", sender=" + getSender() +
             "}";
     }
 }

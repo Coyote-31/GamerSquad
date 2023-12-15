@@ -9,6 +9,8 @@ import { IFriendshipChat } from '../friendship-chat.model';
 import { FriendshipChatService } from '../service/friendship-chat.service';
 import { IFriendship } from 'app/entities/friendship/friendship.model';
 import { FriendshipService } from 'app/entities/friendship/service/friendship.service';
+import { IAppUser } from 'app/entities/app-user/app-user.model';
+import { AppUserService } from 'app/entities/app-user/service/app-user.service';
 
 @Component({
   selector: 'jhi-friendship-chat-update',
@@ -19,6 +21,7 @@ export class FriendshipChatUpdateComponent implements OnInit {
   friendshipChat: IFriendshipChat | null = null;
 
   friendshipsSharedCollection: IFriendship[] = [];
+  appUsersSharedCollection: IAppUser[] = [];
 
   editForm: FriendshipChatFormGroup = this.friendshipChatFormService.createFriendshipChatFormGroup();
 
@@ -26,10 +29,13 @@ export class FriendshipChatUpdateComponent implements OnInit {
     protected friendshipChatService: FriendshipChatService,
     protected friendshipChatFormService: FriendshipChatFormService,
     protected friendshipService: FriendshipService,
+    protected appUserService: AppUserService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
   compareFriendship = (o1: IFriendship | null, o2: IFriendship | null): boolean => this.friendshipService.compareFriendship(o1, o2);
+
+  compareAppUser = (o1: IAppUser | null, o2: IAppUser | null): boolean => this.appUserService.compareAppUser(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ friendshipChat }) => {
@@ -83,6 +89,10 @@ export class FriendshipChatUpdateComponent implements OnInit {
       this.friendshipsSharedCollection,
       friendshipChat.friendship
     );
+    this.appUsersSharedCollection = this.appUserService.addAppUserToCollectionIfMissing<IAppUser>(
+      this.appUsersSharedCollection,
+      friendshipChat.sender
+    );
   }
 
   protected loadRelationshipsOptions(): void {
@@ -95,5 +105,13 @@ export class FriendshipChatUpdateComponent implements OnInit {
         )
       )
       .subscribe((friendships: IFriendship[]) => (this.friendshipsSharedCollection = friendships));
+
+    this.appUserService
+      .query()
+      .pipe(map((res: HttpResponse<IAppUser[]>) => res.body ?? []))
+      .pipe(
+        map((appUsers: IAppUser[]) => this.appUserService.addAppUserToCollectionIfMissing<IAppUser>(appUsers, this.friendshipChat?.sender))
+      )
+      .subscribe((appUsers: IAppUser[]) => (this.appUsersSharedCollection = appUsers));
   }
 }

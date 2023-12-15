@@ -23,6 +23,7 @@ describe('FriendshipChat Form Service', () => {
             message: expect.any(Object),
             sendAt: expect.any(Object),
             friendship: expect.any(Object),
+            sender: expect.any(Object),
           })
         );
       });
@@ -36,6 +37,7 @@ describe('FriendshipChat Form Service', () => {
             message: expect.any(Object),
             sendAt: expect.any(Object),
             friendship: expect.any(Object),
+            sender: expect.any(Object),
           })
         );
       });

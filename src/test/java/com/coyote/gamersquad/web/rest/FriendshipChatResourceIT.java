@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.coyote.gamersquad.GeneratedByJHipster;
 import com.coyote.gamersquad.IntegrationTest;
+import com.coyote.gamersquad.domain.AppUser;
 import com.coyote.gamersquad.domain.Friendship;
 import com.coyote.gamersquad.domain.FriendshipChat;
 import com.coyote.gamersquad.repository.FriendshipChatRepository;
@@ -81,6 +82,16 @@ class FriendshipChatResourceIT {
             friendship = TestUtil.findAll(em, Friendship.class).get(0);
         }
         friendshipChat.setFriendship(friendship);
+        // Add required entity
+        AppUser appUser;
+        if (TestUtil.findAll(em, AppUser.class).isEmpty()) {
+            appUser = AppUserResourceIT.createEntity(em);
+            em.persist(appUser);
+            em.flush();
+        } else {
+            appUser = TestUtil.findAll(em, AppUser.class).get(0);
+        }
+        friendshipChat.setSender(appUser);
         return friendshipChat;
     }
 
@@ -102,6 +113,16 @@ class FriendshipChatResourceIT {
             friendship = TestUtil.findAll(em, Friendship.class).get(0);
         }
         friendshipChat.setFriendship(friendship);
+        // Add required entity
+        AppUser appUser;
+        if (TestUtil.findAll(em, AppUser.class).isEmpty()) {
+            appUser = AppUserResourceIT.createUpdatedEntity(em);
+            em.persist(appUser);
+            em.flush();
+        } else {
+            appUser = TestUtil.findAll(em, AppUser.class).get(0);
+        }
+        friendshipChat.setSender(appUser);
         return friendshipChat;
     }
 

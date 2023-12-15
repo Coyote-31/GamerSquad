@@ -30,6 +30,13 @@
       "relationshipName": "friendship",
       "relationshipType": "many-to-one",
       "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "appUser",
+      "relationshipName": "sender",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
     }
   ],
   "service": "serviceClass"

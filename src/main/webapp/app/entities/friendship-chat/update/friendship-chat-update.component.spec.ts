@@ -11,6 +11,8 @@ import { FriendshipChatService } from '../service/friendship-chat.service';
 import { IFriendshipChat } from '../friendship-chat.model';
 import { IFriendship } from 'app/entities/friendship/friendship.model';
 import { FriendshipService } from 'app/entities/friendship/service/friendship.service';
+import { IAppUser } from 'app/entities/app-user/app-user.model';
+import { AppUserService } from 'app/entities/app-user/service/app-user.service';
 
 import { FriendshipChatUpdateComponent } from './friendship-chat-update.component';
 
@@ -21,6 +23,7 @@ describe('FriendshipChat Management Update Component', () => {
   let friendshipChatFormService: FriendshipChatFormService;
   let friendshipChatService: FriendshipChatService;
   let friendshipService: FriendshipService;
+  let appUserService: AppUserService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,6 +47,7 @@ describe('FriendshipChat Management Update Component', () => {
     friendshipChatFormService = TestBed.inject(FriendshipChatFormService);
     friendshipChatService = TestBed.inject(FriendshipChatService);
     friendshipService = TestBed.inject(FriendshipService);
+    appUserService = TestBed.inject(AppUserService);
 
     comp = fixture.componentInstance;
   });
@@ -71,15 +75,40 @@ describe('FriendshipChat Management Update Component', () => {
       expect(comp.friendshipsSharedCollection).toEqual(expectedCollection);
     });
 
+    it('Should call AppUser query and add missing value', () => {
+      const friendshipChat: IFriendshipChat = { id: 456 };
+      const sender: IAppUser = { id: 58212 };
+      friendshipChat.sender = sender;
+
+      const appUserCollection: IAppUser[] = [{ id: 8934 }];
+      jest.spyOn(appUserService, 'query').mockReturnValue(of(new HttpResponse({ body: appUserCollection })));
+      const additionalAppUsers = [sender];
+      const expectedCollection: IAppUser[] = [...additionalAppUsers, ...appUserCollection];
+      jest.spyOn(appUserService, 'addAppUserToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ friendshipChat });
+      comp.ngOnInit();
+
+      expect(appUserService.query).toHaveBeenCalled();
+      expect(appUserService.addAppUserToCollectionIfMissing).toHaveBeenCalledWith(
+        appUserCollection,
+        ...additionalAppUsers.map(expect.objectContaining)
+      );
+      expect(comp.appUsersSharedCollection).toEqual(expectedCollection);
+    });
+
     it('Should update editForm', () => {
       const friendshipChat: IFriendshipChat = { id: 456 };
       const friendship: IFriendship = { id: 11662 };
       friendshipChat.friendship = friendship;
+      const sender: IAppUser = { id: 6021 };
+      friendshipChat.sender = sender;
 
       activatedRoute.data = of({ friendshipChat });
       comp.ngOnInit();
 
       expect(comp.friendshipsSharedCollection).toContain(friendship);
+      expect(comp.appUsersSharedCollection).toContain(sender);
       expect(comp.friendshipChat).toEqual(friendshipChat);
     });
   });
@@ -160,6 +189,16 @@ describe('FriendshipChat Management Update Component', () => {
         jest.spyOn(friendshipService, 'compareFriendship');
         comp.compareFriendship(entity, entity2);
         expect(friendshipService.compareFriendship).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
+    describe('compareAppUser', () => {
+      it('Should forward to appUserService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(appUserService, 'compareAppUser');
+        comp.compareAppUser(entity, entity2);
+        expect(appUserService.compareAppUser).toHaveBeenCalledWith(entity, entity2);
       });
     });
   });

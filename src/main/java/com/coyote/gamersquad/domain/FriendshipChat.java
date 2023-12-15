@@ -41,6 +41,11 @@ public class FriendshipChat implements Serializable {
     @JsonIgnoreProperties(value = { "appUserOwner", "appUserReceiver" }, allowSetters = true)
     private Friendship friendship;
 
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties(value = { "internalUser" }, allowSetters = true)
+    private AppUser sender;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -92,6 +97,19 @@ public class FriendshipChat implements Serializable {
 
     public FriendshipChat friendship(Friendship friendship) {
         this.setFriendship(friendship);
+        return this;
+    }
+
+    public AppUser getSender() {
+        return this.sender;
+    }
+
+    public void setSender(AppUser appUser) {
+        this.sender = appUser;
+    }
+
+    public FriendshipChat sender(AppUser appUser) {
+        this.setSender(appUser);
         return this;
     }
 

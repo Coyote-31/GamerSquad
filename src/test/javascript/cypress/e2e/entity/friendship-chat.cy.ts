@@ -19,6 +19,7 @@ describe('FriendshipChat e2e test', () => {
 
   let friendshipChat;
   // let friendship;
+  // let appUser;
 
   beforeEach(() => {
     cy.login(username, password);
@@ -33,6 +34,14 @@ describe('FriendshipChat e2e test', () => {
       body: {"isAccepted":true},
     }).then(({ body }) => {
       friendship = body;
+    });
+    // create an instance at the required relationship entity:
+    cy.authenticatedRequest({
+      method: 'POST',
+      url: '/api/app-users',
+      body: {},
+    }).then(({ body }) => {
+      appUser = body;
     });
   });
    */
@@ -49,6 +58,11 @@ describe('FriendshipChat e2e test', () => {
     cy.intercept('GET', '/api/friendships', {
       statusCode: 200,
       body: [friendship],
+    });
+
+    cy.intercept('GET', '/api/app-users', {
+      statusCode: 200,
+      body: [appUser],
     });
 
   });
@@ -73,6 +87,14 @@ describe('FriendshipChat e2e test', () => {
         url: `/api/friendships/${friendship.id}`,
       }).then(() => {
         friendship = undefined;
+      });
+    }
+    if (appUser) {
+      cy.authenticatedRequest({
+        method: 'DELETE',
+        url: `/api/app-users/${appUser.id}`,
+      }).then(() => {
+        appUser = undefined;
       });
     }
   });
@@ -121,6 +143,7 @@ describe('FriendshipChat e2e test', () => {
           body: {
             ...friendshipChatSample,
             friendship: friendship,
+            sender: appUser,
           },
         }).then(({ body }) => {
           friendshipChat = body;
@@ -215,6 +238,7 @@ describe('FriendshipChat e2e test', () => {
       cy.get(`[data-cy="sendAt"]`).type('2023-11-21T01:35').blur().should('have.value', '2023-11-21T01:35');
 
       cy.get(`[data-cy="friendship"]`).select(1);
+      cy.get(`[data-cy="sender"]`).select(1);
 
       cy.get(entityCreateSaveButtonSelector).click();
 
