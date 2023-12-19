@@ -68,6 +68,25 @@ public class FriendshipResourceV1 {
     }
 
     /**
+     * {@code GET  /friendships/:friendshipId/player} : Get the Player friend with the logged-in User by friendshipId.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the {@link PlayerFriendshipDTO} in body.
+     */
+    @GetMapping("/friendships/{friendshipId}/player")
+    public ResponseEntity<PlayerFriendshipDTO> getMyPlayerFriendByFriendshipId(
+        @PathVariable(value = "friendshipId") Long friendshipId,
+        HttpServletRequest request
+    ) {
+        String userLogin = request.getRemoteUser();
+
+        log.debug("REST Request to getMyPlayerFriend with Friendship Id : {} for User : {}", friendshipId, userLogin);
+
+        PlayerFriendshipDTO result = friendshipService.getPlayerFriendByFriendshipId(friendshipId, userLogin);
+
+        return ResponseEntity.ok().body(result);
+    }
+
+    /**
      * {@code POST  /friendships/app-user/:appUserId/demand} : Create friendship demand to the AppUser with the logged-in User.
      *
      * @return the {@link ResponseEntity} with status {@code 201 (CREATED)} and the created {@link FriendshipDTO} in body.

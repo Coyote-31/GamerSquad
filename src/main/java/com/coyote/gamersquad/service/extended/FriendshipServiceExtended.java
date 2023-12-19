@@ -15,6 +15,7 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -78,6 +79,33 @@ public class FriendshipServiceExtended extends FriendshipService {
             .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
 
         return friendshipRepository.getAllPlayersFriends(appUser.getId());
+    }
+
+    /**
+     *  Get the Player friend with the user by friendshipId.
+     *
+     * @param friendshipId the ID of the Friendship.
+     * @param userLogin the Login of the User.
+     * @return the {@link PlayerFriendshipDTO} friend.
+     */
+    public PlayerFriendshipDTO getPlayerFriendByFriendshipId(Long friendshipId, String userLogin) {
+        log.debug("Request to getPlayerFriend with Friendship Id : {} for User : {}", friendshipId, userLogin);
+
+        AppUser appUser = appUserRepository
+            .getAppUserByInternalUser_Login(userLogin)
+            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+
+        // Check if the Friendship exist
+        Friendship friendship = friendshipRepository
+            .findById(friendshipId)
+            .orElseThrow(() -> new EntityNotFoundException("Friendship no found with ID : " + friendshipId));
+
+        // Check if the appUser is part of the Friendship
+        if (!appUser.equals(friendship.getAppUserOwner()) && !appUser.equals(friendship.getAppUserReceiver())) {
+            throw new AccessDeniedException("User : " + userLogin + " is not part of the Friendship with ID : " + friendshipId);
+        }
+
+        return friendshipRepository.getPlayerFriendByFriendshipId(friendshipId, appUser);
     }
 
     /**

@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { FriendChatsService } from '../../services/friend-chats.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { tap } from 'rxjs';
+import { IPlayerFriendship } from '../../models/player-friendship.model';
+import { FriendsService } from '../../services/friends.service';
 
 @Component({
   selector: 'app-friend-chats-list',
@@ -13,6 +15,7 @@ import { tap } from 'rxjs';
 export class FriendChatsListComponent implements OnInit, AfterViewChecked {
   friendshipId!: number;
   playerChats!: IPlayerChat[];
+  playerFriend!: IPlayerFriendship;
 
   friendMessageForm = new FormGroup({
     message: new FormControl('', {
@@ -24,11 +27,12 @@ export class FriendChatsListComponent implements OnInit, AfterViewChecked {
   disableScrollDown = false;
   @ViewChild('messageContainer') private messageContainer!: ElementRef;
 
-  constructor(private route: ActivatedRoute, private friendChatsService: FriendChatsService) {}
+  constructor(private route: ActivatedRoute, private friendChatsService: FriendChatsService, private friendsService: FriendsService) {}
 
   ngOnInit(): void {
     this.friendshipId = +this.route.snapshot.params['id'];
     this.friendChatsService.getAllPlayerChatsByFriendshipId(this.friendshipId).subscribe(playerChats => (this.playerChats = playerChats));
+    this.friendsService.getMyPlayerFriendByFriendshipId(this.friendshipId).subscribe(playerFriend => (this.playerFriend = playerFriend));
   }
 
   ngAfterViewChecked(): void {

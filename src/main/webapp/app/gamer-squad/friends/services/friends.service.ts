@@ -4,9 +4,7 @@ import { ApplicationConfigService } from '../../../core/config/application-confi
 import { Observable } from 'rxjs';
 import { IPlayerFriendship } from '../../models/player-friendship.model';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class FriendsService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/v1/friendships');
 

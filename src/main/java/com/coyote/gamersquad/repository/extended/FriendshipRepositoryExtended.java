@@ -43,6 +43,24 @@ public interface FriendshipRepositoryExtended extends FriendshipRepository {
         "appUser.id, " +
         "fs.id, " +
         "fs.isAccepted, " +
+        "(fs.appUserOwner = appUser), " +
+        "(fs.appUserReceiver = appUser)" +
+        ") " +
+        "from AppUser appUser " +
+        "join Friendship fs on fs.appUserOwner = appUser or fs.appUserReceiver = appUser " +
+        "where fs.id = :friendshipId " +
+        "and appUser != :appUser "
+    )
+    PlayerFriendshipDTO getPlayerFriendByFriendshipId(@Param("friendshipId") Long friendshipId, @Param("appUser") AppUser appUser);
+
+    @Query(
+        "select new com.coyote.gamersquad.service.dto.projection.PlayerFriendshipDTO(" +
+        "appUser.internalUser.id, " +
+        "appUser.internalUser.login, " +
+        "appUser.internalUser.imageUrl, " +
+        "appUser.id, " +
+        "fs.id, " +
+        "fs.isAccepted, " +
         "(fs.appUserOwner.id = appUser.id), " +
         "(fs.appUserReceiver.id = appUser.id)" +
         ") " +
