@@ -1,9 +1,18 @@
 <div class="card">
   <div class="card-body">
     <div class="row align-items-center">
+      <!-- Icon Chat -->
+      <button
+        *ngIf="friend.accepted"
+        [routerLink]="['/friend-chats', friend.friendshipId]"
+        class="btn btn-primary text-white btn-sm col-auto me-1"
+        data-gs-tooltip="Messagerie"
+      >
+        <fa-icon class="text-white" icon="comments"></fa-icon>
+      </button>
+
       <div class="avatar-cropper col-auto">
         <img *ngIf="!friend.userImageUrl" src="/content/images/default/avatar.png" class="avatar-image" alt="Avatar" />
-
         <img *ngIf="friend.userImageUrl" [src]="friend.userImageUrl" class="avatar-image" alt="Avatar" />
       </div>
 

@@ -14,6 +14,7 @@ import { SortDirective } from './sort/sort.directive';
 import { ItemCountComponent } from './pagination/item-count.component';
 import { FilterComponent } from './filter/filter.component';
 import { UserValidatorService } from './validators/user-validator.service';
+import { GsDatetimeChatPipe } from './date/gs-datetime-chat';
 
 @NgModule({
   imports: [SharedLibsModule],
@@ -30,6 +31,7 @@ import { UserValidatorService } from './validators/user-validator.service';
     SortDirective,
     ItemCountComponent,
     FilterComponent,
+    GsDatetimeChatPipe,
   ],
   exports: [
     SharedLibsModule,
@@ -45,6 +47,7 @@ import { UserValidatorService } from './validators/user-validator.service';
     SortDirective,
     ItemCountComponent,
     FilterComponent,
+    GsDatetimeChatPipe,
   ],
   providers: [UserValidatorService],
 })

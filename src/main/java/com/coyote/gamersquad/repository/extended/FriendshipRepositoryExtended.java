@@ -63,14 +63,14 @@ public interface FriendshipRepositoryExtended extends FriendshipRepository {
         "where (fs.appUserOwner = :appUser1 and fs.appUserReceiver = :appUser2) " +
         "or (fs.appUserOwner = :appUser2 and fs.appUserReceiver = :appUser1)"
     )
-    boolean existsFriendshipBetweenAppUsers(@Param("appUser1") AppUser AppUser1, @Param("appUser2") AppUser AppUser2);
+    boolean existsFriendshipBetweenAppUsers(@Param("appUser1") AppUser appUser1, @Param("appUser2") AppUser appUser2);
 
     @Query(
         "from Friendship fs " +
         "where (fs.appUserOwner = :appUser1 and fs.appUserReceiver = :appUser2) " +
         "or (fs.appUserOwner = :appUser2 and fs.appUserReceiver = :appUser1)"
     )
-    Optional<Friendship> findFriendshipBetweenAppUsers(@Param("appUser1") AppUser AppUser1, @Param("appUser2") AppUser AppUser2);
+    Optional<Friendship> findFriendshipBetweenAppUsers(@Param("appUser1") AppUser appUser1, @Param("appUser2") AppUser appUser2);
 
     Optional<Friendship> findByAppUserOwnerAndAppUserReceiver(AppUser owner, AppUser receiver);
 }

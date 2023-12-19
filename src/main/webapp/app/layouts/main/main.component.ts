@@ -3,6 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRouteSnapshot, NavigationEnd } from '@angular/router';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import dayjs from 'dayjs/esm';
+import updateLocale from 'dayjs/esm/plugin/updateLocale';
 
 import { AccountService } from 'app/core/auth/account.service';
 
@@ -33,6 +34,8 @@ export class MainComponent implements OnInit {
       }
     });
 
+    this.dayjsConfig();
+
     this.translateService.onLangChange.subscribe((langChangeEvent: LangChangeEvent) => {
       this.updateTitle();
       dayjs.locale(langChangeEvent.lang);
@@ -54,5 +57,14 @@ export class MainComponent implements OnInit {
       pageTitle = 'global.title';
     }
     this.translateService.get(pageTitle).subscribe(title => this.titleService.setTitle(title));
+  }
+
+  private dayjsConfig(): void {
+    dayjs.extend(updateLocale);
+
+    dayjs.updateLocale('fr', {
+      months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+      monthsShort: ['Janv', 'Févr', 'Mars', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sept', 'Oct', 'Nov', 'Déc'],
+    });
   }
 }

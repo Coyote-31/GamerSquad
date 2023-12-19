@@ -1,0 +1,11 @@
+<div class="card my-2" [ngClass]="isSender ? 'sender' : 'receiver'">
+  <div class="card-header">
+    <small class="text-muted">
+      {{ playerChat.friendshipChatSendAt | gsDatetimeChat }}
+      <!--        GSTest : {{ dayjs('12/12/2023 10:55:00', 'DD/MM/YYYY HH:mm:ss') | gsDatetimeChat }}-->
+    </small>
+  </div>
+  <div class="card-body">
+    {{ playerChat.friendshipChatMessage }}
+  </div>
+</div>

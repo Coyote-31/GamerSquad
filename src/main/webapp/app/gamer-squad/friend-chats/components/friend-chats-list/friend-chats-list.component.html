@@ -1,0 +1,19 @@
+<div class="friend-chats-container">
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <ng-container *ngIf="playerChats$ | async as playerChats">
+    <ng-container *ngIf="playerChats.length !== 0; else noContent">
+      <ng-container *ngFor="let playerChat of playerChats">
+        <app-friend-chats-list-item [playerChat]="playerChat"> </app-friend-chats-list-item>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #noContent>
+    <div class="card text-center">
+      <div class="card-body">Aucun messages</div>
+    </div>
+  </ng-template>
+</div>

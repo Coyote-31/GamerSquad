@@ -1,0 +1,26 @@
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/mixins';
+@import 'node_modules/bootstrap/scss/variables';
+
+.friend-chats-container {
+  margin: auto;
+  width: 800px;
+}
+
+@include media-breakpoint-down(lg) {
+  .friend-chats-container {
+    width: 60%;
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .friend-chats-container {
+    width: 80%;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .friend-chats-container {
+    width: 100%;
+  }
+}
