@@ -1,9 +1,9 @@
-import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { IPlayerChat } from '../../../models/player-chat.model';
 import { ActivatedRoute } from '@angular/router';
 import { FriendChatsService } from '../../services/friend-chats.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { tap } from 'rxjs';
+import { interval, Observable, Subscription, switchMap, tap } from 'rxjs';
 import { IPlayerFriendship } from '../../models/player-friendship.model';
 import { FriendsService } from '../../services/friends.service';
 
@@ -12,10 +12,10 @@ import { FriendsService } from '../../services/friends.service';
   templateUrl: './friend-chats-list.component.html',
   styleUrls: ['./friend-chats-list.component.scss'],
 })
-export class FriendChatsListComponent implements OnInit, AfterViewChecked {
+export class FriendChatsListComponent implements OnInit, AfterViewChecked, OnDestroy {
   friendshipId!: number;
   playerChats!: IPlayerChat[];
-  playerFriend!: IPlayerFriendship;
+  playerFriend$!: Observable<IPlayerFriendship>;
 
   friendMessageForm = new FormGroup({
     message: new FormControl('', {
@@ -24,6 +24,8 @@ export class FriendChatsListComponent implements OnInit, AfterViewChecked {
     }),
   });
 
+  autoRefreshSub!: Subscription;
+
   disableScrollDown = false;
   @ViewChild('messageContainer') private messageContainer!: ElementRef;
 
@@ -31,8 +33,26 @@ export class FriendChatsListComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
     this.friendshipId = +this.route.snapshot.params['id'];
-    this.friendChatsService.getAllPlayerChatsByFriendshipId(this.friendshipId).subscribe(playerChats => (this.playerChats = playerChats));
-    this.friendsService.getMyPlayerFriendByFriendshipId(this.friendshipId).subscribe(playerFriend => (this.playerFriend = playerFriend));
+    this.friendChatsService
+      .getAllPlayerChatsByFriendshipId(this.friendshipId)
+      .pipe(tap(playerChats => (this.playerChats = playerChats)))
+      .subscribe();
+
+    this.playerFriend$ = this.friendsService.getMyPlayerFriendByFriendshipId(this.friendshipId);
+
+    this.initAutoRefresh();
+  }
+
+  initAutoRefresh(): void {
+    this.autoRefreshSub = interval(2000)
+      .pipe(
+        switchMap(() =>
+          this.friendChatsService
+            .getAllPlayerChatsByFriendshipId(this.friendshipId)
+            .pipe(tap(playerChats => (this.playerChats = playerChats)))
+        )
+      )
+      .subscribe(() => this.playerChats);
   }
 
   ngAfterViewChecked(): void {
@@ -67,10 +87,15 @@ export class FriendChatsListComponent implements OnInit, AfterViewChecked {
           .getAllPlayerChatsByFriendshipId(this.friendshipId)
           .pipe(
             tap(playerChats => (this.playerChats = playerChats)),
-            tap(() => (this.disableScrollDown = false))
+            tap(() => (this.disableScrollDown = false)),
+            tap(() => this.friendMessageForm.reset())
           )
           .subscribe();
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.autoRefreshSub.unsubscribe();
   }
 }

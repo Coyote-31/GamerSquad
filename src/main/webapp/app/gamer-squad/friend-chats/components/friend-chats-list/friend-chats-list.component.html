@@ -3,7 +3,7 @@
 
   <jhi-alert></jhi-alert>
 
-  <h1 class="row align-items-center justify-content-center">
+  <h1 class="row align-items-center justify-content-center" *ngIf="playerFriend$ | async as playerFriend">
     <div class="avatar-cropper col-auto">
       <img *ngIf="!playerFriend.userImageUrl" src="/content/images/default/avatar.png" class="avatar-image" alt="Avatar" />
       <img *ngIf="playerFriend.userImageUrl" [src]="playerFriend.userImageUrl" class="avatar-image" alt="Avatar" />
