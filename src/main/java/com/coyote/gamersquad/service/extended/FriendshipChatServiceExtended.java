@@ -7,8 +7,11 @@ import com.coyote.gamersquad.repository.extended.AppUserRepositoryExtended;
 import com.coyote.gamersquad.repository.extended.FriendshipChatRepositoryExtended;
 import com.coyote.gamersquad.repository.extended.FriendshipRepositoryExtended;
 import com.coyote.gamersquad.service.FriendshipChatService;
+import com.coyote.gamersquad.service.dto.FriendshipChatDTO;
+import com.coyote.gamersquad.service.dto.form.FriendMessageDTO;
 import com.coyote.gamersquad.service.dto.projection.PlayerChatDTO;
 import com.coyote.gamersquad.service.mapper.FriendshipChatMapper;
+import java.time.Instant;
 import java.util.List;
 import javax.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
@@ -28,6 +31,8 @@ public class FriendshipChatServiceExtended extends FriendshipChatService {
 
     FriendshipChatRepositoryExtended friendshipChatRepository;
 
+    FriendshipChatMapper friendshipChatMapper;
+
     AppUserRepositoryExtended appUserRepository;
 
     FriendshipRepositoryExtended friendshipRepository;
@@ -40,6 +45,7 @@ public class FriendshipChatServiceExtended extends FriendshipChatService {
     ) {
         super(friendshipChatRepository, friendshipChatMapper);
         this.friendshipChatRepository = friendshipChatRepository;
+        this.friendshipChatMapper = friendshipChatMapper;
         this.appUserRepository = appUserRepository;
         this.friendshipRepository = friendshipRepository;
     }
@@ -74,5 +80,47 @@ public class FriendshipChatServiceExtended extends FriendshipChatService {
         }
 
         return friendshipChatRepository.getAllPlayerChatsByFriendshipId(friendshipId);
+    }
+
+    /**
+     * Save a new FriendshipChat with a message from the UserLogin with the friendshipId.
+     *
+     * @param friendMessage the message of the new FriendshipChat.
+     * @param friendshipId the id of the Friendship.
+     * @param userLogin the login of the User.
+     * @return the {@link FriendshipChatDTO} created.
+     */
+    public FriendshipChatDTO createFriendshipChatMessage(FriendMessageDTO friendMessage, Long friendshipId, String userLogin) {
+        log.debug("Request to save FriendshipChat message with friendshipId : {} for User : {}", friendshipId, userLogin);
+
+        AppUser appUser = appUserRepository
+            .getAppUserByInternalUser_Login(userLogin)
+            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+
+        // Check if the friendship exist
+        Friendship friendship = friendshipRepository
+            .findById(friendshipId)
+            .orElseThrow(() -> new EntityNotFoundException("Friendship not found with id : " + friendshipId));
+
+        // Check if the appUser is part of this friendship
+        if (!appUser.equals(friendship.getAppUserOwner()) && !appUser.equals(friendship.getAppUserReceiver())) {
+            throw new AccessDeniedException(
+                "Access Denied because appUser with id : " +
+                appUser.getId() +
+                " is not part of the friendship with id : " +
+                friendship.getId()
+            );
+        }
+
+        // Check if the friendship is activated
+        if (!friendship.getIsAccepted()) {
+            throw new AccessDeniedException("Access Denied because friendship with id : " + friendship.getId() + " is not activated");
+        }
+
+        // Create the new friendshipChat to save
+        FriendshipChat friendshipChatToSave = new FriendshipChat();
+        friendshipChatToSave.message(friendMessage.getMessage()).sendAt(Instant.now()).friendship(friendship).sender(appUser);
+
+        return friendshipChatMapper.toDto(friendshipChatRepository.save(friendshipChatToSave));
     }
 }

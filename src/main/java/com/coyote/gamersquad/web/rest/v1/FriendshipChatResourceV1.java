@@ -1,17 +1,19 @@
 package com.coyote.gamersquad.web.rest.v1;
 
+import com.coyote.gamersquad.service.dto.FriendshipChatDTO;
+import com.coyote.gamersquad.service.dto.form.FriendMessageDTO;
 import com.coyote.gamersquad.service.dto.projection.PlayerChatDTO;
 import com.coyote.gamersquad.service.extended.FriendshipChatServiceExtended;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Api v1 : REST controller for managing {@link com.coyote.gamersquad.domain.FriendshipChat}.
@@ -53,5 +55,30 @@ public class FriendshipChatResourceV1 {
         List<PlayerChatDTO> result = friendshipChatService.getAllPlayerChatsByFriendshipId(friendshipId, userLogin);
 
         return ResponseEntity.ok().body(result);
+    }
+
+    /**
+     * {@code POST  /friendship-chats/friendship/:friendshipId} : Create a new FriendshipChat by friendshipId
+     * with the message in the body.
+     *
+     * @param friendMessage the message to create FriendshipChat.
+     * @param friendshipId the id of the friendship.
+     * @param request the request.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new friendshipChatDTO.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PostMapping("/friendship-chats/friendship/{friendshipId}")
+    public ResponseEntity<FriendshipChatDTO> createFriendshipChatMessage(
+        @Valid @RequestBody FriendMessageDTO friendMessage,
+        @PathVariable(value = "friendshipId") Long friendshipId,
+        HttpServletRequest request
+    ) throws URISyntaxException {
+        String userLogin = request.getRemoteUser();
+
+        log.debug("REST request to save FriendshipChat message with friendshipId : {} for User : {}", friendshipId, userLogin);
+
+        FriendshipChatDTO result = friendshipChatService.createFriendshipChatMessage(friendMessage, friendshipId, userLogin);
+
+        return ResponseEntity.created(new URI("/api/friendship-chats/" + result.getId())).body(result);
     }
 }
