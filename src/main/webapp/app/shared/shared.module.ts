@@ -15,6 +15,8 @@ import { ItemCountComponent } from './pagination/item-count.component';
 import { FilterComponent } from './filter/filter.component';
 import { UserValidatorService } from './validators/user-validator.service';
 import { GsDatetimeChatPipe } from './date/gs-datetime-chat';
+import { GsDatetimeFromNowPipe } from './date/gs-datetime-from-now';
+import { GsDatetimePipe } from './date/gs-datetime';
 
 @NgModule({
   imports: [SharedLibsModule],
@@ -31,7 +33,9 @@ import { GsDatetimeChatPipe } from './date/gs-datetime-chat';
     SortDirective,
     ItemCountComponent,
     FilterComponent,
+    GsDatetimePipe,
     GsDatetimeChatPipe,
+    GsDatetimeFromNowPipe,
   ],
   exports: [
     SharedLibsModule,
@@ -47,7 +51,9 @@ import { GsDatetimeChatPipe } from './date/gs-datetime-chat';
     SortDirective,
     ItemCountComponent,
     FilterComponent,
+    GsDatetimePipe,
     GsDatetimeChatPipe,
+    GsDatetimeFromNowPipe,
   ],
   providers: [UserValidatorService],
 })

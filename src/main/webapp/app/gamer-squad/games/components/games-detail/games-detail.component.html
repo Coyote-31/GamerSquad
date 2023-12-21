@@ -50,7 +50,7 @@
 
       <app-players-list *ngIf="activeMenu === 'players'" [gameId]="game.id"></app-players-list>
 
-      <div class="text-center m-3" *ngIf="activeMenu === 'events'">🚧 En Construction !</div>
+      <app-events-list *ngIf="activeMenu === 'events'" [gameId]="game.id"></app-events-list>
     </div>
   </ng-container>
 </div>

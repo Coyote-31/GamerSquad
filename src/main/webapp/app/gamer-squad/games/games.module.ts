@@ -7,9 +7,19 @@ import { GamesListItemComponent } from './components/games-list-item/games-list-
 import { GamesDetailComponent } from './components/games-detail/games-detail.component';
 import { PlayersListComponent } from './components/players-list/players-list.component';
 import { PlayersListItemComponent } from './components/players-list-item/players-list-item.component';
+import { EventsListComponent } from './components/events-list/events-list.component';
+import { EventsListItemComponent } from './components/events-list-item/events-list-item.component';
 
 @NgModule({
   imports: [SharedModule, GamesRoutingModule],
-  declarations: [GamesListComponent, GamesListItemComponent, GamesDetailComponent, PlayersListComponent, PlayersListItemComponent],
+  declarations: [
+    GamesListComponent,
+    GamesListItemComponent,
+    GamesDetailComponent,
+    PlayersListComponent,
+    PlayersListItemComponent,
+    EventsListComponent,
+    EventsListItemComponent,
+  ],
 })
 export class GamesModule {}
