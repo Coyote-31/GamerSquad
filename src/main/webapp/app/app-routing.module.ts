@@ -53,6 +53,14 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
           loadChildren: () => import(`./gamer-squad/friend-chats/friend-chats.module`).then(m => m.FriendChatsModule),
         },
         {
+          path: 'events',
+          data: {
+            authorities: [Authority.ADMIN, Authority.USER],
+          },
+          canActivate: [UserRouteAccessService],
+          loadChildren: () => import(`./gamer-squad/events/events.module`).then(m => m.EventsModule),
+        },
+        {
           path: '',
           data: {
             authorities: [Authority.ADMIN],

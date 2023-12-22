@@ -22,6 +22,10 @@
       </div>
 
       <div class="col">{{ event.ownerLogin | titlecase }}</div>
+
+      <a [routerLink]="['/events', event.id]" class="btn btn-primary text-white col-auto">
+        <fa-icon class="me-2" icon="eye"></fa-icon>Voir
+      </a>
     </div>
   </div>
 </div>

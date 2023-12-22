@@ -34,4 +34,22 @@ public interface EventRepositoryExtended extends EventRepository {
         "order by event.meetingDate"
     )
     List<EventDetailDTO> getAllEventDetailsPublicByGameId(@Param("game") Game game);
+
+    @Query(
+        "select new com.coyote.gamersquad.service.dto.projection.EventDetailDTO(" +
+        "event.id, " +
+        "event.title, " +
+        "event.description, " +
+        "event.meetingDate, " +
+        "event.isPrivate, " +
+        "event.owner.internalUser.login, " +
+        "event.owner.internalUser.imageUrl, " +
+        "event.game.id," +
+        "event.game.title, " +
+        "event.game.imgUrl" +
+        ") " +
+        "from Event event " +
+        "where event.id = :eventId"
+    )
+    EventDetailDTO getEventDetailByEventId(@Param("eventId") Long eventId);
 }

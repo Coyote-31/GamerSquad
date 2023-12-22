@@ -1,0 +1,38 @@
+<div class="container">
+  <jhi-alert-error></jhi-alert-error>
+  <jhi-alert></jhi-alert>
+
+  <h1>Détail de l'évènement</h1>
+
+  <hr />
+
+  <ng-container *ngIf="event">
+    <div class="row">
+      <div class="col-9">
+        <div class="card">
+          <div class="card-header">
+            <span class="text-muted">
+              {{ event.meetingDate | gsDatetime }}
+              <small class="align-text-top"> ({{ event.meetingDate | gsDatetimeFromNow }}) </small>
+            </span>
+          </div>
+
+          <div class="card-body">
+            <h2 class="card-title">{{ event.title }}</h2>
+            <p class="card-text">{{ event.description }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-3">
+        <div class="card">
+          <img class="card-img-top" *ngIf="event.gameImgUrl as imgUrl" [src]="imgUrl" [alt]="event.gameTitle" />
+
+          <div class="card-body text-center">
+            <h2 class="card-title game-title mb-0">{{ event.gameTitle }}</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
