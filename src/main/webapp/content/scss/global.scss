@@ -242,6 +242,13 @@ angular-cli removes postcss-rtl processed inline css, processed rules must be ad
 ====================================================================== */
 
 /* ===========================
+           Buttons
+============================== */
+.btn-outline-primary {
+  --bs-btn-hover-color: #ffffff;
+}
+
+/* ===========================
     Gamer Squad ToolTips :
     ex: data-gs-tooltip="..."
 ============================== */

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ApplicationConfigService } from '../../../core/config/application-config.service';
 import { Observable } from 'rxjs';
 import { IEventDetail } from '../models/event-detail.model';
+import { IEventCreate } from '../models/event-create.model';
 
 @Injectable()
 export class EventsService {
@@ -12,5 +13,9 @@ export class EventsService {
 
   getEventDetailByEventId(eventId: number): Observable<IEventDetail> {
     return this.http.get<IEventDetail>(`${this.resourceUrl}/${eventId}/event-detail`);
+  }
+
+  createEvent(event: IEventCreate, gameId: number): Observable<IEventDetail> {
+    return this.http.post<IEventDetail>(`${this.resourceUrl}/game/${gameId}/create`, event);
   }
 }

@@ -38,6 +38,13 @@
       </div>
     </div>
 
+    <div class="mt-3">
+      <a class="btn btn-outline-primary" [routerLink]="['/events/game', gameId, 'create']">
+        <fa-icon class="mt-1 me-1" icon="plus" size="sm"></fa-icon>
+        Créer un évènement</a
+      >
+    </div>
+
     <div *ngSwitchCase="true">
       <ul class="nav nav-tabs my-3">
         <li class="nav-item">
@@ -48,9 +55,9 @@
         </li>
       </ul>
 
-      <app-players-list *ngIf="activeMenu === 'players'" [gameId]="game.id"></app-players-list>
+      <app-players-list *ngIf="activeMenu === 'players'" [gameId]="gameId"></app-players-list>
 
-      <app-events-list *ngIf="activeMenu === 'events'" [gameId]="game.id"></app-events-list>
+      <app-events-list *ngIf="activeMenu === 'events'" [gameId]="gameId"></app-events-list>
     </div>
   </ng-container>
 </div>

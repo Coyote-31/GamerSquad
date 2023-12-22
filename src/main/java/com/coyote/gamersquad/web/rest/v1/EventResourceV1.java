@@ -1,17 +1,18 @@
 package com.coyote.gamersquad.web.rest.v1;
 
+import com.coyote.gamersquad.service.dto.form.EventCreateDTO;
 import com.coyote.gamersquad.service.dto.projection.EventDetailDTO;
 import com.coyote.gamersquad.service.extended.EventServiceExtended;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Api v1 : REST controller for managing {@link com.coyote.gamersquad.domain.Event}.
@@ -34,7 +35,7 @@ public class EventResourceV1 {
     }
 
     /**
-     * {@code GET  /games/:gameId/event-details} : get all the EventDetails public by gameId.
+     * {@code GET  /games/:gameId/event-details} : Get all the EventDetails public by gameId.
      * Only where meeting date is after now.
      *
      * @param gameId the id of the game.
@@ -50,7 +51,7 @@ public class EventResourceV1 {
     }
 
     /**
-     * {@code GET  /events/:eventId/event-detail} : get the EventDetail by Event id.
+     * {@code GET  /events/:eventId/event-detail} : Get the EventDetail by Event id.
      *
      * @param eventId the id of the event.
      * @param request the request.
@@ -65,5 +66,29 @@ public class EventResourceV1 {
         EventDetailDTO result = eventService.getEventDetailByEventId(eventId, userLogin);
 
         return ResponseEntity.ok().body(result);
+    }
+
+    /**
+     * {@code POST /events/game/:gameId/create} : Creates a new Event for a Game with the User logged-in as owner.
+     *
+     * @param eventForm the form to create the event from.
+     * @param gameId the id of the game.
+     * @param request the request.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and the new {@code EventDetailDTO} in the body.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PostMapping("/events/game/{gameId}/create")
+    public ResponseEntity<EventDetailDTO> createEvent(
+        @Valid @RequestBody EventCreateDTO eventForm,
+        @PathVariable("gameId") Long gameId,
+        HttpServletRequest request
+    ) throws URISyntaxException {
+        String userLogin = request.getRemoteUser();
+
+        log.debug("REST request to create a new Event for Game id : {} with User : {}", gameId, userLogin);
+
+        EventDetailDTO result = eventService.createEvent(eventForm, gameId, userLogin);
+
+        return ResponseEntity.created(new URI("/api/events/" + result.getId())).body(result);
     }
 }

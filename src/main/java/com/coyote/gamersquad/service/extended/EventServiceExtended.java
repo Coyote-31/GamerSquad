@@ -7,6 +7,7 @@ import com.coyote.gamersquad.repository.extended.AppUserRepositoryExtended;
 import com.coyote.gamersquad.repository.extended.EventRepositoryExtended;
 import com.coyote.gamersquad.repository.extended.GameRepositoryExtended;
 import com.coyote.gamersquad.service.EventService;
+import com.coyote.gamersquad.service.dto.form.EventCreateDTO;
 import com.coyote.gamersquad.service.dto.projection.EventDetailDTO;
 import com.coyote.gamersquad.service.mapper.EventMapper;
 import java.util.List;
@@ -97,6 +98,33 @@ public class EventServiceExtended extends EventService {
                 );
             }
         }
+
+        return eventRepository.getEventDetailByEventId(eventId);
+    }
+
+    public EventDetailDTO createEvent(EventCreateDTO eventForm, Long gameId, String userLogin) {
+        log.debug("Request to create a new Event for Game id : {} with User : {}", gameId, userLogin);
+
+        // Check if AppUser exists
+        AppUser appUser = appUserRepository
+            .getAppUserByInternalUser_Login(userLogin)
+            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+
+        // Check if the Game exists
+        Game game = gameRepository.findById(gameId).orElseThrow(() -> new EntityNotFoundException("Game not found with id : " + gameId));
+
+        // Create the new entity
+        Event eventEntity = new Event()
+            .id(null)
+            .title(eventForm.getTitle())
+            .description(eventForm.getDescription())
+            .meetingDate(eventForm.getMeetingDate())
+            .isPrivate(eventForm.getIsPrivate())
+            .owner(appUser)
+            .game(game);
+
+        // Save the entity and return the id
+        Long eventId = eventRepository.save(eventEntity).getId();
 
         return eventRepository.getEventDetailByEventId(eventId);
     }

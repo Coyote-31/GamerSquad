@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { IEventDetail } from '../models/event-detail.model';
-import { EventsService } from '../services/events.service';
+import { IEventDetail } from '../../models/event-detail.model';
+import { EventsService } from '../../services/events.service';
 import { ActivatedRoute } from '@angular/router';
 import dayjs from 'dayjs/esm';
 
