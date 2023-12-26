@@ -4,6 +4,8 @@ import { ApplicationConfigService } from '../../../core/config/application-confi
 import { Observable } from 'rxjs';
 import { IEventDetail } from '../models/event-detail.model';
 import { IEventCreate } from '../models/event-create.model';
+import { map } from 'rxjs/operators';
+import dayjs from 'dayjs/esm';
 
 @Injectable()
 export class EventsService {
@@ -13,6 +15,39 @@ export class EventsService {
 
   getEventDetailByEventId(eventId: number): Observable<IEventDetail> {
     return this.http.get<IEventDetail>(`${this.resourceUrl}/${eventId}/event-detail`);
+  }
+
+  getAllEventDetailsOwnedByUserLoggedIn(): Observable<IEventDetail[]> {
+    return this.http.get<IEventDetail[]>(`${this.resourceUrl}/my-events/owned`).pipe(
+      map(events =>
+        events.map(event => {
+          event.meetingDate = dayjs(event.meetingDate);
+          return event;
+        })
+      )
+    );
+  }
+
+  getAllEventDetailsSubscribedByUserLoggedIn(): Observable<IEventDetail[]> {
+    return this.http.get<IEventDetail[]>(`${this.resourceUrl}/my-events/subscribed`).pipe(
+      map(events =>
+        events.map(event => {
+          event.meetingDate = dayjs(event.meetingDate);
+          return event;
+        })
+      )
+    );
+  }
+
+  getAllEventDetailsPendingByUserLoggedIn(): Observable<IEventDetail[]> {
+    return this.http.get<IEventDetail[]>(`${this.resourceUrl}/my-events/pending`).pipe(
+      map(events =>
+        events.map(event => {
+          event.meetingDate = dayjs(event.meetingDate);
+          return event;
+        })
+      )
+    );
   }
 
   createEvent(event: IEventCreate, gameId: number): Observable<IEventDetail> {

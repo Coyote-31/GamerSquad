@@ -1,0 +1,23 @@
+<div class="container">
+  <jhi-alert></jhi-alert>
+  <jhi-alert-error></jhi-alert-error>
+
+  <h1 class="text-center display-5">Mes évènements</h1>
+  <hr />
+
+  <ul class="nav nav-tabs my-3">
+    <li class="nav-item">
+      <span class="nav-link" [class.active]="activeMenu === 'owned'" (click)="onMenu('owned')">Possédés</span>
+    </li>
+    <li class="nav-item">
+      <span class="nav-link" [class.active]="activeMenu === 'subscribed'" (click)="onMenu('subscribed')">Abonnés</span>
+    </li>
+    <li class="nav-item">
+      <span class="nav-link" [class.active]="activeMenu === 'pending'" (click)="onMenu('pending')">En attentes</span>
+    </li>
+  </ul>
+
+  <app-my-events-owned-list *ngIf="activeMenu === 'owned'"></app-my-events-owned-list>
+  <app-my-events-subscribed-list *ngIf="activeMenu === 'subscribed'"></app-my-events-subscribed-list>
+  <app-my-events-pending-list *ngIf="activeMenu === 'pending'"></app-my-events-pending-list>
+</div>

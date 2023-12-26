@@ -48,6 +48,16 @@
           </a>
         </li>
 
+        <!-- My Events menu -->
+        <li *ngIf="account !== null" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link" routerLink="/events/my-events" (click)="collapseNavbar()">
+            <span>
+              <fa-icon icon="calendar-days"></fa-icon>
+              <span>Mes évènements</span>
+            </span>
+          </a>
+        </li>
+
         <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
         <li
           *ngIf="account !== null && account.authorities?.includes(Authority.ADMIN)"

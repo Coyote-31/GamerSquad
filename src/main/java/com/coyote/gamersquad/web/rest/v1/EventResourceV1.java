@@ -69,6 +69,57 @@ public class EventResourceV1 {
     }
 
     /**
+     * {@code GET  /events/my-events/owned} : Get all EventDetails owned by the logged-in User.
+     *
+     * @param request the request.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of {@link EventDetailDTO} in body.
+     */
+    @GetMapping("/events/my-events/owned")
+    public ResponseEntity<List<EventDetailDTO>> getAllEventDetailsOwnedByUserLoggedIn(HttpServletRequest request) {
+        String userLogin = request.getRemoteUser();
+
+        log.debug("REST request to get all EventDetails owned by User : {}", userLogin);
+
+        List<EventDetailDTO> result = eventService.getAllEventDetailsOwnedByUserLogin(userLogin);
+
+        return ResponseEntity.ok().body(result);
+    }
+
+    /**
+     * {@code GET  /events/my-events/subscribed} : Get all EventDetails subscribed by the logged-in User.
+     *
+     * @param request the request.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of {@link EventDetailDTO} in body.
+     */
+    @GetMapping("/events/my-events/subscribed")
+    public ResponseEntity<List<EventDetailDTO>> getAllEventDetailsSubscribedByUserLoggedIn(HttpServletRequest request) {
+        String userLogin = request.getRemoteUser();
+
+        log.debug("REST request to get all EventDetails subscribed by User : {}", userLogin);
+
+        List<EventDetailDTO> result = eventService.getAllEventDetailsSubscribedByUserLogin(userLogin);
+
+        return ResponseEntity.ok().body(result);
+    }
+
+    /**
+     * {@code GET  /events/my-events/pending} : Get all EventDetails pending by the logged-in User.
+     *
+     * @param request the request.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of {@link EventDetailDTO} in body.
+     */
+    @GetMapping("/events/my-events/pending")
+    public ResponseEntity<List<EventDetailDTO>> getAllEventDetailsPendingByUserLoggedIn(HttpServletRequest request) {
+        String userLogin = request.getRemoteUser();
+
+        log.debug("REST request to get all EventDetails pending by User : {}", userLogin);
+
+        List<EventDetailDTO> result = eventService.getAllEventDetailsPendingByUserLogin(userLogin);
+
+        return ResponseEntity.ok().body(result);
+    }
+
+    /**
      * {@code POST /events/game/:gameId/create} : Creates a new Event for a Game with the User logged-in as owner.
      *
      * @param eventForm the form to create the event from.

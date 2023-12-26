@@ -1,5 +1,6 @@
 package com.coyote.gamersquad.repository.extended;
 
+import com.coyote.gamersquad.domain.AppUser;
 import com.coyote.gamersquad.domain.Game;
 import com.coyote.gamersquad.repository.EventRepository;
 import com.coyote.gamersquad.service.dto.projection.EventDetailDTO;
@@ -52,4 +53,65 @@ public interface EventRepositoryExtended extends EventRepository {
         "where event.id = :eventId"
     )
     EventDetailDTO getEventDetailByEventId(@Param("eventId") Long eventId);
+
+    @Query(
+        "select new com.coyote.gamersquad.service.dto.projection.EventDetailDTO(" +
+        "event.id, " +
+        "event.title, " +
+        "event.description, " +
+        "event.meetingDate, " +
+        "event.isPrivate, " +
+        "event.owner.internalUser.login, " +
+        "event.owner.internalUser.imageUrl, " +
+        "event.game.id," +
+        "event.game.title, " +
+        "event.game.imgUrl" +
+        ") " +
+        "from Event event " +
+        "where event.owner = :appUser " +
+        "order by event.meetingDate"
+    )
+    List<EventDetailDTO> getAllEventDetailsOwnedByAppUser(@Param("appUser") AppUser appUser);
+
+    @Query(
+        "select new com.coyote.gamersquad.service.dto.projection.EventDetailDTO(" +
+        "event.id, " +
+        "event.title, " +
+        "event.description, " +
+        "event.meetingDate, " +
+        "event.isPrivate, " +
+        "event.owner.internalUser.login, " +
+        "event.owner.internalUser.imageUrl, " +
+        "event.game.id," +
+        "event.game.title, " +
+        "event.game.imgUrl" +
+        ") " +
+        "from Event event " +
+        "join EventSub eventSub on event = eventSub.event " +
+        "where eventSub.appUser = :appUser " +
+        "and eventSub.isAccepted = true " +
+        "order by event.meetingDate"
+    )
+    List<EventDetailDTO> getAllEventDetailsSubscribedByAppUser(@Param("appUser") AppUser appUser);
+
+    @Query(
+        "select new com.coyote.gamersquad.service.dto.projection.EventDetailDTO(" +
+        "event.id, " +
+        "event.title, " +
+        "event.description, " +
+        "event.meetingDate, " +
+        "event.isPrivate, " +
+        "event.owner.internalUser.login, " +
+        "event.owner.internalUser.imageUrl, " +
+        "event.game.id," +
+        "event.game.title, " +
+        "event.game.imgUrl" +
+        ") " +
+        "from Event event " +
+        "join EventSub eventSub on event = eventSub.event " +
+        "where eventSub.appUser = :appUser " +
+        "and eventSub.isAccepted = false " +
+        "order by event.meetingDate"
+    )
+    List<EventDetailDTO> getAllEventDetailsPendingByAppUser(@Param("appUser") AppUser appUser);
 }

@@ -102,6 +102,65 @@ public class EventServiceExtended extends EventService {
         return eventRepository.getEventDetailByEventId(eventId);
     }
 
+    /**
+     * Get all EventDetails owned by User Login.
+     *
+     * @param userLogin the login of the user.
+     * @return the list of {@link EventDetailDTO}.
+     */
+    public List<EventDetailDTO> getAllEventDetailsOwnedByUserLogin(String userLogin) {
+        log.debug("Request to get all EventDetails owned by User : {}", userLogin);
+
+        // Check if AppUser exists
+        AppUser appUser = appUserRepository
+            .getAppUserByInternalUser_Login(userLogin)
+            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+
+        return eventRepository.getAllEventDetailsOwnedByAppUser(appUser);
+    }
+
+    /**
+     * Get all EventDetails subscribed by User Login.
+     *
+     * @param userLogin the login of the user.
+     * @return the list of {@link EventDetailDTO}.
+     */
+    public List<EventDetailDTO> getAllEventDetailsSubscribedByUserLogin(String userLogin) {
+        log.debug("Request to get all EventDetails subscribed by User : {}", userLogin);
+
+        // Check if AppUser exists
+        AppUser appUser = appUserRepository
+            .getAppUserByInternalUser_Login(userLogin)
+            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+
+        return eventRepository.getAllEventDetailsSubscribedByAppUser(appUser);
+    }
+
+    /**
+     * Get all EventDetails pending by User Login.
+     *
+     * @param userLogin the login of the user.
+     * @return the list of {@link EventDetailDTO}.
+     */
+    public List<EventDetailDTO> getAllEventDetailsPendingByUserLogin(String userLogin) {
+        log.debug("Request to get all EventDetails pending by User : {}", userLogin);
+
+        // Check if AppUser exists
+        AppUser appUser = appUserRepository
+            .getAppUserByInternalUser_Login(userLogin)
+            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+
+        return eventRepository.getAllEventDetailsPendingByAppUser(appUser);
+    }
+
+    /**
+     * Creates an Event from EventCreate form for a Game with User as owner.
+     *
+     * @param eventForm the form of the new event.
+     * @param gameId the game id.
+     * @param userLogin the user login.
+     * @return the persisted Event as {@link EventDetailDTO}.
+     */
     public EventDetailDTO createEvent(EventCreateDTO eventForm, Long gameId, String userLogin) {
         log.debug("Request to create a new Event for Game id : {} with User : {}", gameId, userLogin);
 

@@ -1,0 +1,7 @@
+<div class="container">
+  <h2>À venir</h2>
+  <app-my-events-owned-list-item *ngFor="let event of afterNowEvents" [event]="event"> </app-my-events-owned-list-item>
+
+  <h2>Passés</h2>
+  <app-my-events-owned-list-item *ngFor="let event of beforeNowEvents" [event]="event"> </app-my-events-owned-list-item>
+</div>

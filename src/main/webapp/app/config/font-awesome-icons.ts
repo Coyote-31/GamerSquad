@@ -47,6 +47,7 @@ import {
   faUserClock,
   faUserMinus,
   faComments,
+  faCalendarDays,
   // jhipster-needle-add-icon-import
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -99,5 +100,6 @@ export const fontAwesomeIcons = [
   faUserClock,
   faUserMinus,
   faComments,
+  faCalendarDays,
   // jhipster-needle-add-icon-import
 ];
