@@ -187,4 +187,40 @@ public class EventServiceExtended extends EventService {
 
         return eventRepository.getEventDetailByEventId(eventId);
     }
+
+    public EventDetailDTO updateEvent(EventCreateDTO eventForm, Long eventId, String userLogin) {
+        log.debug("Request to update the Event by id : {} with owner User : {}", eventId, userLogin);
+
+        // Check if AppUser exists
+        AppUser appUser = appUserRepository
+            .getAppUserByInternalUser_Login(userLogin)
+            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+
+        // Check if Event exists
+        Event event = eventRepository
+            .findById(eventId)
+            .orElseThrow(() -> new EntityNotFoundException("Event not found with id : " + eventId));
+
+        // Check if the AppUser is the owner
+        if (!event.getOwner().equals(appUser)) {
+            throw new AccessDeniedException(
+                "Access denied to update event with id : " + eventId + " because you are not the owner with login : " + userLogin
+            );
+        }
+
+        // Create the updated entity
+        Event eventUpdated = new Event()
+            .id(eventId)
+            .title(eventForm.getTitle())
+            .description(eventForm.getDescription())
+            .meetingDate(eventForm.getMeetingDate())
+            .isPrivate(eventForm.getIsPrivate())
+            .owner(appUser)
+            .game(event.getGame());
+
+        // Update the entity
+        eventRepository.save(eventUpdated);
+
+        return eventRepository.getEventDetailByEventId(eventId);
+    }
 }

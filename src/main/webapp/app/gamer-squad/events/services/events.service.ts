@@ -6,6 +6,7 @@ import { IEventDetail } from '../models/event-detail.model';
 import { IEventCreate } from '../models/event-create.model';
 import { map } from 'rxjs/operators';
 import dayjs from 'dayjs/esm';
+import { IEventEdit } from '../models/event-edit.model';
 
 @Injectable()
 export class EventsService {
@@ -52,5 +53,9 @@ export class EventsService {
 
   createEvent(event: IEventCreate, gameId: number): Observable<IEventDetail> {
     return this.http.post<IEventDetail>(`${this.resourceUrl}/game/${gameId}/create`, event);
+  }
+
+  updateEvent(event: IEventEdit, eventId: number): Observable<IEventDetail> {
+    return this.http.put<IEventDetail>(`${this.resourceUrl}/${eventId}/update`, event);
   }
 }

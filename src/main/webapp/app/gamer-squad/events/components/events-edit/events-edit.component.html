@@ -2,15 +2,15 @@
   <jhi-alert></jhi-alert>
   <jhi-alert-error></jhi-alert-error>
 
-  <div class="card w-40" *ngIf="game">
-    <img class="card-img-top" [src]="game.imgUrl" [alt]="game.title" />
+  <div class="card w-40" *ngIf="event">
+    <img class="card-img-top" [src]="event.gameImgUrl" [alt]="event.gameTitle" />
 
     <div class="card-body text-center">
-      <h2 class="card-title game-title mb-0">{{ game.title }}</h2>
+      <h2 class="card-title game-title mb-0">{{ event.gameTitle }}</h2>
     </div>
   </div>
 
-  <form class="form w-40" role="form" (ngSubmit)="OnSubmit()" [formGroup]="eventForm">
+  <form class="form w-40" role="form" *ngIf="event" (ngSubmit)="OnSubmit()" [formGroup]="eventForm">
     <label for="title">Titre :</label>
 
     <input class="form-control" type="text" name="title" id="title" formControlName="title" placeholder="Titre de l'évènement" />
@@ -71,6 +71,6 @@
 
     <hr />
 
-    <button class="btn btn-primary" type="submit" [disabled]="eventForm.invalid">Créer</button>
+    <button class="btn btn-primary" type="submit" [disabled]="eventForm.invalid">Mettre à jour</button>
   </form>
 </div>

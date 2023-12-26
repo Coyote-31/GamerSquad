@@ -142,4 +142,28 @@ public class EventResourceV1 {
 
         return ResponseEntity.created(new URI("/api/events/" + result.getId())).body(result);
     }
+
+    /**
+     * {@code PUT /events/:eventId/update} : Updates the Event by id with the User logged-in as owner.
+     *
+     * @param eventForm the form to update the event from.
+     * @param eventId the id of the event.
+     * @param request the request.
+     * @return the {@link ResponseEntity} with status {@code 200 (Ok)} and the updated {@code EventDetailDTO} in the body.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PutMapping("/events/{eventId}/update")
+    public ResponseEntity<EventDetailDTO> updateEvent(
+        @Valid @RequestBody EventCreateDTO eventForm,
+        @PathVariable("eventId") Long eventId,
+        HttpServletRequest request
+    ) {
+        String userLogin = request.getRemoteUser();
+
+        log.debug("REST request to update the Event by id : {} with owner User : {}", eventId, userLogin);
+
+        EventDetailDTO result = eventService.updateEvent(eventForm, eventId, userLogin);
+
+        return ResponseEntity.ok(result);
+    }
 }
