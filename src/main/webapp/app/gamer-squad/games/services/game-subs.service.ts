@@ -5,9 +5,7 @@ import { Observable } from 'rxjs';
 import { IGameSub } from '../../../entities/game-sub/game-sub.model';
 import { IPlayerFriendship } from '../../models/player-friendship.model';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class GameSubsService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/v1/game-subs');
 

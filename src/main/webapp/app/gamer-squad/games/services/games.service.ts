@@ -4,9 +4,7 @@ import { ApplicationConfigService } from '../../../core/config/application-confi
 import { Observable } from 'rxjs';
 import { IGame } from '../../../entities/game/game.model';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class GamesService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/v1/games');
 

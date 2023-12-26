@@ -35,13 +35,13 @@ public class EventResourceV1 {
     }
 
     /**
-     * {@code GET  /games/:gameId/event-details} : Get all the EventDetails public by gameId.
+     * {@code GET  /events/game/:gameId/event-details} : Get all the EventDetails public by gameId.
      * Only where meeting date is after now.
      *
      * @param gameId the id of the game.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of {@link EventDetailDTO} in body.
      */
-    @GetMapping("/games/{gameId}/event-details")
+    @GetMapping("/events/game/{gameId}/event-details")
     public ResponseEntity<List<EventDetailDTO>> getAllEventDetailsPublicByGameId(@PathVariable("gameId") Long gameId) {
         log.debug("REST request to get all EventDetails public by Game id : {}", gameId);
 

@@ -9,6 +9,10 @@ import { PlayersListComponent } from './components/players-list/players-list.com
 import { PlayersListItemComponent } from './components/players-list-item/players-list-item.component';
 import { EventsListComponent } from './components/events-list/events-list.component';
 import { EventsListItemComponent } from './components/events-list-item/events-list-item.component';
+import { EventsService } from './services/events.service';
+import { FriendshipsService } from './services/friendships.service';
+import { GameSubsService } from './services/game-subs.service';
+import { GamesService } from './services/games.service';
 
 @NgModule({
   imports: [SharedModule, GamesRoutingModule],
@@ -21,5 +25,6 @@ import { EventsListItemComponent } from './components/events-list-item/events-li
     EventsListComponent,
     EventsListItemComponent,
   ],
+  providers: [EventsService, FriendshipsService, GameSubsService, GamesService],
 })
 export class GamesModule {}
