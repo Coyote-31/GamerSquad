@@ -1,0 +1,25 @@
+<div class="card mt-3">
+  <div class="card-body row justify-content-between align-items-center">
+    <div *ngIf="!player.userImageUrl" class="avatar-cropper col-auto">
+      <img src="/content/images/default/avatar.png" class="avatar-image" alt="Avatar" />
+    </div>
+
+    <div *ngIf="player.userImageUrl" class="avatar-cropper col-auto">
+      <img [src]="player.userImageUrl" class="avatar-image" alt="Avatar" />
+    </div>
+
+    <div class="col m-2">{{ player.userLogin | titlecase }}</div>
+
+    <!-- Btn and icons -->
+
+    <!-- Accepted -->
+    <div *ngIf="player.accepted" class="col-auto my-1" data-gs-tooltip="Inscrit">
+      <fa-icon class="text-success" icon="user-check"></fa-icon>
+    </div>
+
+    <!-- Pending -->
+    <div *ngIf="!player.accepted" class="col-auto my-1" data-gs-tooltip="En attente de confirmation">
+      <fa-icon class="text-warning" icon="user-clock"></fa-icon>
+    </div>
+  </div>
+</div>

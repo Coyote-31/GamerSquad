@@ -14,6 +14,9 @@ import { MyEventsPendingListComponent } from './components/my-events-pending-lis
 import { MyEventsPendingListItemComponent } from './components/my-events-pending-list-item/my-events-pending-list-item.component';
 import { EventsService } from './services/events.service';
 import { GamesService } from './services/games.service';
+import { EventsPlayersListComponent } from './components/events-players-list/events-players-list.component';
+import { EventsPlayersListItemComponent } from './components/events-players-list-item/events-players-list-item.component';
+import { EventSubsService } from './services/event-subs.service';
 
 @NgModule({
   imports: [SharedModule, EventsRoutingModule],
@@ -28,7 +31,9 @@ import { GamesService } from './services/games.service';
     MyEventsSubscribedListItemComponent,
     MyEventsPendingListComponent,
     MyEventsPendingListItemComponent,
+    EventsPlayersListComponent,
+    EventsPlayersListItemComponent,
   ],
-  providers: [EventsService, GamesService],
+  providers: [EventsService, EventSubsService, GamesService],
 })
 export class EventsModule {}
