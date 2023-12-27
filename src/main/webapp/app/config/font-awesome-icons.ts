@@ -50,6 +50,8 @@ import {
   faCalendarDays,
   faPenToSquare,
   faUserCheck,
+  faCalendarPlus,
+  faCalendarXmark,
   // jhipster-needle-add-icon-import
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -105,5 +107,7 @@ export const fontAwesomeIcons = [
   faCalendarDays,
   faPenToSquare,
   faUserCheck,
+  faCalendarPlus,
+  faCalendarXmark,
   // jhipster-needle-add-icon-import
 ];

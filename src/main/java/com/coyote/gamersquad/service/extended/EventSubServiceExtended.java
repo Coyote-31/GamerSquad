@@ -7,6 +7,7 @@ import com.coyote.gamersquad.repository.extended.AppUserRepositoryExtended;
 import com.coyote.gamersquad.repository.extended.EventRepositoryExtended;
 import com.coyote.gamersquad.repository.extended.EventSubRepositoryExtended;
 import com.coyote.gamersquad.service.EventSubService;
+import com.coyote.gamersquad.service.dto.EventSubDTO;
 import com.coyote.gamersquad.service.dto.projection.EventPlayerDTO;
 import com.coyote.gamersquad.service.mapper.EventSubMapper;
 import java.util.List;
@@ -28,6 +29,8 @@ public class EventSubServiceExtended extends EventSubService {
 
     EventSubRepositoryExtended eventSubRepository;
 
+    EventSubMapper eventSubMapper;
+
     EventRepositoryExtended eventRepository;
 
     AppUserRepositoryExtended appUserRepository;
@@ -40,23 +43,18 @@ public class EventSubServiceExtended extends EventSubService {
     ) {
         super(eventSubRepository, eventSubMapper);
         this.eventSubRepository = eventSubRepository;
+        this.eventSubMapper = eventSubMapper;
         this.eventRepository = eventRepository;
         this.appUserRepository = appUserRepository;
     }
 
     /**
-     * Returns true if the user is subscribed and accepted to the event.
+     * Get all eventPlayers from the event by id.
      *
-     * @param appUser the AppUser.
-     * @param event the Event
-     * @return true if the user is subscribed and accepted to the event, false otherwise.
+     * @param eventId the id of the event.
+     * @param userLogin the login of the user.
+     * @return the list of {@link EventPlayerDTO}.
      */
-    public boolean isAcceptedSubscriber(AppUser appUser, Event event) {
-        log.debug("Request isAcceptedSubscriber with AppUser id : {} and Event id : {}", appUser.getId(), event.getId());
-
-        return eventSubRepository.isAcceptedSubscriber(appUser, event);
-    }
-
     public List<EventPlayerDTO> getAllEventPlayersByEventId(Long eventId, String userLogin) {
         log.debug("Request to getAllEventPlayers by eventId : {} for User : {}", eventId, userLogin);
 
@@ -84,5 +82,123 @@ public class EventSubServiceExtended extends EventSubService {
         }
 
         return eventSubRepository.getAllEventPlayersByEvent(event);
+    }
+
+    /**
+     * Returns true if the user is already subscribed to the event.
+     *
+     * @param eventId the event id.
+     * @param userLogin the login of the user.
+     * @return true if the user is already subscribed to the event, false otherwise.
+     */
+    public boolean isAlreadySubscribedByEventId(Long eventId, String userLogin) {
+        log.debug("Request to isAlreadySubscribed by eventId : {} for User : {}", eventId, userLogin);
+
+        // Check if AppUser exists
+        AppUser appUser = appUserRepository
+            .getAppUserByInternalUser_Login(userLogin)
+            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+
+        // Check if Event exists
+        Event event = eventRepository
+            .findById(eventId)
+            .orElseThrow(() -> new EntityNotFoundException("Event not found with id : " + eventId));
+
+        return eventSubRepository.isAlreadySubscribed(appUser, event);
+    }
+
+    /**
+     * Returns true if the user is subscribed and accepted to the event.
+     *
+     * @param appUser the AppUser.
+     * @param event the Event
+     * @return true if the user is subscribed and accepted to the event, false otherwise.
+     */
+    public boolean isAcceptedSubscriber(AppUser appUser, Event event) {
+        log.debug("Request isAcceptedSubscriber with AppUser id : {} and Event id : {}", appUser.getId(), event.getId());
+
+        return eventSubRepository.isAcceptedSubscriber(appUser, event);
+    }
+
+    /**
+     * Subscribes the user to the event.
+     *
+     * @param eventId the id of the event.
+     * @param userLogin the login of the user.
+     * @return the {@link EventSubDTO} created.
+     */
+    public EventSubDTO subscribeUserByEventId(Long eventId, String userLogin) {
+        log.debug("Request to subscribeUser by eventId : {} for User : {}", eventId, userLogin);
+
+        // Check if AppUser exists
+        AppUser appUser = appUserRepository
+            .getAppUserByInternalUser_Login(userLogin)
+            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+
+        // Check if Event exists
+        Event event = eventRepository
+            .findById(eventId)
+            .orElseThrow(() -> new EntityNotFoundException("Event not found with id : " + eventId));
+
+        // Check if the AppUser is the owner of the Event
+        if (appUser.equals(event.getOwner())) {
+            throw new AccessDeniedException(
+                "A user cannot subscribes to his own event" + " [UserLogin=" + userLogin + ", EventId=" + eventId + "]"
+            );
+        }
+
+        // Check if the Event is private
+        if (event.getIsPrivate()) {
+            throw new AccessDeniedException(
+                "A user cannot subscribes to private event" + " [UserLogin=" + userLogin + ", EventId=" + eventId + "]"
+            );
+        }
+
+        // Check if the User is already subscribed
+        if (eventSubRepository.isAlreadySubscribed(appUser, event)) {
+            throw new AccessDeniedException(
+                "The user is already subscribed to the event" + " [UserLogin=" + userLogin + ", EventId=" + eventId + "]"
+            );
+        }
+
+        // Construct the eventSub
+        EventSub eventSub = new EventSub();
+        eventSub.id(null).isAccepted(true).event(event).appUser(appUser);
+
+        return eventSubMapper.toDto(eventSubRepository.save(eventSub));
+    }
+
+    /**
+     * Unsubscribes the user from the event.
+     *
+     * @param eventId the id of the event.
+     * @param userLogin the login of the user.
+     */
+    public void unsubscribeUserByEventId(Long eventId, String userLogin) {
+        log.debug("Request to unsubscribeUser by eventId : {} for User : {}", eventId, userLogin);
+
+        // Check if AppUser exists
+        AppUser appUser = appUserRepository
+            .getAppUserByInternalUser_Login(userLogin)
+            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+
+        // Check if Event exists
+        Event event = eventRepository
+            .findById(eventId)
+            .orElseThrow(() -> new EntityNotFoundException("Event not found with id : " + eventId));
+
+        // Check if the User is already subscribed
+        if (!eventSubRepository.isAlreadySubscribed(appUser, event)) {
+            throw new AccessDeniedException(
+                "A user cannot unsubscribe from an event to which they are not yet subscribed" +
+                " [UserLogin=" +
+                userLogin +
+                ", EventId=" +
+                eventId +
+                "]"
+            );
+        }
+
+        eventSubRepository.unsubscribeUserByEventId(appUser, event);
     }
 }

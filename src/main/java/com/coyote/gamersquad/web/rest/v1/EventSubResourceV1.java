@@ -1,17 +1,18 @@
 package com.coyote.gamersquad.web.rest.v1;
 
+import com.coyote.gamersquad.service.dto.EventSubDTO;
 import com.coyote.gamersquad.service.dto.projection.EventPlayerDTO;
 import com.coyote.gamersquad.service.extended.EventSubServiceExtended;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import tech.jhipster.web.util.HeaderUtil;
 
 /**
  * Api v1 : REST controller for managing {@link com.coyote.gamersquad.domain.EventSub}.
@@ -53,5 +54,64 @@ public class EventSubResourceV1 {
         List<EventPlayerDTO> result = eventSubService.getAllEventPlayersByEventId(eventId, userLogin);
 
         return ResponseEntity.ok().body(result);
+    }
+
+    /**
+     * {@code GET /event-subs/:eventId/is-subscribed} : Is the logged-in user subscribed to the event.
+     *
+     * @param eventId the id of the event.
+     * @param request the request.
+     * @return If the user is already subscribed to this event as {@link Boolean} in the body.
+     */
+    @GetMapping("/event-subs/{eventId}/is-subscribed")
+    public ResponseEntity<Boolean> isAlreadySubscribedByEventId(@PathVariable(value = "eventId") Long eventId, HttpServletRequest request) {
+        String userLogin = request.getRemoteUser();
+
+        log.debug("REST request to isAlreadySubscribed by eventId : {} for User : {}", eventId, userLogin);
+
+        boolean result = eventSubService.isAlreadySubscribedByEventId(eventId, userLogin);
+
+        return ResponseEntity.ok(result);
+    }
+
+    /**
+     * {@code POST  /event-subs/:eventId/subscribe} : Subscribes the logged-in User to the Event.
+     * The Event should not be private.
+     *
+     * @param eventId the id of the event.
+     * @param request the request.
+     * @return the {@link ResponseEntity} with status {@code 201 (CREATED)} and the {@link EventSubDTO} in body.
+     */
+    @PostMapping("/event-subs/{eventId}/subscribe")
+    public ResponseEntity<EventSubDTO> subscribeUserByEventId(@PathVariable(value = "eventId") Long eventId, HttpServletRequest request)
+        throws URISyntaxException {
+        String userLogin = request.getRemoteUser();
+
+        log.debug("REST request to subscribeUser by eventId : {} for User : {}", eventId, userLogin);
+
+        EventSubDTO result = eventSubService.subscribeUserByEventId(eventId, userLogin);
+
+        return ResponseEntity
+            .created(new URI("/api/event-subs/" + result.getId()))
+            .headers(HeaderUtil.createAlert(applicationName, "Vous êtes maintenant inscrit à l'évènement", ""))
+            .body(result);
+    }
+
+    /**
+     * {@code DELETE  /event-subs/:eventId/unsubscribe} : Unsubscribes the logged-in User from the Event.
+     *
+     * @param eventId the id of the event.
+     * @param request the request.
+     * @return the empty body with status {@code 200 (Ok)}.
+     */
+    @DeleteMapping("/event-subs/{eventId}/unsubscribe")
+    public ResponseEntity<Void> unsubscribeUserByEventId(@PathVariable(value = "eventId") Long eventId, HttpServletRequest request) {
+        String userLogin = request.getRemoteUser();
+
+        log.debug("REST request to unsubscribeUser by eventId : {} for User : {}", eventId, userLogin);
+
+        eventSubService.unsubscribeUserByEventId(eventId, userLogin);
+
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert(applicationName, "Vous n'êtes plus inscrit à l'évènement", "")).build();
     }
 }

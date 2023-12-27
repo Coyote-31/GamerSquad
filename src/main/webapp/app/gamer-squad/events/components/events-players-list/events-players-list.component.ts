@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { EventSubsService } from '../../services/event-subs.service';
+import { Component, Input } from '@angular/core';
 import { IEventPlayer } from '../../models/event-player.model';
 
 @Component({
@@ -7,14 +6,6 @@ import { IEventPlayer } from '../../models/event-player.model';
   templateUrl: './events-players-list.component.html',
   styleUrls: ['./events-players-list.component.scss'],
 })
-export class EventsPlayersListComponent implements OnInit {
-  @Input() eventId!: number;
-
-  players!: IEventPlayer[];
-
-  constructor(private eventSubsService: EventSubsService) {}
-
-  ngOnInit(): void {
-    this.eventSubsService.getAllEventPlayersByEventId(this.eventId).subscribe(players => (this.players = players));
-  }
+export class EventsPlayersListComponent {
+  @Input() players!: IEventPlayer[];
 }
