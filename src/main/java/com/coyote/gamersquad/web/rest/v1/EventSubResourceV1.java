@@ -1,6 +1,7 @@
 package com.coyote.gamersquad.web.rest.v1;
 
 import com.coyote.gamersquad.service.dto.EventSubDTO;
+import com.coyote.gamersquad.service.dto.projection.EventFriendDTO;
 import com.coyote.gamersquad.service.dto.projection.EventPlayerDTO;
 import com.coyote.gamersquad.service.extended.EventSubServiceExtended;
 import java.net.URI;
@@ -75,6 +76,28 @@ public class EventSubResourceV1 {
     }
 
     /**
+     * {@code GET /event-subs/:eventId/event-friends} : Get all logged-in user's friends who can be invited to this event.
+     * The owner of the event as to be the logged-in user.
+     *
+     * @param eventId the id of the event.
+     * @param request the request.
+     * @return the {@link ResponseEntity} with status {@code 200 (Ok)} and the list of {@link EventFriendDTO} in body.
+     */
+    @GetMapping("/event-subs/{eventId}/event-friends")
+    public ResponseEntity<List<EventFriendDTO>> getAllFriendsForInviteByEventId(
+        @PathVariable(value = "eventId") Long eventId,
+        HttpServletRequest request
+    ) {
+        String userLogin = request.getRemoteUser();
+
+        log.debug("REST request to getAllFriendsForInvite by eventId : {} for User : {}", eventId, userLogin);
+
+        List<EventFriendDTO> result = eventSubService.getAllFriendsForInviteByEventId(eventId, userLogin);
+
+        return ResponseEntity.ok(result);
+    }
+
+    /**
      * {@code POST  /event-subs/:eventId/subscribe} : Subscribes the logged-in User to the Event.
      * The Event should not be private.
      *
@@ -113,5 +136,31 @@ public class EventSubResourceV1 {
         eventSubService.unsubscribeUserByEventId(eventId, userLogin);
 
         return ResponseEntity.ok().headers(HeaderUtil.createAlert(applicationName, "Vous n'êtes plus inscrit à l'évènement", "")).build();
+    }
+
+    /**
+     * {@code POST  /event-subs/:eventId/app-user/:appUserId/invite} : Invites the user to an event owned by the logged-in User.
+     *
+     * @param eventId the id of the event.
+     * @param appUserId the id of the appUser.
+     * @param request the request.
+     * @return the {@link ResponseEntity} with status {@code 201 (CREATED)} and the {@link EventSubDTO} in body.
+     */
+    @PostMapping("/event-subs/{eventId}/app-user/{appUserId}/invite")
+    public ResponseEntity<EventSubDTO> inviteUserByEventIdAndAppUserId(
+        @PathVariable(value = "eventId") Long eventId,
+        @PathVariable(value = "appUserId") Long appUserId,
+        HttpServletRequest request
+    ) throws URISyntaxException {
+        String userLogin = request.getRemoteUser();
+
+        log.debug("REST request to inviteUser by eventId : {} and appUserId : {} from User : {}", eventId, appUserId, userLogin);
+
+        EventSubDTO result = eventSubService.inviteUserByEventIdAndAppUserId(eventId, appUserId, userLogin);
+
+        return ResponseEntity
+            .created(new URI("/api/event-subs/" + result.getId()))
+            .headers(HeaderUtil.createAlert(applicationName, "Invitation à l'évènement envoyée", ""))
+            .body(result);
     }
 }

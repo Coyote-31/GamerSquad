@@ -17,6 +17,9 @@ import { GamesService } from './services/games.service';
 import { EventsPlayersListComponent } from './components/events-players-list/events-players-list.component';
 import { EventsPlayersListItemComponent } from './components/events-players-list-item/events-players-list-item.component';
 import { EventSubsService } from './services/event-subs.service';
+import { EventsInviteModalComponent } from './components/events-invite-modal/events-invite-modal.component';
+import { EventsInviteFriendsListComponent } from './components/events-invite-friends-list/events-invite-friends-list.component';
+import { EventsInviteFriendsListItemComponent } from './components/events-invite-friends-list-item/events-invite-friends-list-item.component';
 
 @NgModule({
   imports: [SharedModule, EventsRoutingModule],
@@ -33,6 +36,9 @@ import { EventSubsService } from './services/event-subs.service';
     MyEventsPendingListItemComponent,
     EventsPlayersListComponent,
     EventsPlayersListItemComponent,
+    EventsInviteModalComponent,
+    EventsInviteFriendsListComponent,
+    EventsInviteFriendsListItemComponent,
   ],
   providers: [EventsService, EventSubsService, GamesService],
 })

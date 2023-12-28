@@ -1,0 +1,19 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row align-items-center">
+      <div class="avatar-cropper col-auto">
+        <img *ngIf="!friend.userImageUrl" src="/content/images/default/avatar.png" class="avatar-image" alt="Avatar" />
+        <img *ngIf="friend.userImageUrl" [src]="friend.userImageUrl" class="avatar-image" alt="Avatar" />
+      </div>
+
+      <div class="col my-1 text-start">{{ friend.userLogin | titlecase }}</div>
+
+      <!-- Invite -->
+      <div class="col-auto px-1">
+        <button class="btn btn-success text-white btn-sm" data-gs-tooltip="Inviter" (click)="onInvite()">
+          <fa-icon icon="user-plus"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

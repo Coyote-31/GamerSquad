@@ -6,6 +6,8 @@ import dayjs from 'dayjs/esm';
 import { AccountService } from '../../../../core/auth/account.service';
 import { EventSubsService } from '../../services/event-subs.service';
 import { IEventPlayer } from '../../models/event-player.model';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { EventsInviteModalComponent } from '../events-invite-modal/events-invite-modal.component';
 
 @Component({
   selector: 'app-events-detail',
@@ -21,11 +23,14 @@ export class EventsDetailComponent implements OnInit {
 
   players!: IEventPlayer[];
 
+  modalRef!: NgbModalRef;
+
   constructor(
     private route: ActivatedRoute,
     private accountService: AccountService,
     private eventsService: EventsService,
-    private eventSubsService: EventSubsService
+    private eventSubsService: EventSubsService,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -50,6 +55,23 @@ export class EventsDetailComponent implements OnInit {
     this.eventSubsService.unsubscribeUserByEventId(this.eventId).subscribe(() => {
       this.eventSubsService.isAlreadySubscribedByEventId(this.eventId).subscribe(isAlreadySub => (this.isAlreadySub = isAlreadySub));
       this.eventSubsService.getAllEventPlayersByEventId(this.eventId).subscribe(players => (this.players = players));
+    });
+  }
+
+  onInviteFriendsModal(): void {
+    this.modalRef = this.modalService.open(EventsInviteModalComponent, { backdrop: 'static', centered: true, size: 'lg' });
+    this.eventSubsService
+      .getAllFriendsForInviteByEventId(this.eventId)
+      .subscribe(friends => (this.modalRef.componentInstance.friends = friends));
+    this.modalRef.componentInstance.inviteEvent.subscribe((appUserId: number) => this.inviteFriend(this.eventId, appUserId));
+  }
+
+  inviteFriend(eventId: number, appUserId: number): void {
+    this.eventSubsService.inviteUserByEventIdAndAppUserId(eventId, appUserId).subscribe(() => {
+      this.eventSubsService.getAllEventPlayersByEventId(this.eventId).subscribe(players => (this.players = players));
+      this.eventSubsService
+        .getAllFriendsForInviteByEventId(this.eventId)
+        .subscribe(friends => (this.modalRef.componentInstance.friends = friends));
     });
   }
 }

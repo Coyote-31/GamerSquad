@@ -1,0 +1,17 @@
+<ng-container *ngIf="friends">
+  <div class="row g-2">
+    <app-events-invite-friends-list-item
+      class="col-sm-6 col-lg-4 col-xl-3"
+      *ngFor="let friend of friends"
+      [friend]="friend"
+      (inviteEvent)="onInvite($event)"
+    >
+    </app-events-invite-friends-list-item>
+  </div>
+
+  <ng-container *ngIf="friends.length === 0">
+    <div class="row justify-content-center">
+      <div class="no-friends text-white bg-danger col-auto">Aucun ami à inviter</div>
+    </div>
+  </ng-container>
+</ng-container>

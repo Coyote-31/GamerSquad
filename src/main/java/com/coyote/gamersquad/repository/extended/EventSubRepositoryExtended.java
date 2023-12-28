@@ -3,6 +3,7 @@ package com.coyote.gamersquad.repository.extended;
 import com.coyote.gamersquad.domain.AppUser;
 import com.coyote.gamersquad.domain.Event;
 import com.coyote.gamersquad.repository.EventSubRepository;
+import com.coyote.gamersquad.service.dto.projection.EventFriendDTO;
 import com.coyote.gamersquad.service.dto.projection.EventPlayerDTO;
 import java.util.List;
 import org.springframework.data.jpa.repository.Modifying;
@@ -42,6 +43,27 @@ public interface EventSubRepositoryExtended extends EventSubRepository {
         "and eventSub.isAccepted = true"
     )
     boolean isAcceptedSubscriber(@Param("appUser") AppUser appUser, @Param("event") Event event);
+
+    @Query(
+        "select new com.coyote.gamersquad.service.dto.projection.EventFriendDTO(" +
+        "appUser.internalUser.id, " +
+        "appUser.internalUser.login, " +
+        "appUser.internalUser.imageUrl, " +
+        "appUser.id" +
+        ") " +
+        "from AppUser appUser " +
+        "join Friendship fs on fs.appUserOwner = appUser or fs.appUserReceiver = appUser " +
+        "where (fs.appUserOwner = :appUser " +
+        "or fs.appUserReceiver = :appUser) " +
+        "and fs.isAccepted = true " +
+        "and not exists (" +
+        "from EventSub eventSub " +
+        "where eventSub.event = :event " +
+        "and eventSub.appUser = appUser) " +
+        "and appUser != :appUser " +
+        "order by appUser.internalUser.login"
+    )
+    List<EventFriendDTO> getAllFriendsForInviteByEvent(@Param("appUser") AppUser appUser, @Param("event") Event event);
 
     @Modifying
     @Query("delete from EventSub eventSub " + "where eventSub.event = :event " + "and eventSub.appUser = :appUser")

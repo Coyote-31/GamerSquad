@@ -1,0 +1,13 @@
+<div class="modal-header justify-content-center" *ngIf="friends">
+  <h4 class="modal-title">Inviter des amis</h4>
+</div>
+
+<div class="modal-body text-center">
+  <app-events-invite-friends-list [friends]="friends" (inviteEvent)="onInvite($event)"> </app-events-invite-friends-list>
+</div>
+
+<div class="modal-footer justify-content-center">
+  <button type="button" class="btn btn-secondary" data-dismiss="modal" ngbAutofocus (click)="cancel()">
+    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Fermer</span>
+  </button>
+</div>

@@ -6,8 +6,10 @@ import com.coyote.gamersquad.domain.EventSub;
 import com.coyote.gamersquad.repository.extended.AppUserRepositoryExtended;
 import com.coyote.gamersquad.repository.extended.EventRepositoryExtended;
 import com.coyote.gamersquad.repository.extended.EventSubRepositoryExtended;
+import com.coyote.gamersquad.repository.extended.FriendshipRepositoryExtended;
 import com.coyote.gamersquad.service.EventSubService;
 import com.coyote.gamersquad.service.dto.EventSubDTO;
+import com.coyote.gamersquad.service.dto.projection.EventFriendDTO;
 import com.coyote.gamersquad.service.dto.projection.EventPlayerDTO;
 import com.coyote.gamersquad.service.mapper.EventSubMapper;
 import java.util.List;
@@ -35,17 +37,21 @@ public class EventSubServiceExtended extends EventSubService {
 
     AppUserRepositoryExtended appUserRepository;
 
+    FriendshipRepositoryExtended friendshipRepository;
+
     public EventSubServiceExtended(
         EventSubRepositoryExtended eventSubRepository,
         EventSubMapper eventSubMapper,
         EventRepositoryExtended eventRepository,
-        AppUserRepositoryExtended appUserRepository
+        AppUserRepositoryExtended appUserRepository,
+        FriendshipRepositoryExtended friendshipRepository
     ) {
         super(eventSubRepository, eventSubMapper);
         this.eventSubRepository = eventSubRepository;
         this.eventSubMapper = eventSubMapper;
         this.eventRepository = eventRepository;
         this.appUserRepository = appUserRepository;
+        this.friendshipRepository = friendshipRepository;
     }
 
     /**
@@ -118,6 +124,42 @@ public class EventSubServiceExtended extends EventSubService {
         log.debug("Request isAcceptedSubscriber with AppUser id : {} and Event id : {}", appUser.getId(), event.getId());
 
         return eventSubRepository.isAcceptedSubscriber(appUser, event);
+    }
+
+    /**
+     * Get all logged-in user's friends who can be invited to this event.
+     * The owner of the event as to be the logged-in user.
+     *
+     * @param eventId the id of the event.
+     * @param userLogin the login of the user.
+     * @return the list of {@link EventFriendDTO}.
+     */
+    public List<EventFriendDTO> getAllFriendsForInviteByEventId(Long eventId, String userLogin) {
+        log.debug("Request to getAllFriendsForInvite by eventId : {} for User : {}", eventId, userLogin);
+
+        // Check if AppUser exists
+        AppUser appUser = appUserRepository
+            .getAppUserByInternalUser_Login(userLogin)
+            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+
+        // Check if Event exists
+        Event event = eventRepository
+            .findById(eventId)
+            .orElseThrow(() -> new EntityNotFoundException("Event not found with id : " + eventId));
+
+        // Check if the AppUser is the owner of the event
+        if (!event.getOwner().equals(appUser)) {
+            throw new AccessDeniedException(
+                "A user can only get friends for invite when he is owning the event" +
+                " [UserLogin=" +
+                userLogin +
+                ", EventId=" +
+                eventId +
+                "]"
+            );
+        }
+
+        return eventSubRepository.getAllFriendsForInviteByEvent(appUser, event);
     }
 
     /**
@@ -200,5 +242,68 @@ public class EventSubServiceExtended extends EventSubService {
         }
 
         eventSubRepository.unsubscribeUserByEventId(appUser, event);
+    }
+
+    public EventSubDTO inviteUserByEventIdAndAppUserId(Long eventId, Long appUserId, String userLogin) {
+        log.debug("Request to inviteUser by eventId : {} and appUserId : {} from User : {}", eventId, appUserId, userLogin);
+
+        // Check if the logged-in appUser exists
+        AppUser appUserOwner = appUserRepository
+            .getAppUserByInternalUser_Login(userLogin)
+            .orElseThrow(() -> new EntityNotFoundException("AppUser owner not found for login : " + userLogin));
+
+        // Check if the appUser to invite exists
+        AppUser appUserToInvite = appUserRepository
+            .findById(appUserId)
+            .orElseThrow(() -> new EntityNotFoundException("AppUser to invite not found with id : " + appUserId));
+
+        // Check if the event exists
+        Event event = eventRepository
+            .findById(eventId)
+            .orElseThrow(() -> new EntityNotFoundException("Event not found with id : " + eventId));
+
+        // Check if the appUserOwner owned the event
+        if (!event.getOwner().equals(appUserOwner)) {
+            throw new AccessDeniedException(
+                "A user cannot invites friends to an event not owned by him" +
+                " [UserLogin=" +
+                appUserOwner.getInternalUser().getLogin() +
+                ", EventId=" +
+                eventId +
+                "]"
+            );
+        }
+
+        // Check if the appUser to invites is a friend of the appUser owner.
+        if (!friendshipRepository.existsFriendshipAcceptedBetweenAppUsers(appUserOwner, appUserToInvite)) {
+            throw new AccessDeniedException(
+                "A user cannot be invited if he is not an accepted friend of the owner" +
+                " [UserOwner=" +
+                appUserOwner.getInternalUser().getLogin() +
+                ", UserToInvite=" +
+                appUserToInvite.getInternalUser().getLogin() +
+                ", EventId=" +
+                eventId +
+                "]"
+            );
+        }
+
+        // Check if the appUser to invite is already subscribed
+        if (eventSubRepository.isAlreadySubscribed(appUserToInvite, event)) {
+            throw new AccessDeniedException(
+                "A user cannot be invited to an event to which they are already subscribed" +
+                " [UserLogin=" +
+                appUserToInvite.getInternalUser().getLogin() +
+                ", EventId=" +
+                eventId +
+                "]"
+            );
+        }
+
+        // Create the new eventSub entity
+        EventSub eventSub = new EventSub();
+        eventSub.id(null).isAccepted(false).event(event).appUser(appUserToInvite);
+
+        return eventSubMapper.toDto(eventSubRepository.save(eventSub));
     }
 }
