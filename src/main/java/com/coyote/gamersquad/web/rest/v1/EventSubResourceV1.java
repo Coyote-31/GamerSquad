@@ -36,14 +36,14 @@ public class EventSubResourceV1 {
     }
 
     /**
-     * {@code GET  /event-subs/:eventId/event-players} : Get all EventPlayers by eventId.
+     * {@code GET  /event-subs/event/:eventId/event-players} : Get all EventPlayers by eventId.
      * If the event is private checks if the logged-in user is owner or accepted.
      *
      * @param eventId the id of the event.
      * @param request the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of {@link EventPlayerDTO} in body.
      */
-    @GetMapping("/event-subs/{eventId}/event-players")
+    @GetMapping("/event-subs/event/{eventId}/event-players")
     public ResponseEntity<List<EventPlayerDTO>> getAllEventPlayersByEventId(
         @PathVariable(value = "eventId") Long eventId,
         HttpServletRequest request
@@ -58,13 +58,13 @@ public class EventSubResourceV1 {
     }
 
     /**
-     * {@code GET /event-subs/:eventId/is-subscribed} : Is the logged-in user subscribed to the event.
+     * {@code GET /event-subs/event/:eventId/is-subscribed} : Is the logged-in user subscribed to the event.
      *
      * @param eventId the id of the event.
      * @param request the request.
      * @return If the user is already subscribed to this event as {@link Boolean} in the body.
      */
-    @GetMapping("/event-subs/{eventId}/is-subscribed")
+    @GetMapping("/event-subs/event/{eventId}/is-subscribed")
     public ResponseEntity<Boolean> isAlreadySubscribedByEventId(@PathVariable(value = "eventId") Long eventId, HttpServletRequest request) {
         String userLogin = request.getRemoteUser();
 
@@ -76,14 +76,14 @@ public class EventSubResourceV1 {
     }
 
     /**
-     * {@code GET /event-subs/:eventId/event-friends} : Get all logged-in user's friends who can be invited to this event.
+     * {@code GET /event-subs/event/:eventId/event-friends} : Get all logged-in user's friends who can be invited to this event.
      * The owner of the event as to be the logged-in user.
      *
      * @param eventId the id of the event.
      * @param request the request.
      * @return the {@link ResponseEntity} with status {@code 200 (Ok)} and the list of {@link EventFriendDTO} in body.
      */
-    @GetMapping("/event-subs/{eventId}/event-friends")
+    @GetMapping("/event-subs/event/{eventId}/event-friends")
     public ResponseEntity<List<EventFriendDTO>> getAllFriendsForInviteByEventId(
         @PathVariable(value = "eventId") Long eventId,
         HttpServletRequest request
@@ -98,14 +98,14 @@ public class EventSubResourceV1 {
     }
 
     /**
-     * {@code POST  /event-subs/:eventId/subscribe} : Subscribes the logged-in User to the Event.
+     * {@code POST  /event-subs/event/:eventId/subscribe} : Subscribes the logged-in User to the Event.
      * The Event should not be private.
      *
      * @param eventId the id of the event.
      * @param request the request.
      * @return the {@link ResponseEntity} with status {@code 201 (CREATED)} and the {@link EventSubDTO} in body.
      */
-    @PostMapping("/event-subs/{eventId}/subscribe")
+    @PostMapping("/event-subs/event/{eventId}/subscribe")
     public ResponseEntity<EventSubDTO> subscribeUserByEventId(@PathVariable(value = "eventId") Long eventId, HttpServletRequest request)
         throws URISyntaxException {
         String userLogin = request.getRemoteUser();
@@ -121,13 +121,13 @@ public class EventSubResourceV1 {
     }
 
     /**
-     * {@code DELETE  /event-subs/:eventId/unsubscribe} : Unsubscribes the logged-in User from the Event.
+     * {@code DELETE  /event-subs/event/:eventId/unsubscribe} : Unsubscribes the logged-in User from the Event.
      *
      * @param eventId the id of the event.
      * @param request the request.
      * @return the empty body with status {@code 200 (Ok)}.
      */
-    @DeleteMapping("/event-subs/{eventId}/unsubscribe")
+    @DeleteMapping("/event-subs/event/{eventId}/unsubscribe")
     public ResponseEntity<Void> unsubscribeUserByEventId(@PathVariable(value = "eventId") Long eventId, HttpServletRequest request) {
         String userLogin = request.getRemoteUser();
 
@@ -139,14 +139,14 @@ public class EventSubResourceV1 {
     }
 
     /**
-     * {@code POST  /event-subs/:eventId/app-user/:appUserId/invite} : Invites the user to an event owned by the logged-in User.
+     * {@code POST  /event-subs/event/:eventId/app-user/:appUserId/invite} : Invites the user to an event owned by the logged-in User.
      *
      * @param eventId the id of the event.
      * @param appUserId the id of the appUser.
      * @param request the request.
      * @return the {@link ResponseEntity} with status {@code 201 (CREATED)} and the {@link EventSubDTO} in body.
      */
-    @PostMapping("/event-subs/{eventId}/app-user/{appUserId}/invite")
+    @PostMapping("/event-subs/event/{eventId}/app-user/{appUserId}/invite")
     public ResponseEntity<EventSubDTO> inviteUserByEventIdAndAppUserId(
         @PathVariable(value = "eventId") Long eventId,
         @PathVariable(value = "appUserId") Long appUserId,
