@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IEventDetail } from '../../models/event-detail.model';
 import { EventsService } from '../../services/events.service';
+import { EventSubsService } from '../../services/event-subs.service';
 
 @Component({
   selector: 'app-my-events-pending-list',
@@ -12,9 +13,13 @@ export class MyEventsPendingListComponent implements OnInit {
   afterNowEvents!: IEventDetail[];
   beforeNowEvents!: IEventDetail[];
 
-  constructor(private eventsService: EventsService) {}
+  constructor(private eventsService: EventsService, private eventSubsService: EventSubsService) {}
 
   ngOnInit(): void {
+    this.initEvents();
+  }
+
+  initEvents(): void {
     this.eventsService.getAllEventDetailsPendingByUserLoggedIn().subscribe(pendingEvents => {
       this.pendingEvents = pendingEvents;
       this.extractAfterNowEvents();
@@ -28,5 +33,13 @@ export class MyEventsPendingListComponent implements OnInit {
 
   extractBeforeNowEvents(): void {
     this.beforeNowEvents = this.pendingEvents.filter(event => event.meetingDate.isBefore(Date.now())).reverse();
+  }
+
+  onAcceptInvite(eventId: number): void {
+    this.eventSubsService.acceptInviteByEventId(eventId).subscribe(() => this.initEvents());
+  }
+
+  onRefuseInvite(eventId: number): void {
+    this.eventSubsService.refuseInviteByEventId(eventId).subscribe(() => this.initEvents());
   }
 }

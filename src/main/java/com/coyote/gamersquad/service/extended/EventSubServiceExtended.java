@@ -244,6 +244,14 @@ public class EventSubServiceExtended extends EventSubService {
         eventSubRepository.unsubscribeUserByEventId(appUser, event);
     }
 
+    /**
+     * Invites the user to an event owned by the logged-in User.
+     *
+     * @param eventId the id of the event.
+     * @param appUserId the id of the appUser to invite.
+     * @param userLogin the login of the user owning the event.
+     * @return the created {@link EventSubDTO}.
+     */
     public EventSubDTO inviteUserByEventIdAndAppUserId(Long eventId, Long appUserId, String userLogin) {
         log.debug("Request to inviteUser by eventId : {} and appUserId : {} from User : {}", eventId, appUserId, userLogin);
 
@@ -305,5 +313,106 @@ public class EventSubServiceExtended extends EventSubService {
         eventSub.id(null).isAccepted(false).event(event).appUser(appUserToInvite);
 
         return eventSubMapper.toDto(eventSubRepository.save(eventSub));
+    }
+
+    /**
+     * Accepts the invitation for the logged-in User to the Event.
+     *
+     * @param eventId the id of the event.
+     * @param userLogin the login of the user.
+     * @return the updated {@link EventSubDTO}
+     */
+    public EventSubDTO acceptInviteByEventIdAndUserLogin(Long eventId, String userLogin) {
+        log.debug("Request to acceptInvite by eventId : {} for User : {}", eventId, userLogin);
+
+        // Check if the appUser exists
+        AppUser appUser = appUserRepository
+            .getAppUserByInternalUser_Login(userLogin)
+            .orElseThrow(() -> new EntityNotFoundException("AppUser owner not found for login : " + userLogin));
+
+        // Check if the event exists
+        Event event = eventRepository
+            .findById(eventId)
+            .orElseThrow(() -> new EntityNotFoundException("Event not found with id : " + eventId));
+
+        // Check if the appUser received an invitation to the event
+        EventSub eventSub = eventSubRepository
+            .getEventSubByAppUserAndEvent(appUser, event)
+            .orElseThrow(() ->
+                new AccessDeniedException(
+                    "A user cannot accept invitation if he did not receive one" +
+                    " [UserLogin=" +
+                    appUser.getInternalUser().getLogin() +
+                    ", EventId=" +
+                    eventId +
+                    "]"
+                )
+            );
+
+        // Check if the appUser has already accepted the invitation
+        if (eventSub.getIsAccepted()) {
+            throw new AccessDeniedException(
+                "A user cannot accept an invitation which is already accepted" +
+                " [UserLogin=" +
+                appUser.getInternalUser().getLogin() +
+                ", EventId=" +
+                eventId +
+                "]"
+            );
+        }
+
+        // Update the eventSub to accepted
+        eventSub.setIsAccepted(true);
+
+        return eventSubMapper.toDto(eventSubRepository.save(eventSub));
+    }
+
+    /**
+     * Refuses the invitation for the logged-in User to the Event.
+     *
+     * @param eventId the id of the event.
+     * @param userLogin the login of the user.
+     */
+    public void refuseInviteByEventIdAndUserLogin(Long eventId, String userLogin) {
+        log.debug("Request to refuseInvite by eventId : {} for User : {}", eventId, userLogin);
+
+        // Check if the appUser exists
+        AppUser appUser = appUserRepository
+            .getAppUserByInternalUser_Login(userLogin)
+            .orElseThrow(() -> new EntityNotFoundException("AppUser owner not found for login : " + userLogin));
+
+        // Check if the event exists
+        Event event = eventRepository
+            .findById(eventId)
+            .orElseThrow(() -> new EntityNotFoundException("Event not found with id : " + eventId));
+
+        // Check if the appUser received an invitation to the event
+        EventSub eventSub = eventSubRepository
+            .getEventSubByAppUserAndEvent(appUser, event)
+            .orElseThrow(() ->
+                new AccessDeniedException(
+                    "A user cannot refuse invitation if he did not receive one" +
+                    " [UserLogin=" +
+                    appUser.getInternalUser().getLogin() +
+                    ", EventId=" +
+                    eventId +
+                    "]"
+                )
+            );
+
+        // Check if the appUser has already accepted the invitation
+        if (eventSub.getIsAccepted()) {
+            throw new AccessDeniedException(
+                "A user cannot refuse an invitation which is already accepted" +
+                " [UserLogin=" +
+                appUser.getInternalUser().getLogin() +
+                ", EventId=" +
+                eventId +
+                "]"
+            );
+        }
+
+        // Delete the refused eventSub
+        eventSubRepository.delete(eventSub);
     }
 }

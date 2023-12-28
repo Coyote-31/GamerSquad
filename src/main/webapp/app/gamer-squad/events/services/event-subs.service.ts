@@ -35,4 +35,12 @@ export class EventSubsService {
   inviteUserByEventIdAndAppUserId(eventId: number, appUserId: number): Observable<IEventSub> {
     return this.http.post<IEventSub>(`${this.resourceUrl}/event/${eventId}/app-user/${appUserId}/invite`, {});
   }
+
+  acceptInviteByEventId(eventId: number): Observable<IEventSub> {
+    return this.http.patch<IEventSub>(`${this.resourceUrl}/event/${eventId}/accept-invite`, {});
+  }
+
+  refuseInviteByEventId(eventId: number): Observable<HttpResponse<{}>> {
+    return this.http.delete(`${this.resourceUrl}/event/${eventId}/refuse-invite`, { observe: 'response' });
+  }
 }

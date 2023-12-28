@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IEventDetail } from '../../models/event-detail.model';
 
 @Component({
@@ -8,4 +8,15 @@ import { IEventDetail } from '../../models/event-detail.model';
 })
 export class MyEventsPendingListItemComponent {
   @Input() event!: IEventDetail;
+
+  @Output() acceptInviteEvent = new EventEmitter<number>();
+  @Output() refuseInviteEvent = new EventEmitter<number>();
+
+  onAcceptInvite(): void {
+    this.acceptInviteEvent.emit(this.event.id);
+  }
+
+  onRefuseInvite(): void {
+    this.refuseInviteEvent.emit(this.event.id);
+  }
 }

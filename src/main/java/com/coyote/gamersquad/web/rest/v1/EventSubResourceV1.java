@@ -163,4 +163,40 @@ public class EventSubResourceV1 {
             .headers(HeaderUtil.createAlert(applicationName, "Invitation à l'évènement envoyée", ""))
             .body(result);
     }
+
+    /**
+     * {@code PATCH  /event-subs/event/:eventId/accept-invite} : Accepts the invitation for the logged-in User to the Event.
+     *
+     * @param eventId the id of the event.
+     * @param request the request.
+     * @return the {@link ResponseEntity} with status {@code 200 (Ok)} and the updated {@link EventSubDTO} in body.
+     */
+    @PatchMapping("/event-subs/event/{eventId}/accept-invite")
+    public ResponseEntity<EventSubDTO> acceptInviteByEventId(@PathVariable(value = "eventId") Long eventId, HttpServletRequest request) {
+        String userLogin = request.getRemoteUser();
+
+        log.debug("REST request to acceptInvite by eventId : {} for User : {}", eventId, userLogin);
+
+        EventSubDTO result = eventSubService.acceptInviteByEventIdAndUserLogin(eventId, userLogin);
+
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert(applicationName, "Invitation à l'évènement acceptée", "")).body(result);
+    }
+
+    /**
+     * {@code DELETE  /event-subs/event/:eventId/refuse-invite} : Refuses the invitation for the logged-in User to the Event.
+     *
+     * @param eventId the id of the event.
+     * @param request the request.
+     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
+     */
+    @DeleteMapping("/event-subs/event/{eventId}/refuse-invite")
+    public ResponseEntity<Void> refuseInviteByEventId(@PathVariable(value = "eventId") Long eventId, HttpServletRequest request) {
+        String userLogin = request.getRemoteUser();
+
+        log.debug("REST request to refuseInvite by eventId : {} for User : {}", eventId, userLogin);
+
+        eventSubService.refuseInviteByEventIdAndUserLogin(eventId, userLogin);
+
+        return ResponseEntity.noContent().headers(HeaderUtil.createAlert(applicationName, "Invitation à l'évènement refusée", "")).build();
+    }
 }
