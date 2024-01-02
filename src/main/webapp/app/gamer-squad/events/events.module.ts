@@ -20,6 +20,7 @@ import { EventSubsService } from './services/event-subs.service';
 import { EventsInviteModalComponent } from './components/events-invite-modal/events-invite-modal.component';
 import { EventsInviteFriendsListComponent } from './components/events-invite-friends-list/events-invite-friends-list.component';
 import { EventsInviteFriendsListItemComponent } from './components/events-invite-friends-list-item/events-invite-friends-list-item.component';
+import { EventsPlayersDeleteModalComponent } from './components/events-players-delete-modal/events-players-delete-modal.component';
 
 @NgModule({
   imports: [SharedModule, EventsRoutingModule],
@@ -39,6 +40,7 @@ import { EventsInviteFriendsListItemComponent } from './components/events-invite
     EventsInviteModalComponent,
     EventsInviteFriendsListComponent,
     EventsInviteFriendsListItemComponent,
+    EventsPlayersDeleteModalComponent,
   ],
   providers: [EventsService, EventSubsService, GamesService],
 })

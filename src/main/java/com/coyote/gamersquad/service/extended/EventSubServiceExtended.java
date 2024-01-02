@@ -415,4 +415,55 @@ public class EventSubServiceExtended extends EventSubService {
         // Delete the refused eventSub
         eventSubRepository.delete(eventSub);
     }
+
+    /**
+     * Deletes the subscription of the appUser from the Event.
+     * The logged-in user have to be the owner of the event.
+     *
+     * @param appUserId the id of the appUser to delete.
+     * @param eventId the id of the event.
+     * @param userLogin the login of the user owning the event.
+     */
+    public void deleteEventSubFromOwner(Long appUserId, Long eventId, String userLogin) {
+        log.debug("Request to deleteEventSub from Owner : {} by eventId : {} and appUserId : {}", userLogin, eventId, appUserId);
+
+        // Check if the logged-in appUser owning the event exists
+        AppUser appUserOwner = appUserRepository
+            .getAppUserByInternalUser_Login(userLogin)
+            .orElseThrow(() -> new EntityNotFoundException("AppUser owner not found for login : " + userLogin));
+
+        // Check if the event exists
+        Event event = eventRepository
+            .findById(eventId)
+            .orElseThrow(() -> new EntityNotFoundException("Event not found with id : " + eventId));
+
+        // Check if the appUserOwner owned the event
+        if (!event.getOwner().equals(appUserOwner)) {
+            throw new AccessDeniedException(
+                "A user cannot delete players from an event not owned by him" +
+                " [UserLogin=" +
+                appUserOwner.getInternalUser().getLogin() +
+                ", EventId=" +
+                eventId +
+                "]"
+            );
+        }
+
+        // Check if the appUser to delete exists
+        AppUser appUserToDelete = appUserRepository
+            .findById(appUserId)
+            .orElseThrow(() -> new EntityNotFoundException("AppUser to delete not found with id : " + appUserId));
+
+        // Check if the appUser to delete is subscribed to the event (eventSub exist)
+        EventSub eventSubToDelete = eventSubRepository
+            .getEventSubByAppUserAndEvent(appUserToDelete, event)
+            .orElseThrow(() ->
+                new EntityNotFoundException(
+                    "EventSub to delete not found" + " for appUserId : " + appUserToDelete.getId() + " and eventId : " + event.getId()
+                )
+            );
+
+        // Delete the eventSub
+        eventSubRepository.delete(eventSubToDelete);
+    }
 }

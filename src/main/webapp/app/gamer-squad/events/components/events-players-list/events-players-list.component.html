@@ -1,4 +1,10 @@
 <div class="container">
   <h2>Joueurs :</h2>
-  <app-events-players-list-item *ngFor="let player of players" [player]="player"> </app-events-players-list-item>
+  <app-events-players-list-item
+    *ngFor="let player of players"
+    [player]="player"
+    [isUserLoggedInOwner]="isUserLoggedInOwner"
+    (deletePlayerEvent)="onDeletePlayer($event)"
+  >
+  </app-events-players-list-item>
 </div>

@@ -199,4 +199,31 @@ public class EventSubResourceV1 {
 
         return ResponseEntity.noContent().headers(HeaderUtil.createAlert(applicationName, "Invitation à l'évènement refusée", "")).build();
     }
+
+    /**
+     * {@code DELETE  /event-subs/event/:eventId/app-user/:appUserId/delete} : Deletes the subscription of the appUser from the Event.
+     * The logged-in user have to be the owner of the event.
+     *
+     * @param eventId the id of the event.
+     * @param appUserId the id of the appUser to delete.
+     * @param request the request.
+     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
+     */
+    @DeleteMapping("/event-subs/event/{eventId}/app-user/{appUserId}/delete")
+    public ResponseEntity<Void> deleteEventSubFromOwner(
+        @PathVariable(value = "eventId") Long eventId,
+        @PathVariable(value = "appUserId") Long appUserId,
+        HttpServletRequest request
+    ) {
+        String userLogin = request.getRemoteUser();
+
+        log.debug("REST request to deleteEventSub from Owner : {} by eventId : {} and appUserId : {}", userLogin, eventId, appUserId);
+
+        eventSubService.deleteEventSubFromOwner(appUserId, eventId, userLogin);
+
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createAlert(applicationName, "Le joueur a été supprimé de l'évènement", ""))
+            .build();
+    }
 }

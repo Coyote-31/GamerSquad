@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IEventPlayer } from '../../models/event-player.model';
 
 @Component({
@@ -8,4 +8,11 @@ import { IEventPlayer } from '../../models/event-player.model';
 })
 export class EventsPlayersListComponent {
   @Input() players!: IEventPlayer[];
+  @Input() isUserLoggedInOwner!: boolean;
+
+  @Output() deletePlayerEvent = new EventEmitter<number>();
+
+  onDeletePlayer(appUserId: number): void {
+    this.deletePlayerEvent.emit(appUserId);
+  }
 }

@@ -19,6 +19,7 @@ export class EventsDetailComponent implements OnInit {
   event!: IEventDetail;
 
   userLogin!: string;
+  isUserLoggedInOwner!: boolean;
   isAlreadySub!: boolean;
 
   players!: IEventPlayer[];
@@ -41,6 +42,7 @@ export class EventsDetailComponent implements OnInit {
       this.accountService.identity().subscribe(account => (this.userLogin = account!.login));
       this.eventSubsService.isAlreadySubscribedByEventId(this.eventId).subscribe(isAlreadySub => (this.isAlreadySub = isAlreadySub));
       this.eventSubsService.getAllEventPlayersByEventId(this.eventId).subscribe(players => (this.players = players));
+      this.isUserLoggedInOwner = this.userLogin === this.event.ownerLogin;
     });
   }
 
@@ -72,6 +74,12 @@ export class EventsDetailComponent implements OnInit {
       this.eventSubsService
         .getAllFriendsForInviteByEventId(this.eventId)
         .subscribe(friends => (this.modalRef.componentInstance.friends = friends));
+    });
+  }
+
+  onDeletePlayer(appUserId: number): void {
+    this.eventSubsService.deleteEventSubFromOwner(this.eventId, appUserId).subscribe(() => {
+      this.eventSubsService.getAllEventPlayersByEventId(this.eventId).subscribe(players => (this.players = players));
     });
   }
 }

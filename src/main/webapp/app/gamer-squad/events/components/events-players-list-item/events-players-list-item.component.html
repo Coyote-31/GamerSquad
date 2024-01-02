@@ -21,5 +21,15 @@
     <div *ngIf="!player.accepted" class="col-auto my-1" data-gs-tooltip="En attente de confirmation">
       <fa-icon class="text-warning" icon="user-clock"></fa-icon>
     </div>
+
+    <!-- Button Delete -->
+    <button
+      *ngIf="isUserLoggedInOwner"
+      class="btn btn-danger text-white btn-sm col-auto me-1"
+      data-gs-tooltip="Supprimer le joueur"
+      (click)="onDeletePlayer()"
+    >
+      <fa-icon icon="user-slash"></fa-icon>
+    </button>
   </div>
 </div>

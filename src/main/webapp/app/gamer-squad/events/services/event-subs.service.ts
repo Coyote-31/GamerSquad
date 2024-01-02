@@ -43,4 +43,8 @@ export class EventSubsService {
   refuseInviteByEventId(eventId: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/event/${eventId}/refuse-invite`, { observe: 'response' });
   }
+
+  deleteEventSubFromOwner(eventId: number, appUserId: number): Observable<HttpResponse<{}>> {
+    return this.http.delete(`${this.resourceUrl}/event/${eventId}/app-user/${appUserId}/delete`, { observe: 'response' });
+  }
 }
