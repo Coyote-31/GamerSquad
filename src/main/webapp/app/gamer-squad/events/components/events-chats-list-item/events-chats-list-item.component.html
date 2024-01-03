@@ -1,0 +1,13 @@
+<div class="card my-2" [ngClass]="isSender ? 'sender' : 'receiver'">
+  <div class="card-header">
+    <small class="text-muted">
+      <span *ngIf="isSender">Vous : </span>
+      <span *ngIf="!isSender">{{ eventPlayerChat.senderUserLogin | titlecase }} : </span>
+      {{ eventPlayerChat.eventChatSendAt | gsDatetimeChat }}
+      <!--        GSTest : {{ dayjs('12/12/2023 10:55:00', 'DD/MM/YYYY HH:mm:ss') | gsDatetimeChat }}-->
+    </small>
+  </div>
+  <div class="card-body">
+    {{ eventPlayerChat.eventChatMessage }}
+  </div>
+</div>

@@ -52,7 +52,7 @@ export class FriendChatsListComponent implements OnInit, AfterViewChecked, OnDes
             .pipe(tap(playerChats => (this.playerChats = playerChats)))
         )
       )
-      .subscribe(() => this.playerChats);
+      .subscribe();
   }
 
   ngAfterViewChecked(): void {

@@ -1,0 +1,38 @@
+<div class="events-chats-container">
+  <div class="card card-form text-bg-light">
+    <form class="form" role="form" (ngSubmit)="OnNewMessage()" [formGroup]="eventMessageForm">
+      <div class="card-header">
+        <label for="message">Envoyer un message :</label>
+      </div>
+
+      <div class="card-body">
+        <textarea class="form-control" type="text" name="message" id="message" formControlName="message" placeholder="Votre message...">
+        </textarea>
+
+        <small class="form-text text-danger" *ngIf="eventMessageForm.get('message')?.errors?.maxlength">
+          Votre message ne doit pas comporter plus de 512 caractères.
+        </small>
+      </div>
+
+      <div class="card-footer text-end">
+        <button type="submit" [disabled]="eventMessageForm.invalid" class="btn btn-primary">Envoyer</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="messages-container">
+    <ng-container *ngIf="eventPlayerChats">
+      <ng-container *ngIf="eventPlayerChats.length !== 0; else noContent">
+        <ng-container *ngFor="let eventPlayerChat of eventPlayerChats">
+          <app-events-chats-list-item [eventPlayerChat]="eventPlayerChat"> </app-events-chats-list-item>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+
+    <ng-template #noContent>
+      <div class="card text-center">
+        <div class="card-body">Aucun messages</div>
+      </div>
+    </ng-template>
+  </div>
+</div>

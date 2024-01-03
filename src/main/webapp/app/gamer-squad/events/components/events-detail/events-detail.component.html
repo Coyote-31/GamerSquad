@@ -66,5 +66,7 @@
 
     <app-events-players-list [players]="players" [isUserLoggedInOwner]="isUserLoggedInOwner" (deletePlayerEvent)="onDeletePlayer($event)">
     </app-events-players-list>
+
+    <app-events-chats-list [eventId]="eventId"> </app-events-chats-list>
   </ng-container>
 </div>

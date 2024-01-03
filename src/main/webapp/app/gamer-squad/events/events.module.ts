@@ -21,6 +21,9 @@ import { EventsInviteModalComponent } from './components/events-invite-modal/eve
 import { EventsInviteFriendsListComponent } from './components/events-invite-friends-list/events-invite-friends-list.component';
 import { EventsInviteFriendsListItemComponent } from './components/events-invite-friends-list-item/events-invite-friends-list-item.component';
 import { EventsPlayersDeleteModalComponent } from './components/events-players-delete-modal/events-players-delete-modal.component';
+import { EventChatsService } from './services/event-chats.service';
+import { EventsChatsListComponent } from './components/events-chats-list/events-chats-list.component';
+import { EventsChatsListItemComponent } from './components/events-chats-list-item/events-chats-list-item.component';
 
 @NgModule({
   imports: [SharedModule, EventsRoutingModule],
@@ -41,7 +44,9 @@ import { EventsPlayersDeleteModalComponent } from './components/events-players-d
     EventsInviteFriendsListComponent,
     EventsInviteFriendsListItemComponent,
     EventsPlayersDeleteModalComponent,
+    EventsChatsListComponent,
+    EventsChatsListItemComponent,
   ],
-  providers: [EventsService, EventSubsService, GamesService],
+  providers: [EventsService, EventSubsService, GamesService, EventChatsService],
 })
 export class EventsModule {}
