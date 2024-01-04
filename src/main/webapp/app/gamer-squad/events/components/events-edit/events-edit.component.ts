@@ -56,4 +56,8 @@ export class EventsEditComponent implements OnInit {
       this.router.navigate(['events', event.id]);
     });
   }
+
+  cancel(): void {
+    this.router.navigate(['events', this.event.id]);
+  }
 }
