@@ -1,11 +1,11 @@
 id;message;send_at;friendship_id;sender_id
-1;Fantastic Mexican;2023-11-20T20:54:01;1;1
-2;enhance panel;2023-11-21T01:13:01;2;2
-3;generate Kids;2023-11-21T12:39:16;3;2
-4;deposit;2023-11-21T13:47:48;4;2
-5;even-keeled interface;2023-11-21T05:39:20;5;1
-6;Swiss;2023-11-21T03:58:42;6;2
-7;revolutionary multi-state;2023-11-21T00:41:15;7;1
-8;Steel;2023-11-21T18:05:17;8;2
-9;Investment generating;2023-11-21T10:58:34;9;1
-10;Corse;2023-11-21T13:21:49;10;1
+1;Salut Hélène !;2023-11-20 20:54:01.000000;9;14
+2;Coucou Daniel tu vas bien ?;2023-11-21 01:13:01.000000;9;18
+3;Bonjour je suis Ivan.;2023-11-21 02:39:16.000000;10;19
+4;Hello Ivan on est ami maintenant !;2023-11-21 03:47:48.000000;10;14
+5;Oui j'ai accepté ta demande =);2023-11-21 04:39:20.000000;10;19
+6;Vu qu'on est ami on peut discuter tranquillement ca fait plaisir ! Surtout qu'on jou au même jeu donc ca pourrait être cool qu'on puisse jouer ensemble...;2023-11-21 05:58:42.000000;10;19
+7;Oui carrement j'ai trop envi de faire une bonne petite partie avec toi !;2023-11-21 06:41:15.000000;10;14
+8;Je crée un event privé dans lequel je t'invite ?;2023-11-21 07:05:17.000000;10;14
+9;Non te prends pas la tête je t'inviterais directement in-game vendredi soir ca te va ?;2023-11-21 08:58:34.000000;10;19
+10;C'est parfait à vendredi soir alors je serais dispo vers 20h ! =);2023-11-21 09:21:49.000000;10;14

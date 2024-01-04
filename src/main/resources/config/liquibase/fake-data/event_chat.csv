@@ -1,11 +1,11 @@
 id;message;send_at;event_id;app_user_id
-1;input;2023-11-20T22:05:22;1;1
-2;navigate c Kwacha;2023-11-21T11:54:15;2;2
-3;synergize;2023-11-21T09:33:49;3;1
-4;du compress reinvent;2023-11-21T04:07:37;4;2
-5;primary invoice;2023-11-21T15:45:59;5;2
-6;Rustic;2023-11-21T10:43:35;6;1
-7;bus Rhône-Alpes a;2023-11-21T13:24:58;7;2
-8;integrated;2023-11-21T16:58:19;8;1
-9;matrices Bedfordshire;2023-11-21T11:47:08;9;1
-10;navigate;2023-11-20T20:53:30;10;1
+1;Bonjour à tous ! Dites-moi si vous êtes indisponible en avance SVP.;2023-11-20 22:05:22.000000;7;14
+2;Coucou ! Perso je suis dispo à 100% ce jour là.;2023-11-21 11:54:15.000000;7;12
+3;Pour moi je te le dirai en avance si je ne suis plus disponible.;2023-11-22 09:33:49.000000;7;19
+4;Ok super, je commence à mettre ca en place.;2023-11-23 04:07:37.000000;7;14
+5;Hello tout le monde ! Je gère cet évènement. Donc si vous avez des questions pas de problème.;2023-11-24 15:45:59.000000;8;14
+6;Je me demandais si la date est bonne pour l'évènement ?;2023-11-25 10:43:35.000000;8;12
+7;Oui je pense que c'est bon mais faut voir la réponse du chef.;2023-11-26 13:24:58.000000;8;19
+8;Tout à fait c'est correct ! Ca nous laisse du temps pour nous préparer.;2023-11-27 16:58:19.000000;8;14
+9;Salut ! Le chat est privé donc on peut partager sans problèmes.;2023-11-28 11:47:08.000000;9;14
+10;D'accord je me posais justement la question. Je t'envois les liens dès que possible.;2023-11-29 20:53:30.000000;9;19
