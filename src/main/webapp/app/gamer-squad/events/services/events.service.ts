@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { ApplicationConfigService } from '../../../core/config/application-config.service';
 import { Observable } from 'rxjs';
 import { IEventDetail } from '../models/event-detail.model';
@@ -57,5 +57,9 @@ export class EventsService {
 
   updateEvent(event: IEventEdit, eventId: number): Observable<IEventDetail> {
     return this.http.put<IEventDetail>(`${this.resourceUrl}/${eventId}/update`, event);
+  }
+
+  deleteEventByIdFromOwner(eventId: number): Observable<HttpResponse<void>> {
+    return this.http.delete<void>(`${this.resourceUrl}/${eventId}/delete`, { observe: 'response' });
   }
 }

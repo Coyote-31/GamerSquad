@@ -24,6 +24,7 @@ import { EventsPlayersDeleteModalComponent } from './components/events-players-d
 import { EventChatsService } from './services/event-chats.service';
 import { EventsChatsListComponent } from './components/events-chats-list/events-chats-list.component';
 import { EventsChatsListItemComponent } from './components/events-chats-list-item/events-chats-list-item.component';
+import { EventsDeleteModalComponent } from './components/events-delete-modal/events-delete-modal.component';
 
 @NgModule({
   imports: [SharedModule, EventsRoutingModule],
@@ -46,6 +47,7 @@ import { EventsChatsListItemComponent } from './components/events-chats-list-ite
     EventsPlayersDeleteModalComponent,
     EventsChatsListComponent,
     EventsChatsListItemComponent,
+    EventsDeleteModalComponent,
   ],
   providers: [EventsService, EventSubsService, GamesService, EventChatsService],
 })

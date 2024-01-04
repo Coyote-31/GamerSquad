@@ -73,4 +73,6 @@ public interface EventSubRepositoryExtended extends EventSubRepository {
     @Modifying
     @Query("delete from EventSub eventSub " + "where eventSub.event = :event " + "and eventSub.appUser = :appUser")
     void unsubscribeUserByEventId(@Param("appUser") AppUser appUser, @Param("event") Event event);
+
+    void deleteAllByEvent(Event event);
 }

@@ -3,9 +3,7 @@ package com.coyote.gamersquad.service.extended;
 import com.coyote.gamersquad.domain.AppUser;
 import com.coyote.gamersquad.domain.Event;
 import com.coyote.gamersquad.domain.Game;
-import com.coyote.gamersquad.repository.extended.AppUserRepositoryExtended;
-import com.coyote.gamersquad.repository.extended.EventRepositoryExtended;
-import com.coyote.gamersquad.repository.extended.GameRepositoryExtended;
+import com.coyote.gamersquad.repository.extended.*;
 import com.coyote.gamersquad.service.EventService;
 import com.coyote.gamersquad.service.dto.form.EventCreateDTO;
 import com.coyote.gamersquad.service.dto.projection.EventDetailDTO;
@@ -31,6 +29,10 @@ public class EventServiceExtended extends EventService {
 
     EventSubServiceExtended eventSubService;
 
+    EventSubRepositoryExtended eventSubRepository;
+
+    EventChatRepositoryExtended eventChatRepository;
+
     AppUserRepositoryExtended appUserRepository;
 
     GameRepositoryExtended gameRepository;
@@ -39,12 +41,16 @@ public class EventServiceExtended extends EventService {
         EventRepositoryExtended eventRepository,
         EventMapper eventMapper,
         EventSubServiceExtended eventSubService,
+        EventSubRepositoryExtended eventSubRepository,
+        EventChatRepositoryExtended eventChatRepository,
         AppUserRepositoryExtended appUserRepository,
         GameRepositoryExtended gameRepository
     ) {
         super(eventRepository, eventMapper);
         this.eventRepository = eventRepository;
         this.eventSubService = eventSubService;
+        this.eventSubRepository = eventSubRepository;
+        this.eventChatRepository = eventChatRepository;
         this.appUserRepository = appUserRepository;
         this.gameRepository = gameRepository;
     }
@@ -188,6 +194,14 @@ public class EventServiceExtended extends EventService {
         return eventRepository.getEventDetailByEventId(eventId);
     }
 
+    /**
+     * Updates the Event by id with the User logged-in as owner.
+     *
+     * @param eventForm the form to update the event from.
+     * @param eventId the id of the event.
+     * @param userLogin the login of the user owner.
+     * @return the updated {@link EventDetailDTO}.
+     */
     public EventDetailDTO updateEvent(EventCreateDTO eventForm, Long eventId, String userLogin) {
         log.debug("Request to update the Event by id : {} with owner User : {}", eventId, userLogin);
 
@@ -222,5 +236,42 @@ public class EventServiceExtended extends EventService {
         eventRepository.save(eventUpdated);
 
         return eventRepository.getEventDetailByEventId(eventId);
+    }
+
+    /**
+     * Deletes the event by id.
+     * The logged-in user have to be the owner of the event.
+     *
+     * @param eventId the id of the event.
+     * @param userLogin the login of the user owner.
+     */
+    public void deleteEventByIdFromOwner(Long eventId, String userLogin) {
+        log.debug("Request to deleteEvent by eventId : {} from Owner : {}", eventId, userLogin);
+
+        // Check if AppUser exists
+        AppUser appUser = appUserRepository
+            .getAppUserByInternalUser_Login(userLogin)
+            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+
+        // Check if Event exists
+        Event event = eventRepository
+            .findById(eventId)
+            .orElseThrow(() -> new EntityNotFoundException("Event not found with id : " + eventId));
+
+        // Check if the AppUser is the owner
+        if (!event.getOwner().equals(appUser)) {
+            throw new AccessDeniedException(
+                "Access denied to delete event with id : " + eventId + " because you are not the owner with login : " + userLogin
+            );
+        }
+
+        // Delete EventChats
+        eventChatRepository.deleteAllByEvent(event);
+
+        // Delete EventSubs
+        eventSubRepository.deleteAllByEvent(event);
+
+        // Delete Event
+        eventRepository.delete(event);
     }
 }

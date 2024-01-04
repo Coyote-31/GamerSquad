@@ -29,4 +29,6 @@ public interface EventChatRepositoryExtended extends EventChatRepository {
         "order by eventChat.sendAt desc"
     )
     List<EventPlayerChatDTO> getAllEventPlayerChatsByEvent(@Param("event") Event event);
+
+    void deleteAllByEvent(Event event);
 }

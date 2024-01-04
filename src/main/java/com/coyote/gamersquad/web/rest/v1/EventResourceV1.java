@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tech.jhipster.web.util.HeaderUtil;
 
 /**
  * Api v1 : REST controller for managing {@link com.coyote.gamersquad.domain.Event}.
@@ -149,8 +150,7 @@ public class EventResourceV1 {
      * @param eventForm the form to update the event from.
      * @param eventId the id of the event.
      * @param request the request.
-     * @return the {@link ResponseEntity} with status {@code 200 (Ok)} and the updated {@code EventDetailDTO} in the body.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     * @return the {@link ResponseEntity} with status {@code 200 (Ok)} and the updated {@link EventDetailDTO} in the body.
      */
     @PutMapping("/events/{eventId}/update")
     public ResponseEntity<EventDetailDTO> updateEvent(
@@ -165,5 +165,24 @@ public class EventResourceV1 {
         EventDetailDTO result = eventService.updateEvent(eventForm, eventId, userLogin);
 
         return ResponseEntity.ok(result);
+    }
+
+    /**
+     * {@code DELETE  /events/:eventId/delete} : Deletes the event by id.
+     * The logged-in user have to be the owner of the event.
+     *
+     * @param eventId the id of the event.
+     * @param request the request.
+     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
+     */
+    @DeleteMapping("/events/{eventId}/delete")
+    public ResponseEntity<Void> deleteEventByIdFromOwner(@PathVariable(value = "eventId") Long eventId, HttpServletRequest request) {
+        String userLogin = request.getRemoteUser();
+
+        log.debug("REST request to deleteEvent by eventId : {} from Owner : {}", eventId, userLogin);
+
+        eventService.deleteEventByIdFromOwner(eventId, userLogin);
+
+        return ResponseEntity.noContent().headers(HeaderUtil.createAlert(applicationName, "L'évènement a été supprimé", "")).build();
     }
 }

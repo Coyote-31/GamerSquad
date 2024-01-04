@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { IPlayerFriendship } from '../../../models/player-friendship.model';
 
@@ -9,8 +9,6 @@ import { IPlayerFriendship } from '../../../models/player-friendship.model';
 })
 export class FriendsDeleteDialogComponent {
   friend!: IPlayerFriendship;
-
-  @Output() friendshipDemandEvent = new EventEmitter<number>();
 
   constructor(protected activeModal: NgbActiveModal) {}
 

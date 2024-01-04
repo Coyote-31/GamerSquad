@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { IEventDetail } from '../../models/event-detail.model';
 import { EventsService } from '../../services/events.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import dayjs from 'dayjs/esm';
 import { AccountService } from '../../../../core/auth/account.service';
 import { EventSubsService } from '../../services/event-subs.service';
 import { IEventPlayer } from '../../models/event-player.model';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { EventsInviteModalComponent } from '../events-invite-modal/events-invite-modal.component';
+import { EventsDeleteModalComponent } from '../events-delete-modal/events-delete-modal.component';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-events-detail',
@@ -24,10 +26,11 @@ export class EventsDetailComponent implements OnInit {
 
   players!: IEventPlayer[];
 
-  modalRef!: NgbModalRef;
+  inviteFriendsModalRef!: NgbModalRef;
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private accountService: AccountService,
     private eventsService: EventsService,
     private eventSubsService: EventSubsService,
@@ -61,11 +64,11 @@ export class EventsDetailComponent implements OnInit {
   }
 
   onInviteFriendsModal(): void {
-    this.modalRef = this.modalService.open(EventsInviteModalComponent, { backdrop: 'static', centered: true, size: 'lg' });
+    this.inviteFriendsModalRef = this.modalService.open(EventsInviteModalComponent, { backdrop: 'static', centered: true, size: 'lg' });
     this.eventSubsService
       .getAllFriendsForInviteByEventId(this.eventId)
-      .subscribe(friends => (this.modalRef.componentInstance.friends = friends));
-    this.modalRef.componentInstance.inviteEvent.subscribe((appUserId: number) => this.inviteFriend(this.eventId, appUserId));
+      .subscribe(friends => (this.inviteFriendsModalRef.componentInstance.friends = friends));
+    this.inviteFriendsModalRef.componentInstance.inviteEvent.subscribe((appUserId: number) => this.inviteFriend(this.eventId, appUserId));
   }
 
   inviteFriend(eventId: number, appUserId: number): void {
@@ -73,7 +76,7 @@ export class EventsDetailComponent implements OnInit {
       this.eventSubsService.getAllEventPlayersByEventId(this.eventId).subscribe(players => (this.players = players));
       this.eventSubsService
         .getAllFriendsForInviteByEventId(this.eventId)
-        .subscribe(friends => (this.modalRef.componentInstance.friends = friends));
+        .subscribe(friends => (this.inviteFriendsModalRef.componentInstance.friends = friends));
     });
   }
 
@@ -81,5 +84,20 @@ export class EventsDetailComponent implements OnInit {
     this.eventSubsService.deleteEventSubFromOwner(this.eventId, appUserId).subscribe(() => {
       this.eventSubsService.getAllEventPlayersByEventId(this.eventId).subscribe(players => (this.players = players));
     });
+  }
+
+  onDeleteEventModal(): void {
+    const deleteEventModalRef = this.modalService.open(EventsDeleteModalComponent, {
+      backdrop: 'static',
+      centered: true,
+      windowClass: 'gs-modal',
+    });
+    deleteEventModalRef.closed
+      .pipe(switchMap(() => this.eventsService.deleteEventByIdFromOwner(this.eventId)))
+      .subscribe({ next: () => this.navigateToMyEvents() });
+  }
+
+  navigateToMyEvents(): void {
+    this.router.navigate(['/events', 'my-events']);
   }
 }
