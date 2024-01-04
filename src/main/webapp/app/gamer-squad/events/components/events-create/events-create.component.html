@@ -48,29 +48,27 @@
 
     <hr />
 
-    <div class="row mb-3">
-      <label class="form-label" for="meetingDate">Date et heure de début</label>
-      <div class="d-flex">
-        <input
-          id="meetingDate"
-          type="datetime-local"
-          class="form-control"
-          name="meetingDate"
-          formControlName="meetingDate"
-          placeholder="YYYY-MM-DD HH:mm"
-        />
-      </div>
+    <label class="form-label" for="meetingDate">Date et heure de début</label>
 
-      <div *ngIf="eventForm.get('meetingDate')!.invalid && (eventForm.get('meetingDate')!.dirty || eventForm.get('meetingDate')!.touched)">
-        <small class="form-text text-danger" *ngIf="eventForm.get('meetingDate')?.errors?.required"> Ce champ est obligatoire. </small>
-        <small class="form-text text-danger" [hidden]="!eventForm.get('meetingDate')?.errors?.datetimelocal">
-          Ce champ doit être une date et une heure.
-        </small>
-      </div>
+    <input
+      id="meetingDate"
+      type="datetime-local"
+      class="form-control"
+      name="meetingDate"
+      formControlName="meetingDate"
+      placeholder="YYYY-MM-DD HH:mm"
+    />
+
+    <div *ngIf="eventForm.get('meetingDate')!.invalid && (eventForm.get('meetingDate')!.dirty || eventForm.get('meetingDate')!.touched)">
+      <small class="form-text text-danger" *ngIf="eventForm.get('meetingDate')?.errors?.required"> Ce champ est obligatoire. </small>
+      <small class="form-text text-danger" [hidden]="!eventForm.get('meetingDate')?.errors?.datetimelocal">
+        Ce champ doit être une date et une heure.
+      </small>
     </div>
 
     <hr />
 
     <button class="btn btn-primary" type="submit" [disabled]="eventForm.invalid">Créer</button>
+    <button class="btn btn-danger" type="button" (click)="cancel()">Annuler</button>
   </form>
 </div>

@@ -6,6 +6,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import dayjs from 'dayjs/esm';
 import { IEventCreate } from '../../models/event-create.model';
 import { EventsService } from '../../services/events.service';
+import { DATE_TIME_FORMAT } from '../../../../config/input.constants';
+
+/**
+ * Type that converts some properties for forms.
+ */
+type EventFormRawValue = Omit<IEventCreate, 'meetingDate'> & {
+  meetingDate?: string | null;
+};
 
 @Component({
   selector: 'app-events-create',
@@ -24,7 +32,7 @@ export class EventsCreateComponent implements OnInit {
       nonNullable: true,
       validators: [Validators.maxLength(1024)],
     }),
-    meetingDate: new FormControl(dayjs(), {
+    meetingDate: new FormControl(null, {
       nonNullable: true,
       validators: [Validators.required],
     }),
@@ -46,11 +54,22 @@ export class EventsCreateComponent implements OnInit {
   }
 
   OnSubmit(): void {
-    const eventToCreate: IEventCreate = this.eventForm.getRawValue();
-    eventToCreate.meetingDate = dayjs(eventToCreate.meetingDate);
+    const rawEventToCreate: EventFormRawValue = this.eventForm.getRawValue();
+    const eventToCreate: IEventCreate = this.convertEventRawToIEventCreate(rawEventToCreate);
 
     this.eventsService.createEvent(eventToCreate, this.game.id).subscribe(event => {
       this.router.navigate(['events', event.id]);
     });
+  }
+
+  convertEventRawToIEventCreate(rawEvent: EventFormRawValue): IEventCreate {
+    return {
+      ...rawEvent,
+      meetingDate: dayjs(rawEvent.meetingDate, DATE_TIME_FORMAT),
+    };
+  }
+
+  cancel(): void {
+    this.router.navigate(['games', this.game.id]);
   }
 }
