@@ -1,17 +1,33 @@
-<h2>À venir</h2>
-<app-my-events-pending-list-item
-  *ngFor="let event of afterNowEvents"
-  [event]="event"
-  (acceptInviteEvent)="onAcceptInvite($event)"
-  (refuseInviteEvent)="onRefuseInvite($event)"
->
-</app-my-events-pending-list-item>
+<div class="container">
+  <h2>À venir</h2>
 
-<h2>Passés</h2>
-<app-my-events-pending-list-item
-  *ngFor="let event of beforeNowEvents"
-  [event]="event"
-  (acceptInviteEvent)="onAcceptInvite($event)"
-  (refuseInviteEvent)="onRefuseInvite($event)"
->
-</app-my-events-pending-list-item>
+  <app-my-events-pending-list-item
+    *ngFor="let event of afterNowEvents"
+    [event]="event"
+    (acceptInviteEvent)="onAcceptInvite($event)"
+    (refuseInviteEvent)="onRefuseInvite($event)"
+  >
+  </app-my-events-pending-list-item>
+
+  <div *ngIf="!afterNowEvents || afterNowEvents.length === 0" class="d-flex justify-content-center my-3">
+    <div class="alert alert-warning m-0">
+      <span>Aucun évènement à venir</span>
+    </div>
+  </div>
+
+  <h2>Passés</h2>
+
+  <app-my-events-pending-list-item
+    *ngFor="let event of beforeNowEvents"
+    [event]="event"
+    (acceptInviteEvent)="onAcceptInvite($event)"
+    (refuseInviteEvent)="onRefuseInvite($event)"
+  >
+  </app-my-events-pending-list-item>
+
+  <div *ngIf="!beforeNowEvents || beforeNowEvents.length === 0" class="d-flex justify-content-center my-3">
+    <div class="alert alert-warning m-0">
+      <span>Aucun évènement passé</span>
+    </div>
+  </div>
+</div>
