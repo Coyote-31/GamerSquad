@@ -23,6 +23,7 @@ export class EventsDetailComponent implements OnInit {
   userLogin!: string;
   isUserLoggedInOwner!: boolean;
   isAlreadySub!: boolean;
+  isAlreadyAccepted!: boolean;
 
   players!: IEventPlayer[];
 
@@ -43,23 +44,34 @@ export class EventsDetailComponent implements OnInit {
       this.event = eventDetail;
       this.event.meetingDate = dayjs(this.event.meetingDate);
       this.accountService.identity().subscribe(account => (this.userLogin = account!.login));
-      this.eventSubsService.isAlreadySubscribedByEventId(this.eventId).subscribe(isAlreadySub => (this.isAlreadySub = isAlreadySub));
-      this.eventSubsService.getAllEventPlayersByEventId(this.eventId).subscribe(players => (this.players = players));
+      this.refreshIsAlready();
+      this.refreshPlayers();
       this.isUserLoggedInOwner = this.userLogin === this.event.ownerLogin;
     });
   }
 
+  refreshIsAlready(): void {
+    this.eventSubsService.isAlreadySubscribedByEventId(this.eventId).subscribe(isAlreadySub => (this.isAlreadySub = isAlreadySub));
+    this.eventSubsService
+      .isAlreadyAcceptedByEventId(this.eventId)
+      .subscribe(isAlreadyAccepted => (this.isAlreadyAccepted = isAlreadyAccepted));
+  }
+
+  refreshPlayers(): void {
+    this.eventSubsService.getAllEventPlayersByEventId(this.eventId).subscribe(players => (this.players = players));
+  }
+
   onSubscribe(): void {
     this.eventSubsService.subscribeUserByEventId(this.eventId).subscribe(() => {
-      this.eventSubsService.isAlreadySubscribedByEventId(this.eventId).subscribe(isAlreadySub => (this.isAlreadySub = isAlreadySub));
-      this.eventSubsService.getAllEventPlayersByEventId(this.eventId).subscribe(players => (this.players = players));
+      this.refreshIsAlready();
+      this.refreshPlayers();
     });
   }
 
   onUnsubscribe(): void {
     this.eventSubsService.unsubscribeUserByEventId(this.eventId).subscribe(() => {
-      this.eventSubsService.isAlreadySubscribedByEventId(this.eventId).subscribe(isAlreadySub => (this.isAlreadySub = isAlreadySub));
-      this.eventSubsService.getAllEventPlayersByEventId(this.eventId).subscribe(players => (this.players = players));
+      this.refreshIsAlready();
+      this.refreshPlayers();
     });
   }
 
@@ -73,7 +85,7 @@ export class EventsDetailComponent implements OnInit {
 
   inviteFriend(eventId: number, appUserId: number): void {
     this.eventSubsService.inviteUserByEventIdAndAppUserId(eventId, appUserId).subscribe(() => {
-      this.eventSubsService.getAllEventPlayersByEventId(this.eventId).subscribe(players => (this.players = players));
+      this.refreshPlayers();
       this.eventSubsService
         .getAllFriendsForInviteByEventId(this.eventId)
         .subscribe(friends => (this.inviteFriendsModalRef.componentInstance.friends = friends));
@@ -82,7 +94,7 @@ export class EventsDetailComponent implements OnInit {
 
   onDeletePlayer(appUserId: number): void {
     this.eventSubsService.deleteEventSubFromOwner(this.eventId, appUserId).subscribe(() => {
-      this.eventSubsService.getAllEventPlayersByEventId(this.eventId).subscribe(players => (this.players = players));
+      this.refreshPlayers();
     });
   }
 
@@ -99,5 +111,20 @@ export class EventsDetailComponent implements OnInit {
 
   navigateToMyEvents(): void {
     this.router.navigate(['/events', 'my-events']);
+  }
+
+  navigateToMyEventsPending(): void {
+    this.router.navigate(['/events', 'my-events', 'pending']);
+  }
+
+  onAcceptInvite(): void {
+    this.eventSubsService.acceptInviteByEventId(this.eventId).subscribe(() => {
+      this.refreshIsAlready();
+      this.refreshPlayers();
+    });
+  }
+
+  onRefuseInvite(): void {
+    this.eventSubsService.refuseInviteByEventId(this.eventId).subscribe(() => this.navigateToMyEventsPending());
   }
 }

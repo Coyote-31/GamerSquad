@@ -76,6 +76,24 @@ public class EventSubResourceV1 {
     }
 
     /**
+     * {@code GET /event-subs/event/:eventId/is-accepted} : Is the logged-in user is already accepted to the event.
+     *
+     * @param eventId the id of the event.
+     * @param request the request.
+     * @return If the user is already accepted to this event as {@link Boolean} in the body.
+     */
+    @GetMapping("/event-subs/event/{eventId}/is-accepted")
+    public ResponseEntity<Boolean> isAlreadyAcceptedByEventId(@PathVariable(value = "eventId") Long eventId, HttpServletRequest request) {
+        String userLogin = request.getRemoteUser();
+
+        log.debug("REST request to isAlreadyAccepted by eventId : {} for User : {}", eventId, userLogin);
+
+        boolean result = eventSubService.isAlreadyAcceptedByEventId(eventId, userLogin);
+
+        return ResponseEntity.ok(result);
+    }
+
+    /**
      * {@code GET /event-subs/event/:eventId/event-friends} : Get all logged-in user's friends who can be invited to this event.
      * The owner of the event as to be the logged-in user.
      *

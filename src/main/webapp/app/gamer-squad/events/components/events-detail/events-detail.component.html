@@ -10,10 +10,22 @@
       <div class="col-9">
         <div class="card">
           <div class="card-header">
-            <span class="text-muted">
-              {{ event.meetingDate | gsDatetime }}
-              <small class="align-text-top"> ({{ event.meetingDate | gsDatetimeFromNow }}) </small>
-            </span>
+            <div class="row">
+              <div class="text-muted col">
+                <div class="row align-items-center">
+                  <div class="col-12 col-sm-auto">
+                    {{ event.meetingDate | gsDatetime }}
+                  </div>
+                  <small class="align-text-top col-12 col-sm ps-sm-0"> ({{ event.meetingDate | gsDatetimeFromNow }}) </small>
+                </div>
+              </div>
+              <div *ngIf="event.private" class="col-auto align-self-center" data-gs-tooltip="Évènement privé">
+                <fa-icon icon="lock" class="text-danger"></fa-icon>
+              </div>
+              <div *ngIf="!event.private" class="col-auto align-self-center" data-gs-tooltip="Évènement public">
+                <fa-icon icon="lock-open" class="text-success"></fa-icon>
+              </div>
+            </div>
           </div>
 
           <div class="card-body">
@@ -41,20 +53,43 @@
           </button>
         </div>
 
-        <!-- Button : SUBSCRIBE -->
-        <div class="mt-3 text-center" *ngIf="userLogin !== event.ownerLogin && !isAlreadySub">
-          <a class="btn btn-success text-white" (click)="onSubscribe()">
-            <fa-icon icon="calendar-plus" class="me-1"></fa-icon>
-            S'inscrire
-          </a>
+        <!-- Buttons display for subscribers -->
+        <div *ngIf="userLogin !== event.ownerLogin">
+          <!-- Button : SUBSCRIBE -->
+          <div class="mt-3 text-center" *ngIf="!isAlreadySub">
+            <a class="btn btn-success text-white" (click)="onSubscribe()">
+              <fa-icon icon="calendar-plus" class="me-1"></fa-icon>
+              S'inscrire
+            </a>
+          </div>
+
+          <!-- Button : UNSUBSCRIBE -->
+          <div class="mt-3 text-center" *ngIf="isAlreadyAccepted">
+            <a class="btn btn-danger text-white" (click)="onUnsubscribe()">
+              <fa-icon icon="calendar-xmark" class="me-1"></fa-icon>
+              Se désinscrire
+            </a>
+          </div>
         </div>
 
-        <!-- Button : UNSUBSCRIBE -->
-        <div class="mt-3 text-center" *ngIf="userLogin !== event.ownerLogin && isAlreadySub">
-          <a class="btn btn-danger text-white" (click)="onUnsubscribe()">
-            <fa-icon icon="calendar-xmark" class="me-1"></fa-icon>
-            Se désinscrire
-          </a>
+        <!-- Buttons display for invited -->
+        <div *ngIf="userLogin !== event.ownerLogin && isAlreadySub && !isAlreadyAccepted" class="d-flex justify-content-center mt-3">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">Invitation</h5>
+              <hr />
+
+              <!-- Button : ACCEPT -->
+              <button class="btn btn-success text-white" (click)="onAcceptInvite()">
+                <fa-icon icon="check" class="me-2"></fa-icon>Accepter
+              </button>
+
+              <!-- Button : REFUSE -->
+              <button class="btn btn-danger text-white" (click)="onRefuseInvite()">
+                <fa-icon icon="xmark" class="me-2"></fa-icon>Refuser
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -72,6 +107,6 @@
     <app-events-players-list [players]="players" [isUserLoggedInOwner]="isUserLoggedInOwner" (deletePlayerEvent)="onDeletePlayer($event)">
     </app-events-players-list>
 
-    <app-events-chats-list [eventId]="eventId"> </app-events-chats-list>
+    <app-events-chats-list *ngIf="userLogin === event.ownerLogin || isAlreadyAccepted" [eventId]="eventId"> </app-events-chats-list>
   </ng-container>
 </div>

@@ -12,6 +12,11 @@ const routes: Routes = [
     component: MyEventsComponent,
   },
   {
+    path: 'my-events/:menu',
+    title: 'Gamer Squad - Mes évènements',
+    component: MyEventsComponent,
+  },
+  {
     path: 'game/:gameId/create',
     title: 'Gamer Squad - Nouvel évènement',
     component: EventsCreateComponent,

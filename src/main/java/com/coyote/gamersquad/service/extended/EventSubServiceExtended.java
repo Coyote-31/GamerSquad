@@ -127,6 +127,29 @@ public class EventSubServiceExtended extends EventSubService {
     }
 
     /**
+     * Returns true if the user is already accepted to the event.
+     *
+     * @param eventId the id of the event.
+     * @param userLogin the login of the user.
+     * @return true if the user is already accepted to the event, false otherwise.
+     */
+    public boolean isAlreadyAcceptedByEventId(Long eventId, String userLogin) {
+        log.debug("Request isAlreadyAccepted for User : {} by Event id : {}", userLogin, eventId);
+
+        // Check if AppUser exists
+        AppUser appUser = appUserRepository
+            .getAppUserByInternalUser_Login(userLogin)
+            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+
+        // Check if Event exists
+        Event event = eventRepository
+            .findById(eventId)
+            .orElseThrow(() -> new EntityNotFoundException("Event not found with id : " + eventId));
+
+        return eventSubRepository.isAcceptedSubscriber(appUser, event);
+    }
+
+    /**
      * Get all logged-in user's friends who can be invited to this event.
      * The owner of the event as to be the logged-in user.
      *

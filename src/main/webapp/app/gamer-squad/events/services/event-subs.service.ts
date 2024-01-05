@@ -20,6 +20,10 @@ export class EventSubsService {
     return this.http.get<boolean>(`${this.resourceUrl}/event/${eventId}/is-subscribed`);
   }
 
+  isAlreadyAcceptedByEventId(eventId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.resourceUrl}/event/${eventId}/is-accepted`);
+  }
+
   subscribeUserByEventId(eventId: number): Observable<IEventSub> {
     return this.http.post<IEventSub>(`${this.resourceUrl}/event/${eventId}/subscribe`, {});
   }
