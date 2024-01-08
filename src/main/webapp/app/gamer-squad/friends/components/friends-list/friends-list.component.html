@@ -4,10 +4,12 @@
 
   <h1 class="text-center display-5">Amis</h1>
 
+  <hr />
+
   <!-- Received -->
-  <ng-container *ngIf="receivedFriends">
+  <ng-container *ngIf="receivedFriends?.length !== 0">
     <h2>Demandes</h2>
-    <hr />
+
     <div class="row g-2 mt-2">
       <ng-container *ngFor="let friend of receivedFriends">
         <app-friends-list-item
@@ -22,9 +24,9 @@
   </ng-container>
 
   <!-- Pending -->
-  <ng-container *ngIf="pendingFriends">
+  <ng-container *ngIf="pendingFriends?.length !== 0">
     <h2>En attente</h2>
-    <hr />
+
     <div class="row g-2 mt-2">
       <ng-container *ngFor="let friend of pendingFriends">
         <app-friends-list-item class="col-sm-6 col-lg-4 col-xl-3" [friend]="friend" (friendshipDeleteEvent)="onFriendshipDelete($event)">
@@ -34,9 +36,9 @@
   </ng-container>
 
   <!-- Friends -->
-  <ng-container *ngIf="friends">
+  <ng-container *ngIf="friends?.length !== 0">
     <h2>Vos amis</h2>
-    <hr />
+
     <div class="row g-2 mt-2">
       <ng-container *ngFor="let friend of friends">
         <app-friends-list-item class="col-sm-6 col-lg-4 col-xl-3" [friend]="friend" (friendshipDeleteEvent)="onFriendshipDelete($event)">
@@ -44,4 +46,13 @@
       </ng-container>
     </div>
   </ng-container>
+
+  <div
+    *ngIf="receivedFriends?.length === 0 && pendingFriends?.length === 0 && friends?.length === 0"
+    class="d-flex justify-content-center my-3"
+  >
+    <div class="alert alert-warning m-0">
+      <span>Aucun amis</span>
+    </div>
+  </div>
 </div>
