@@ -9,9 +9,19 @@
         <textarea class="form-control" type="text" name="message" id="message" formControlName="message" placeholder="Votre message...">
         </textarea>
 
-        <small class="form-text text-danger" *ngIf="eventMessageForm.get('message')?.errors?.maxlength">
-          Votre message ne doit pas comporter plus de 512 caractères.
-        </small>
+        <div
+          *ngIf="
+            eventMessageForm.get('message')!.invalid && (eventMessageForm.get('message')!.dirty || eventMessageForm.get('message')!.touched)
+          "
+        >
+          <small class="form-text text-danger" *ngIf="eventMessageForm.get('message')?.errors?.whitespace">
+            Votre message ne doit pas uniquement comporter des espaces.
+          </small>
+
+          <small class="form-text text-danger" *ngIf="eventMessageForm.get('message')?.errors?.maxlength">
+            Votre message ne doit pas comporter plus de 512 caractères.
+          </small>
+        </div>
       </div>
 
       <div class="card-footer text-center">

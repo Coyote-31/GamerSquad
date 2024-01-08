@@ -6,6 +6,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { interval, Observable, Subscription, switchMap, tap } from 'rxjs';
 import { IPlayerFriendship } from '../../models/player-friendship.model';
 import { FriendsService } from '../../services/friends.service';
+import { ChatValidatorService } from '../../../../shared/validators/chat-validator.service';
 
 @Component({
   selector: 'app-friend-chats-list',
@@ -20,7 +21,7 @@ export class FriendChatsListComponent implements OnInit, AfterViewChecked, OnDes
   friendMessageForm = new FormGroup({
     message: new FormControl('', {
       nonNullable: true,
-      validators: [Validators.required, Validators.maxLength(512)],
+      validators: [Validators.required, Validators.maxLength(512), this.chatValidatorService.noWhitespace()],
     }),
   });
 
@@ -29,7 +30,12 @@ export class FriendChatsListComponent implements OnInit, AfterViewChecked, OnDes
   disableScrollDown = false;
   @ViewChild('messageContainer') private messageContainer!: ElementRef;
 
-  constructor(private route: ActivatedRoute, private friendChatsService: FriendChatsService, private friendsService: FriendsService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private friendChatsService: FriendChatsService,
+    private friendsService: FriendsService,
+    private chatValidatorService: ChatValidatorService
+  ) {}
 
   ngOnInit(): void {
     this.friendshipId = +this.route.snapshot.params['id'];

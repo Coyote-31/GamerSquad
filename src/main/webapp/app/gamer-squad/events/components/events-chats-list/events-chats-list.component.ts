@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IEventPlayerChat } from '../../models/event-player-chat.model';
 import { EventChatsService } from '../../services/event-chats.service';
+import { ChatValidatorService } from '../../../../shared/validators/chat-validator.service';
 
 @Component({
   selector: 'app-events-chats-list',
@@ -17,13 +18,17 @@ export class EventsChatsListComponent implements OnInit, OnDestroy {
   eventMessageForm = new FormGroup({
     message: new FormControl('', {
       nonNullable: true,
-      validators: [Validators.required, Validators.maxLength(512)],
+      validators: [Validators.required, Validators.maxLength(512), this.chatValidatorService.noWhitespace()],
     }),
   });
 
   autoRefreshSub!: Subscription;
 
-  constructor(private route: ActivatedRoute, private eventChatsService: EventChatsService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private eventChatsService: EventChatsService,
+    private chatValidatorService: ChatValidatorService
+  ) {}
 
   ngOnInit(): void {
     this.eventChatsService

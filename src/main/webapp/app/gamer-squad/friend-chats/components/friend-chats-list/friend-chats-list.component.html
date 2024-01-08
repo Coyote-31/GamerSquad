@@ -43,12 +43,23 @@
         <textarea class="form-control" type="text" name="message" id="message" formControlName="message" placeholder="Votre message...">
         </textarea>
 
-        <small class="form-text text-danger" *ngIf="friendMessageForm.get('message')?.errors?.maxlength">
-          Votre message ne doit pas comporter plus de 512 caractères.
-        </small>
+        <div
+          *ngIf="
+            friendMessageForm.get('message')!.invalid &&
+            (friendMessageForm.get('message')!.dirty || friendMessageForm.get('message')!.touched)
+          "
+        >
+          <small class="form-text text-danger" *ngIf="friendMessageForm.get('message')?.errors?.whitespace">
+            Votre message ne doit pas uniquement comporter des espaces.
+          </small>
+
+          <small class="form-text text-danger" *ngIf="friendMessageForm.get('message')?.errors?.maxlength">
+            Votre message ne doit pas comporter plus de 512 caractères.
+          </small>
+        </div>
       </div>
 
-      <div class="card-footer text-end">
+      <div class="card-footer text-center">
         <button type="submit" [disabled]="friendMessageForm.invalid" class="btn btn-primary">Envoyer</button>
       </div>
     </form>
