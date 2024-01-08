@@ -13,7 +13,7 @@ h1 {
 }
 
 .messages-container {
-  height: calc(100vh - 436px);
+  height: calc(100vh - 28rem);
   overflow: auto;
 }
 
@@ -28,10 +28,6 @@ h1 {
   .friend-chats-container {
     width: 60%;
   }
-
-  .messages-container {
-    height: calc(100vh - 405px);
-  }
 }
 
 @include media-breakpoint-down(md) {
@@ -43,10 +39,6 @@ h1 {
   .friend-chats-container {
     width: 80%;
   }
-
-  .messages-container {
-    height: calc(100vh - 400px);
-  }
 }
 
 @include media-breakpoint-down(sm) {
@@ -57,9 +49,5 @@ h1 {
 
   .friend-chats-container {
     width: 100%;
-  }
-
-  .messages-container {
-    height: calc(100vh - 390px);
   }
 }
