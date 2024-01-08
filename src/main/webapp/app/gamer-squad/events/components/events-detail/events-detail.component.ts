@@ -70,6 +70,10 @@ export class EventsDetailComponent implements OnInit {
 
   onUnsubscribe(): void {
     this.eventSubsService.unsubscribeUserByEventId(this.eventId).subscribe(() => {
+      if (this.event.private) {
+        this.navigateToMyEvents();
+        return;
+      }
       this.refreshIsAlready();
       this.refreshPlayers();
     });
