@@ -11,8 +11,13 @@ export class EventsPlayersListComponent {
   @Input() isUserLoggedInOwner!: boolean;
 
   @Output() deletePlayerEvent = new EventEmitter<number>();
+  @Output() invitePlayerEvent = new EventEmitter();
 
   onDeletePlayer(appUserId: number): void {
     this.deletePlayerEvent.emit(appUserId);
+  }
+
+  onInviteFriend(): void {
+    this.invitePlayerEvent.emit();
   }
 }

@@ -1,10 +1,29 @@
-<div class="container">
-  <h2>Joueurs :</h2>
-  <app-events-players-list-item
-    *ngFor="let player of players"
-    [player]="player"
-    [isUserLoggedInOwner]="isUserLoggedInOwner"
-    (deletePlayerEvent)="onDeletePlayer($event)"
-  >
-  </app-events-players-list-item>
+<div class="card mt-3">
+  <div class="card-header text-center">
+    <h2 class="mb-0">Joueurs</h2>
+  </div>
+
+  <div class="card-body pt-2">
+    <app-events-players-list-item
+      *ngFor="let player of players"
+      [player]="player"
+      [isUserLoggedInOwner]="isUserLoggedInOwner"
+      (deletePlayerEvent)="onDeletePlayer($event)"
+      class=""
+    >
+    </app-events-players-list-item>
+
+    <div class="card text-center mt-2" *ngIf="!players || players.length === 0">
+      <div class="card-body">Aucun joueur</div>
+    </div>
+  </div>
+
+  <!-- Invite button displayed for owner -->
+  <div class="card-footer text-center" *ngIf="isUserLoggedInOwner">
+    <!-- Button : INVITE FRIENDS -->
+    <button class="btn btn-success text-white my-2" (click)="onInviteFriend()">
+      <fa-icon icon="user-plus" class="me-1"></fa-icon>
+      Inviter des amis
+    </button>
+  </div>
 </div>

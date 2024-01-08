@@ -1,4 +1,4 @@
-<div class="events-chats-container">
+<div class="events-chats-container mt-3">
   <div class="card card-form text-bg-light">
     <form class="form" role="form" (ngSubmit)="OnNewMessage()" [formGroup]="eventMessageForm">
       <div class="card-header">
@@ -14,13 +14,13 @@
         </small>
       </div>
 
-      <div class="card-footer text-end">
+      <div class="card-footer text-center">
         <button type="submit" [disabled]="eventMessageForm.invalid" class="btn btn-primary">Envoyer</button>
       </div>
     </form>
   </div>
 
-  <div class="messages-container">
+  <div class="messages-container mt-3">
     <ng-container *ngIf="eventPlayerChats">
       <ng-container *ngIf="eventPlayerChats.length !== 0; else noContent">
         <ng-container *ngFor="let eventPlayerChat of eventPlayerChats">
