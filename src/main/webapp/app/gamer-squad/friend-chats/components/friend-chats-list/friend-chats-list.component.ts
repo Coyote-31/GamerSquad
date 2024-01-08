@@ -7,6 +7,7 @@ import { interval, Observable, Subscription, switchMap, tap } from 'rxjs';
 import { IPlayerFriendship } from '../../models/player-friendship.model';
 import { FriendsService } from '../../services/friends.service';
 import { ChatValidatorService } from '../../../../shared/validators/chat-validator.service';
+import { IFriendMessage } from '../../models/friend-message.model';
 
 @Component({
   selector: 'app-friend-chats-list',
@@ -93,7 +94,10 @@ export class FriendChatsListComponent implements OnInit, AfterViewChecked, OnDes
   }
 
   OnNewMessage(): void {
-    this.friendChatsService.createFriendshipChatMessage(this.friendMessageForm.getRawValue(), this.friendshipId).subscribe(observer => {
+    const friendMessage: IFriendMessage = this.friendMessageForm.getRawValue();
+    friendMessage.message = friendMessage.message.trim();
+
+    this.friendChatsService.createFriendshipChatMessage(friendMessage, this.friendshipId).subscribe(observer => {
       if (observer.status === 201) {
         this.friendChatsService
           .getAllPlayerChatsByFriendshipId(this.friendshipId)

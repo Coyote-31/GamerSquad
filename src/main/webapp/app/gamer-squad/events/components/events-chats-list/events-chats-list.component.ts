@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { IEventPlayerChat } from '../../models/event-player-chat.model';
 import { EventChatsService } from '../../services/event-chats.service';
 import { ChatValidatorService } from '../../../../shared/validators/chat-validator.service';
+import { IEventMessage } from '../../models/event-message.model';
 
 @Component({
   selector: 'app-events-chats-list',
@@ -58,7 +59,10 @@ export class EventsChatsListComponent implements OnInit, OnDestroy {
   }
 
   OnNewMessage(): void {
-    this.eventChatsService.createEventChatMessage(this.eventMessageForm.getRawValue(), this.eventId).subscribe(observer => {
+    const eventMessage: IEventMessage = this.eventMessageForm.getRawValue();
+    eventMessage.message = eventMessage.message.trim();
+
+    this.eventChatsService.createEventChatMessage(eventMessage, this.eventId).subscribe(observer => {
       if (observer.status === 201) {
         this.eventChatsService
           .getAllEventPlayerChatsByEventId(this.eventId)
