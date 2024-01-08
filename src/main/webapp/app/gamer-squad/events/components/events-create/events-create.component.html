@@ -2,73 +2,91 @@
   <jhi-alert></jhi-alert>
   <jhi-alert-error></jhi-alert-error>
 
-  <div class="card w-40" *ngIf="game">
-    <img class="card-img-top" [src]="game.imgUrl" [alt]="game.title" />
+  <h1 class="display-5 text-center">Nouvel évènement</h1>
 
-    <div class="card-body text-center">
-      <h2 class="card-title game-title mb-0">{{ game.title }}</h2>
+  <hr />
+
+  <div class="row">
+    <div class="col-12 col-lg-6">
+      <div class="card" *ngIf="game">
+        <img class="card-img-top" [src]="game.imgUrl" [alt]="game.title" />
+
+        <div class="card-body text-center">
+          <h2 class="card-title game-title mb-0">{{ game.title }}</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-6">
+      <form class="form" role="form" (ngSubmit)="OnSubmit()" [formGroup]="eventForm">
+        <label class="form-label mt-2" for="title">Titre :</label>
+
+        <input class="form-control" type="text" name="title" id="title" formControlName="title" placeholder="Titre de l'évènement" />
+
+        <div *ngIf="eventForm.get('title')!.invalid && (eventForm.get('title')!.dirty || eventForm.get('title')!.touched)">
+          <small class="form-text text-danger" *ngIf="eventForm.get('title')?.errors?.required"> Ce champ est obligatoire. </small>
+
+          <small class="form-text text-danger" *ngIf="eventForm.get('title')?.errors?.maxlength">
+            Votre titre ne doit pas comporter plus de 255 caractères.
+          </small>
+        </div>
+
+        <label class="form-label mt-2" for="description">Description :</label>
+
+        <textarea
+          class="form-control"
+          type="text"
+          name="description"
+          id="description"
+          formControlName="description"
+          placeholder="Description de l'évènement"
+        >
+        </textarea>
+
+        <div
+          *ngIf="eventForm.get('description')!.invalid && (eventForm.get('description')!.dirty || eventForm.get('description')!.touched)"
+        >
+          <small class="form-text text-danger" *ngIf="eventForm.get('description')?.errors?.maxlength">
+            Votre message ne doit pas comporter plus de 1024 caractères.
+          </small>
+        </div>
+
+        <label class="form-check-label mt-3" for="isPrivate">Visibilité : </label>
+        <div class="d-flex align-middle">
+          <fa-icon icon="lock-open" class="text-success me-2" data-gs-tooltip="Public"></fa-icon>
+          <span class="form-check form-switch d-inline-block">
+            <input class="form-check-input" type="checkbox" role="switch" name="isPrivate" id="isPrivate" formControlName="isPrivate" />
+          </span>
+          <fa-icon icon="lock" class="text-danger ms-1" data-gs-tooltip="Privé"></fa-icon>
+        </div>
+
+        <label class="form-label mt-2" for="meetingDate">Date et heure de début :</label>
+
+        <input
+          id="meetingDate"
+          type="datetime-local"
+          class="form-control"
+          name="meetingDate"
+          formControlName="meetingDate"
+          placeholder="YYYY-MM-DD HH:mm"
+        />
+
+        <div
+          *ngIf="eventForm.get('meetingDate')!.invalid && (eventForm.get('meetingDate')!.dirty || eventForm.get('meetingDate')!.touched)"
+        >
+          <small class="form-text text-danger" *ngIf="eventForm.get('meetingDate')?.errors?.required"> Ce champ est obligatoire. </small>
+          <small class="form-text text-danger" [hidden]="!eventForm.get('meetingDate')?.errors?.datetimelocal">
+            Ce champ doit être une date et une heure.
+          </small>
+        </div>
+
+        <hr />
+
+        <div class="pt-1 text-center">
+          <button class="btn btn-primary me-3" type="submit" [disabled]="eventForm.invalid">Créer</button>
+          <button class="btn btn-danger" type="button" (click)="cancel()">Annuler</button>
+        </div>
+      </form>
     </div>
   </div>
-
-  <form class="form w-40" role="form" (ngSubmit)="OnSubmit()" [formGroup]="eventForm">
-    <label for="title">Titre :</label>
-
-    <input class="form-control" type="text" name="title" id="title" formControlName="title" placeholder="Titre de l'évènement" />
-
-    <div *ngIf="eventForm.get('title')!.invalid && (eventForm.get('title')!.dirty || eventForm.get('title')!.touched)">
-      <small class="form-text text-danger" *ngIf="eventForm.get('title')?.errors?.required"> Ce champ est obligatoire. </small>
-
-      <small class="form-text text-danger" *ngIf="eventForm.get('title')?.errors?.maxlength">
-        Votre titre ne doit pas comporter plus de 255 caractères.
-      </small>
-    </div>
-
-    <label for="description">Description :</label>
-
-    <textarea
-      class="form-control"
-      type="text"
-      name="description"
-      id="description"
-      formControlName="description"
-      placeholder="Description de l'évènement"
-    >
-    </textarea>
-
-    <div *ngIf="eventForm.get('description')!.invalid && (eventForm.get('description')!.dirty || eventForm.get('description')!.touched)">
-      <small class="form-text text-danger" *ngIf="eventForm.get('description')?.errors?.maxlength">
-        Votre message ne doit pas comporter plus de 1024 caractères.
-      </small>
-    </div>
-
-    <div class="form-check form-switch">
-      <input class="form-check-input" type="checkbox" role="switch" name="isPrivate" id="isPrivate" formControlName="isPrivate" />
-      <label class="form-check-label" for="isPrivate">Évènement privé</label>
-    </div>
-
-    <hr />
-
-    <label class="form-label" for="meetingDate">Date et heure de début</label>
-
-    <input
-      id="meetingDate"
-      type="datetime-local"
-      class="form-control"
-      name="meetingDate"
-      formControlName="meetingDate"
-      placeholder="YYYY-MM-DD HH:mm"
-    />
-
-    <div *ngIf="eventForm.get('meetingDate')!.invalid && (eventForm.get('meetingDate')!.dirty || eventForm.get('meetingDate')!.touched)">
-      <small class="form-text text-danger" *ngIf="eventForm.get('meetingDate')?.errors?.required"> Ce champ est obligatoire. </small>
-      <small class="form-text text-danger" [hidden]="!eventForm.get('meetingDate')?.errors?.datetimelocal">
-        Ce champ doit être une date et une heure.
-      </small>
-    </div>
-
-    <hr />
-
-    <button class="btn btn-primary" type="submit" [disabled]="eventForm.invalid">Créer</button>
-    <button class="btn btn-danger" type="button" (click)="cancel()">Annuler</button>
-  </form>
 </div>
