@@ -45,10 +45,16 @@ export class EventsChatsListComponent implements OnInit, OnDestroy {
         switchMap(() =>
           this.eventChatsService
             .getAllEventPlayerChatsByEventId(this.eventId)
-            .pipe(tap(eventPlayerChats => (this.eventPlayerChats = eventPlayerChats)))
+            .pipe(tap(eventPlayerChats => this.updateChatsIfChanged(eventPlayerChats)))
         )
       )
       .subscribe();
+  }
+
+  updateChatsIfChanged(eventPlayerChats: IEventPlayerChat[]): void {
+    if (this.eventPlayerChats.length !== eventPlayerChats.length) {
+      this.eventPlayerChats = eventPlayerChats;
+    }
   }
 
   OnNewMessage(): void {

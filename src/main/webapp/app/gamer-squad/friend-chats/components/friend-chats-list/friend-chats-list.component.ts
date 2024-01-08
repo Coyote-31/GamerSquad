@@ -55,10 +55,16 @@ export class FriendChatsListComponent implements OnInit, AfterViewChecked, OnDes
         switchMap(() =>
           this.friendChatsService
             .getAllPlayerChatsByFriendshipId(this.friendshipId)
-            .pipe(tap(playerChats => (this.playerChats = playerChats)))
+            .pipe(tap(playerChats => this.updateChatsIfChanged(playerChats)))
         )
       )
       .subscribe();
+  }
+
+  updateChatsIfChanged(playersChats: IPlayerChat[]): void {
+    if (this.playerChats.length !== playersChats.length) {
+      this.playerChats = playersChats;
+    }
   }
 
   ngAfterViewChecked(): void {
