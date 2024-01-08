@@ -18,6 +18,7 @@ import { GsDatetimeChatPipe } from './date/gs-datetime-chat';
 import { GsDatetimeFromNowPipe } from './date/gs-datetime-from-now';
 import { GsDatetimePipe } from './date/gs-datetime';
 import { ChatValidatorService } from './validators/chat-validator.service';
+import { EventValidatorService } from './validators/event-validator.service';
 
 @NgModule({
   imports: [SharedLibsModule],
@@ -56,6 +57,6 @@ import { ChatValidatorService } from './validators/chat-validator.service';
     GsDatetimeChatPipe,
     GsDatetimeFromNowPipe,
   ],
-  providers: [UserValidatorService, ChatValidatorService],
+  providers: [UserValidatorService, ChatValidatorService, EventValidatorService],
 })
 export class SharedModule {}

@@ -6,6 +6,7 @@ import { EventsService } from '../../services/events.service';
 import { IEventDetail } from '../../models/event-detail.model';
 import { IEventEdit } from '../../models/event-edit.model';
 import { DATE_TIME_FORMAT } from '../../../../config/input.constants';
+import { EventValidatorService } from '../../../../shared/validators/event-validator.service';
 
 @Component({
   selector: 'app-events-edit',
@@ -17,7 +18,12 @@ export class EventsEditComponent implements OnInit {
 
   eventForm!: FormGroup;
 
-  constructor(private route: ActivatedRoute, private router: Router, private eventsService: EventsService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private eventsService: EventsService,
+    private eventValidatorService: EventValidatorService
+  ) {}
 
   ngOnInit(): void {
     this.eventsService.getEventDetailByEventId(+this.route.snapshot.params['eventId']).subscribe(event => {
@@ -31,11 +37,11 @@ export class EventsEditComponent implements OnInit {
     this.eventForm = new FormGroup({
       title: new FormControl(this.event.title, {
         nonNullable: true,
-        validators: [Validators.required, Validators.maxLength(255)],
+        validators: [Validators.required, Validators.maxLength(255), this.eventValidatorService.noWhitespace()],
       }),
       description: new FormControl(this.event.description, {
         nonNullable: true,
-        validators: [Validators.maxLength(1024)],
+        validators: [Validators.maxLength(1024), this.eventValidatorService.noWhitespace()],
       }),
       meetingDate: new FormControl(this.event.meetingDate.format(DATE_TIME_FORMAT), {
         nonNullable: true,
@@ -50,6 +56,8 @@ export class EventsEditComponent implements OnInit {
 
   OnSubmit(): void {
     const eventToUpdate: IEventEdit = this.eventForm.getRawValue();
+    eventToUpdate.title = eventToUpdate.title.trim();
+    eventToUpdate.description = eventToUpdate.description ? eventToUpdate.description.trim() : null;
     eventToUpdate.meetingDate = dayjs(eventToUpdate.meetingDate);
 
     this.eventsService.updateEvent(eventToUpdate, this.event.id).subscribe(event => {

@@ -26,6 +26,10 @@
         <div *ngIf="eventForm.get('title')!.invalid && (eventForm.get('title')!.dirty || eventForm.get('title')!.touched)">
           <small class="form-text text-danger" *ngIf="eventForm.get('title')?.errors?.required"> Ce champ est obligatoire. </small>
 
+          <small class="form-text text-danger" *ngIf="eventForm.get('title')?.errors?.whitespace">
+            Votre titre ne doit pas uniquement comporter des espaces.
+          </small>
+
           <small class="form-text text-danger" *ngIf="eventForm.get('title')?.errors?.maxlength">
             Votre titre ne doit pas comporter plus de 255 caractères.
           </small>
@@ -46,8 +50,12 @@
         <div
           *ngIf="eventForm.get('description')!.invalid && (eventForm.get('description')!.dirty || eventForm.get('description')!.touched)"
         >
+          <small class="form-text text-danger" *ngIf="eventForm.get('description')?.errors?.whitespace">
+            Votre description ne doit pas uniquement comporter des espaces.
+          </small>
+
           <small class="form-text text-danger" *ngIf="eventForm.get('description')?.errors?.maxlength">
-            Votre message ne doit pas comporter plus de 1024 caractères.
+            Votre description ne doit pas comporter plus de 1024 caractères.
           </small>
         </div>
 

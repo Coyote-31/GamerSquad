@@ -2,13 +2,13 @@
   <jhi-alert></jhi-alert>
   <jhi-alert-error></jhi-alert-error>
 
-  <h1 class="display-5 text-center">Nouvel évènement</h1>
+  <h1 class="display-5 text-center">Éditer l'évènement</h1>
 
   <hr />
 
   <div class="row">
     <div class="col-12 col-lg-6">
-      <div class="card" *ngIf="event.gameTitle && event.gameImgUrl">
+      <div class="card" *ngIf="event">
         <img class="card-img-top" [src]="event.gameImgUrl" [alt]="event.gameTitle" />
 
         <div class="card-body text-center">
@@ -18,13 +18,17 @@
     </div>
 
     <div class="col-12 col-lg-6">
-      <form class="form" role="form" (ngSubmit)="OnSubmit()" [formGroup]="eventForm">
+      <form class="form" role="form" *ngIf="eventForm" (ngSubmit)="OnSubmit()" [formGroup]="eventForm">
         <label class="form-label mt-2" for="title">Titre :</label>
 
         <input class="form-control" type="text" name="title" id="title" formControlName="title" placeholder="Titre de l'évènement" />
 
         <div *ngIf="eventForm.get('title')!.invalid && (eventForm.get('title')!.dirty || eventForm.get('title')!.touched)">
           <small class="form-text text-danger" *ngIf="eventForm.get('title')?.errors?.required"> Ce champ est obligatoire. </small>
+
+          <small class="form-text text-danger" *ngIf="eventForm.get('title')?.errors?.whitespace">
+            Votre titre ne doit pas uniquement comporter des espaces.
+          </small>
 
           <small class="form-text text-danger" *ngIf="eventForm.get('title')?.errors?.maxlength">
             Votre titre ne doit pas comporter plus de 255 caractères.
@@ -46,8 +50,12 @@
         <div
           *ngIf="eventForm.get('description')!.invalid && (eventForm.get('description')!.dirty || eventForm.get('description')!.touched)"
         >
+          <small class="form-text text-danger" *ngIf="eventForm.get('description')?.errors?.whitespace">
+            Votre description ne doit pas uniquement comporter des espaces.
+          </small>
+
           <small class="form-text text-danger" *ngIf="eventForm.get('description')?.errors?.maxlength">
-            Votre message ne doit pas comporter plus de 1024 caractères.
+            Votre description ne doit pas comporter plus de 1024 caractères.
           </small>
         </div>
 

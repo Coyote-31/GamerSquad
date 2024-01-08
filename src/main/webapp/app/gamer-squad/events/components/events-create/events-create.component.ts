@@ -7,6 +7,7 @@ import dayjs from 'dayjs/esm';
 import { IEventCreate } from '../../models/event-create.model';
 import { EventsService } from '../../services/events.service';
 import { DATE_TIME_FORMAT } from '../../../../config/input.constants';
+import { EventValidatorService } from '../../../../shared/validators/event-validator.service';
 
 /**
  * Type that converts some properties for forms.
@@ -26,11 +27,11 @@ export class EventsCreateComponent implements OnInit {
   eventForm = new FormGroup({
     title: new FormControl('', {
       nonNullable: true,
-      validators: [Validators.required, Validators.maxLength(255)],
+      validators: [Validators.required, Validators.maxLength(255), this.eventValidatorService.noWhitespace()],
     }),
     description: new FormControl('', {
       nonNullable: true,
-      validators: [Validators.maxLength(1024)],
+      validators: [Validators.maxLength(1024), this.eventValidatorService.noWhitespace()],
     }),
     meetingDate: new FormControl(null, {
       nonNullable: true,
@@ -46,7 +47,8 @@ export class EventsCreateComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private eventsService: EventsService,
-    private gamesService: GamesService
+    private gamesService: GamesService,
+    private eventValidatorService: EventValidatorService
   ) {}
 
   ngOnInit(): void {
@@ -65,6 +67,8 @@ export class EventsCreateComponent implements OnInit {
   convertEventRawToIEventCreate(rawEvent: EventFormRawValue): IEventCreate {
     return {
       ...rawEvent,
+      title: rawEvent.title.trim(),
+      description: rawEvent.description ? rawEvent.description.trim() : null,
       meetingDate: dayjs(rawEvent.meetingDate, DATE_TIME_FORMAT),
     };
   }
