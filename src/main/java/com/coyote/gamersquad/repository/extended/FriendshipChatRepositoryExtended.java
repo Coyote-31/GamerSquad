@@ -28,4 +28,6 @@ public interface FriendshipChatRepositoryExtended extends FriendshipChatReposito
         "order by fc.sendAt"
     )
     List<PlayerChatDTO> getAllPlayerChatsByFriendshipId(@Param("friendshipId") Long friendshipId);
+
+    void deleteAllByFriendship_Id(Long friendShipId);
 }

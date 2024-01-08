@@ -3,6 +3,7 @@ package com.coyote.gamersquad.service.extended;
 import com.coyote.gamersquad.domain.AppUser;
 import com.coyote.gamersquad.domain.Friendship;
 import com.coyote.gamersquad.repository.extended.AppUserRepositoryExtended;
+import com.coyote.gamersquad.repository.extended.FriendshipChatRepositoryExtended;
 import com.coyote.gamersquad.repository.extended.FriendshipRepositoryExtended;
 import com.coyote.gamersquad.service.FriendshipService;
 import com.coyote.gamersquad.service.dto.AppUserDTO;
@@ -32,6 +33,8 @@ public class FriendshipServiceExtended extends FriendshipService {
 
     private final FriendshipMapper friendshipMapper;
 
+    private final FriendshipChatRepositoryExtended friendshipChatRepository;
+
     private final AppUserRepositoryExtended appUserRepository;
 
     private final AppUserMapper appUserMapper;
@@ -39,12 +42,14 @@ public class FriendshipServiceExtended extends FriendshipService {
     public FriendshipServiceExtended(
         FriendshipRepositoryExtended friendshipRepository,
         FriendshipMapper friendshipMapper,
+        FriendshipChatRepositoryExtended friendshipChatRepository,
         AppUserRepositoryExtended appUserRepository,
         AppUserMapper appUserMapper
     ) {
         super(friendshipRepository, friendshipMapper);
         this.friendshipRepository = friendshipRepository;
         this.friendshipMapper = friendshipMapper;
+        this.friendshipChatRepository = friendshipChatRepository;
         this.appUserRepository = appUserRepository;
         this.appUserMapper = appUserMapper;
     }
@@ -204,6 +209,10 @@ public class FriendshipServiceExtended extends FriendshipService {
                 new EntityNotFoundException("Friendship not found between appUser1 : " + appUserId + " and appUser2 : " + userLogin)
             );
 
+        // Delete all friendshipChats
+        friendshipChatRepository.deleteAllByFriendship_Id(friendshipToDelete.getId());
+
+        // Delete the friendship
         friendshipRepository.delete(friendshipToDelete);
     }
 }
