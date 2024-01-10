@@ -276,6 +276,9 @@ jhi-main {
 ============================== */
 .nav-tabs {
   --bs-nav-tabs-link-active-color: #fff;
+  --bs-nav-tabs-link-active-border-color: var(--bs-nav-tabs-link-active-bg);
+  --bs-nav-tabs-link-hover-border-color: var(--bs-nav-tabs-link-active-bg);
+  border-bottom-color: var(--bs-nav-tabs-link-active-bg);
 }
 
 /* ===========================
