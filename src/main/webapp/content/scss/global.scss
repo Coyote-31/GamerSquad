@@ -247,6 +247,10 @@ jhi-main {
   flex-direction: column;
 }
 
+.navbar .container-fluid {
+  padding-top: 0;
+}
+
 #jhi-outlet-container {
   flex: 1;
   display: flex;
@@ -285,6 +289,14 @@ jhi-main {
 .btn-outline-primary {
   --bs-btn-hover-color: #ffffff;
   --bs-btn-color: #3e8acc;
+}
+
+/* ===========================
+           Icons
+============================== */
+
+fa-icon:not(:last-child) {
+  margin-right: 0.25rem;
 }
 
 /* ===========================
