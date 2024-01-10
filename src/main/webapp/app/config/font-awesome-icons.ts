@@ -56,6 +56,8 @@ import {
   // jhipster-needle-add-icon-import
 } from '@fortawesome/free-solid-svg-icons';
 
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
+
 export const fontAwesomeIcons = [
   faArrowLeft,
   faAsterisk,
@@ -95,7 +97,7 @@ export const fontAwesomeIcons = [
   faUsers,
   faUsersCog,
   faWrench,
-  // GameSquad
+  // GameSquad - fa solid
   faGamepad,
   faSquareCheck,
   faHeartCircleXmark,
@@ -111,5 +113,7 @@ export const fontAwesomeIcons = [
   faCalendarPlus,
   faCalendarXmark,
   faLockOpen,
+  // GameSquad - fa brand
+  faGithub,
   // jhipster-needle-add-icon-import
 ];

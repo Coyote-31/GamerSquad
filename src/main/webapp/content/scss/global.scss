@@ -71,7 +71,7 @@ Generic styles
 
 .jh-card {
   padding: 1.5%;
-  margin-top: 20px;
+  margin: 0;
   border: none;
 }
 
@@ -104,10 +104,6 @@ Generic styles
 .readonly {
   background-color: #eee;
   opacity: 1;
-}
-
-.footer {
-  border-top: 1px solid rgba(0, 0, 0, 0.125);
 }
 
 .hand,
@@ -242,10 +238,53 @@ angular-cli removes postcss-rtl processed inline css, processed rules must be ad
 ====================================================================== */
 
 /* ===========================
+           Global
+============================== */
+
+jhi-main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#jhi-outlet-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+#jhi-outlet-card {
+  flex: 1;
+}
+
+#jhi-footer-container {
+  padding-top: calc(var(--bs-gutter-x) * 0.5);
+  padding-bottom: calc(var(--bs-gutter-x) * 0.5);
+}
+
+.container,
+.container-fluid {
+  padding-top: calc(var(--bs-gutter-x) * 0.5);
+}
+
+/* ===========================
+           Nav-tabs
+============================== */
+.nav-tabs {
+  --bs-nav-tabs-link-active-color: #fff;
+}
+
+/* ===========================
            Buttons
 ============================== */
+.btn {
+  --bs-btn-color: #fff;
+  --bs-btn-disabled-color: #fff;
+}
+
 .btn-outline-primary {
   --bs-btn-hover-color: #ffffff;
+  --bs-btn-color: #3e8acc;
 }
 
 /* ===========================
@@ -306,6 +345,13 @@ angular-cli removes postcss-rtl processed inline css, processed rules must be ad
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+}
+
+/* ===========================
+            Forms
+============================== */
+.form-control:focus {
+  background-color: #e4e5e6;
 }
 
 /* ===========================
