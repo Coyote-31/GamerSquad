@@ -2,12 +2,12 @@
   <div class="d-flex justify-content-center">
     <div class="col-md-8">
       <h2
+        class="text-center"
         jhiTranslate="settings.title"
         [translateValues]="{ username: settingsForm.value.login | titlecase }"
         *ngIf="settingsForm.value.login"
       >
-        Profil de l'utilisateur [<strong>{{ settingsForm.value.login }}</strong
-        >]
+        Profil de l'utilisateur <strong>{{ settingsForm.value.login }}</strong>
       </h2>
 
       <div class="alert alert-success" *ngIf="success" jhiTranslate="settings.messages.success">
@@ -199,7 +199,7 @@
         <button
           type="submit"
           [disabled]="settingsForm.invalid"
-          class="btn btn-primary"
+          class="btn btn-primary d-block mx-auto"
           jhiTranslate="settings.form.button"
           data-cy="submit"
         >
