@@ -1,5 +1,9 @@
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/mixins';
+@import 'node_modules/bootstrap/scss/variables';
+
 /* ==========================================================================
-Main page styles
+Main page styles : JHipster
 ========================================================================== */
 
 .hipster {
@@ -19,5 +23,45 @@ Main page styles
   .hipster {
     background: url('../../content/images/jhipster_family_member_2.svg') no-repeat center top;
     background-size: contain;
+  }
+}
+
+/* ==========================================================================
+Main page styles : Gamer Squad
+========================================================================== */
+
+.gs-landing-container {
+  max-width: 970px;
+}
+
+.gs-banner {
+  display: block;
+  max-width: 100%;
+  height: 250px;
+  object-fit: cover;
+  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.8);
+}
+
+.gs-card-warning {
+  --gs-card-warning-border: #e1ca88;
+  color: #664d03;
+  background-color: #fff3cd;
+  border-color: var(--gs-card-warning-border);
+}
+
+.gs-card-warning .card-header,
+.gs-card-warning li {
+  border-color: var(--gs-card-warning-border);
+}
+
+.border-primary .card-header {
+  border-bottom-color: var(--bs-primary);
+  text-align: center;
+  font-weight: 500;
+}
+
+@include media-breakpoint-down(sm) {
+  .gs-banner {
+    height: 125px;
   }
 }

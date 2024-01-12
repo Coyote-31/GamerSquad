@@ -1,83 +1,88 @@
-<div class="row">
-  <div class="col-md-3">
-    <span class="hipster img-fluid rounded"></span>
-  </div>
+<img class="gs-banner rounded mx-auto" src="content/images/banner/gs-banner.png" alt="Gamer Squad" />
 
-  <div class="col-md-9">
-    <h1 class="display-4"><span jhiTranslate="home.title">Bienvenue sur Gamer Squad !</span> (Gamer Squad)</h1>
-
-    <p class="lead" jhiTranslate="home.subtitle">Ceci est votre page d'accueil</p>
-
-    <div [ngSwitch]="account !== null">
-      <div class="alert alert-success" *ngSwitchCase="true">
-        <span
-          id="home-logged-message"
-          *ngIf="account"
-          jhiTranslate="home.logged.message"
-          [translateValues]="{ username: account.login | titlecase }"
-          >Vous êtes connecté en tant que "{{ account.login }}".</span
-        >
-      </div>
-
-      <div class="alert alert-warning" *ngSwitchCase="false">
-        <span jhiTranslate="global.messages.info.authenticated.prefix">Si vous voulez vous </span>
-        <a class="alert-link" (click)="login()" jhiTranslate="global.messages.info.authenticated.link">connecter</a
-        ><span jhiTranslate="global.messages.info.authenticated.suffix"
-          >, vous pouvez utiliser les comptes par défaut : <br />
-          - Administrateur (nom d'utilisateur="admin" et mot de passe ="admin") <br />
-          - Utilisateur (nom d'utilisateur="user" et mot de passe ="user").</span
-        >
-      </div>
-
-      <div class="alert alert-warning" *ngSwitchCase="false">
-        <span jhiTranslate="global.messages.info.register.noaccount">Vous n'avez pas encore de compte ?</span>&nbsp;
-        <a class="alert-link" routerLink="account/register" jhiTranslate="global.messages.info.register.link">Créer un compte</a>
+<div class="container gs-landing-container mt-3">
+  <div [ngSwitch]="account !== null">
+    <div class="" *ngSwitchCase="true">
+      <div *ngIf="account">
+        <h1 class="display-4">Bienvenue {{ account.login | titlecase }} sur Gamer Squad !</h1>
+        <p class="lead">Le site pour rencontrer des joueurs et organiser des évènements avec ses amis</p>
       </div>
     </div>
 
-    <p jhiTranslate="home.question">Si vous avez des questions à propos de JHipster :</p>
+    <div *ngSwitchCase="false">
+      <div>
+        <h1 class="display-4">Bienvenue sur Gamer Squad !</h1>
+        <p class="lead">Le site pour rencontrer des joueurs et organiser des évènements avec ses amis</p>
+      </div>
 
-    <ul>
-      <li>
-        <a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer" jhiTranslate="home.link.homepage"
-          >Page d'accueil de JHipster</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://stackoverflow.com/tags/jhipster/info"
-          target="_blank"
-          rel="noopener noreferrer"
-          jhiTranslate="home.link.stackoverflow"
-          >JHipster sur Stack Overflow</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://github.com/jhipster/generator-jhipster/issues?state=open"
-          target="_blank"
-          rel="noopener noreferrer"
-          jhiTranslate="home.link.bugtracker"
-          >JHipster bug tracker</a
-        >
-      </li>
-      <li>
-        <a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer" jhiTranslate="home.link.chat"
-          >JHipster public chat room</a
-        >
-      </li>
-      <li>
-        <a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer" jhiTranslate="home.link.follow"
-          >Suivez @jhipster sur Twitter</a
-        >
-      </li>
-    </ul>
+      <hr />
 
-    <p>
-      <span jhiTranslate="home.like">Si vous aimez JHipster, donnez nous une étoile sur</span>
-      <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer" jhiTranslate="home.github"
-        >GitHub </a
-      >!
-    </p>
+      <div class="card gs-card-warning">
+        <div class="card-header">Vous n'êtes pas authentifié</div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <span jhiTranslate="global.messages.info.authenticated.prefix">Si vous voulez vous </span>
+            <a class="alert-link" (click)="login()" jhiTranslate="global.messages.info.authenticated.link">connecter</a>
+          </li>
+          <li class="list-group-item">
+            <span jhiTranslate="global.messages.info.register.noaccount">Vous n'avez pas encore de compte ?</span>&nbsp;
+            <a class="alert-link" routerLink="account/register" jhiTranslate="global.messages.info.register.link">Créer un compte</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  <!-- Features cards -->
+  <div class="row row-cols-1 row-cols-lg-3 g-4 pb-2">
+    <div class="col">
+      <div class="card border-primary">
+        <div class="card-header">Games</div>
+        <div class="card-body">
+          <p class="card-text">Dans ce menu vous retrouvez tous les jeux disponibles.</p>
+          <p class="card-text">En vous abonnant à un jeu vous débloquez plusieurs fonctionnalités :</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Voir les joueurs abonnés</li>
+          <li class="list-group-item">Faire une demande d'ami</li>
+          <li class="list-group-item">Voir les évènements publics</li>
+          <li class="list-group-item">S'inscrire à un évènement</li>
+          <li class="list-group-item">Créer un évènement</li>
+        </ul>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card border-primary">
+        <div class="card-header">Amis</div>
+        <div class="card-body">
+          <p class="card-text">Le Menu 'Amis' vous permets d'avoir accès à tous vos amis.</p>
+          <p class="card-text">Dans cet espace vous aurez la possibilité de :</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Accepter une demande</li>
+          <li class="list-group-item">Refuser une demande</li>
+          <li class="list-group-item">Supprimer un ami</li>
+          <li class="list-group-item">Accéder au chat</li>
+        </ul>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card border-primary">
+        <div class="card-header">Mes évènements</div>
+        <div class="card-body">
+          <p class="card-text">Dans ce menu vous aurez accès à tous vos évènements.</p>
+          <p class="card-text">Avec ces évènements, vous aurez alors la possibilité de :</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Voir ceux que vous possédés</li>
+          <li class="list-group-item">Voir ceux dont vous êtes abonné</li>
+          <li class="list-group-item">Voir ceux qui sont en attente</li>
+          <li class="list-group-item">Accepter ou refuser une invitation</li>
+          <li class="list-group-item">Voir le détail d'un évènement</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
