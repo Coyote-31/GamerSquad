@@ -12,6 +12,7 @@ export class ErrorComponent implements OnInit, OnDestroy {
   errorMessage?: string;
   errorKey?: string;
   langChangeSubscription?: Subscription;
+  errorNumber?: number;
 
   constructor(private translateService: TranslateService, private route: ActivatedRoute) {}
 
@@ -19,6 +20,7 @@ export class ErrorComponent implements OnInit, OnDestroy {
     this.route.data.subscribe(routeData => {
       if (routeData.errorMessage) {
         this.errorKey = routeData.errorMessage;
+        this.errorNumber = routeData.errorNumber ? routeData.errorNumber : null;
         this.getErrorMessageTranslation();
         this.langChangeSubscription = this.translateService.onLangChange.subscribe(() => this.getErrorMessageTranslation());
       }

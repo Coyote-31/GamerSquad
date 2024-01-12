@@ -1,10 +1,16 @@
 <div class="container">
-  <h1 jhiTranslate="error.title">Page d'erreur !</h1>
+  <h1 class="display-5 text-center" jhiTranslate="error.title">Page d'erreur !</h1>
 
-  <div *ngIf="errorMessage">
-    <div class="alert alert-danger">{{ errorMessage }}</div>
+  <hr />
+
+  <div class="text-center mt-4">
+    <img class="border rounded-circle text-bg-dark p-3" src="./content/images/logo/logo-gamer-squad.png" alt="Gamer Squad Logo" />
   </div>
-  <div class="text-center">
-    <span class="hipster img-fluid rounded"></span>
+
+  <div *ngIf="errorNumber" class="display-1 text-center">
+    {{ errorNumber }}
+  </div>
+  <div *ngIf="errorMessage">
+    <div class="fs-3 text-center">{{ errorMessage }}</div>
   </div>
 </div>
