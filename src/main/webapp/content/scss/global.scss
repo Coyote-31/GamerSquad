@@ -1,6 +1,7 @@
 @import 'bootstrap-variables';
 @import 'node_modules/bootstrap/scss/functions';
 @import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/mixins';
 
 /* ==============================================================
 Bootstrap tweaks
@@ -115,8 +116,17 @@ Generic styles
 Custom alerts for notification
 ========================================================================== */
 .alerts {
+  position: absolute;
+  top: 1rem;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+  pointer-events: none;
+  z-index: 1000;
+
   .alert {
     text-overflow: ellipsis;
+
     pre {
       background: none;
       border: none;
@@ -144,6 +154,25 @@ Custom alerts for notification
     &.bottom {
       bottom: 55px;
     }
+  }
+}
+
+.alerts-sticky {
+  position: sticky;
+  top: 1rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  pointer-events: all;
+}
+
+@include media-breakpoint-up(md) {
+  .alert {
+    display: inline-block;
+    margin-inline: 50%;
+    transform: translateX(-50%);
+    width: max-content;
   }
 }
 

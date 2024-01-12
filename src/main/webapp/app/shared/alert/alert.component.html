@@ -1,7 +1,9 @@
 <div class="alerts" role="alert">
-  <div *ngFor="let alert of alerts" [ngClass]="setClasses(alert)">
-    <ngb-alert *ngIf="alert.message" [type]="alert.type" (closed)="close(alert)">
-      <pre [innerHTML]="alert.message"></pre>
-    </ngb-alert>
+  <div class="alerts-sticky d-md-flex flex-md-column">
+    <div *ngFor="let alert of alerts" [ngClass]="setClasses(alert)" class="">
+      <ngb-alert *ngIf="alert.message" [type]="alert.type" (closed)="close(alert)">
+        <div [innerHTML]="alert.message"></div>
+      </ngb-alert>
+    </div>
   </div>
 </div>
