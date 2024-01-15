@@ -7,12 +7,14 @@ import com.coyote.gamersquad.repository.extended.*;
 import com.coyote.gamersquad.service.EventService;
 import com.coyote.gamersquad.service.dto.form.EventCreateDTO;
 import com.coyote.gamersquad.service.dto.projection.EventDetailDTO;
+import com.coyote.gamersquad.service.errors.AppUserNotFoundException;
+import com.coyote.gamersquad.service.errors.EventNotFoundException;
+import com.coyote.gamersquad.service.errors.ForbiddenException;
+import com.coyote.gamersquad.service.errors.GameNotFoundException;
 import com.coyote.gamersquad.service.mapper.EventMapper;
 import java.util.List;
-import javax.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,7 +68,7 @@ public class EventServiceExtended extends EventService {
         log.debug("Request to get all EventDetails public by Game id : {}", gameId);
 
         // Check if a Game exists with this id
-        Game game = gameRepository.findById(gameId).orElseThrow(() -> new EntityNotFoundException("Game not found with ID : " + gameId));
+        Game game = gameRepository.findById(gameId).orElseThrow(() -> new GameNotFoundException(gameId));
 
         return eventRepository.getAllEventDetailsPublicByGameId(game);
     }
@@ -85,19 +87,17 @@ public class EventServiceExtended extends EventService {
         // Check if AppUser exists
         AppUser appUser = appUserRepository
             .getAppUserByInternalUser_Login(userLogin)
-            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+            .orElseThrow(() -> new AppUserNotFoundException(userLogin));
 
         // Check if Event exists
-        Event event = eventRepository
-            .findById(eventId)
-            .orElseThrow(() -> new EntityNotFoundException("Event not found with id : " + eventId));
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
 
         // If the event is private and the user is not the owner
         if (event.getIsPrivate() && !appUser.equals(event.getOwner())) {
             // check if the user is an accepted subscriber
             if (!eventSubService.isAcceptedSubscriber(appUser, event)) {
-                throw new AccessDeniedException(
-                    "Access denied to the event with id : " +
+                throw new ForbiddenException(
+                    "Forbidden to get private eventDetail for the event with id : " +
                     eventId +
                     " because you are not the owner neither an accepted subscriber with login : " +
                     userLogin
@@ -120,7 +120,7 @@ public class EventServiceExtended extends EventService {
         // Check if AppUser exists
         AppUser appUser = appUserRepository
             .getAppUserByInternalUser_Login(userLogin)
-            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+            .orElseThrow(() -> new AppUserNotFoundException(userLogin));
 
         return eventRepository.getAllEventDetailsOwnedByAppUser(appUser);
     }
@@ -137,7 +137,7 @@ public class EventServiceExtended extends EventService {
         // Check if AppUser exists
         AppUser appUser = appUserRepository
             .getAppUserByInternalUser_Login(userLogin)
-            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+            .orElseThrow(() -> new AppUserNotFoundException(userLogin));
 
         return eventRepository.getAllEventDetailsSubscribedByAppUser(appUser);
     }
@@ -154,7 +154,7 @@ public class EventServiceExtended extends EventService {
         // Check if AppUser exists
         AppUser appUser = appUserRepository
             .getAppUserByInternalUser_Login(userLogin)
-            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+            .orElseThrow(() -> new AppUserNotFoundException(userLogin));
 
         return eventRepository.getAllEventDetailsPendingByAppUser(appUser);
     }
@@ -173,10 +173,10 @@ public class EventServiceExtended extends EventService {
         // Check if AppUser exists
         AppUser appUser = appUserRepository
             .getAppUserByInternalUser_Login(userLogin)
-            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+            .orElseThrow(() -> new AppUserNotFoundException(userLogin));
 
         // Check if the Game exists
-        Game game = gameRepository.findById(gameId).orElseThrow(() -> new EntityNotFoundException("Game not found with id : " + gameId));
+        Game game = gameRepository.findById(gameId).orElseThrow(() -> new GameNotFoundException(gameId));
 
         // Create the new entity
         Event eventEntity = new Event()
@@ -208,17 +208,15 @@ public class EventServiceExtended extends EventService {
         // Check if AppUser exists
         AppUser appUser = appUserRepository
             .getAppUserByInternalUser_Login(userLogin)
-            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+            .orElseThrow(() -> new AppUserNotFoundException(userLogin));
 
         // Check if Event exists
-        Event event = eventRepository
-            .findById(eventId)
-            .orElseThrow(() -> new EntityNotFoundException("Event not found with id : " + eventId));
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
 
         // Check if the AppUser is the owner
         if (!event.getOwner().equals(appUser)) {
-            throw new AccessDeniedException(
-                "Access denied to update event with id : " + eventId + " because you are not the owner with login : " + userLogin
+            throw new ForbiddenException(
+                "Forbidden to update event with id : " + eventId + " because you are not the owner with login : " + userLogin
             );
         }
 
@@ -251,17 +249,15 @@ public class EventServiceExtended extends EventService {
         // Check if AppUser exists
         AppUser appUser = appUserRepository
             .getAppUserByInternalUser_Login(userLogin)
-            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+            .orElseThrow(() -> new AppUserNotFoundException(userLogin));
 
         // Check if Event exists
-        Event event = eventRepository
-            .findById(eventId)
-            .orElseThrow(() -> new EntityNotFoundException("Event not found with id : " + eventId));
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
 
         // Check if the AppUser is the owner
         if (!event.getOwner().equals(appUser)) {
-            throw new AccessDeniedException(
-                "Access denied to delete event with id : " + eventId + " because you are not the owner with login : " + userLogin
+            throw new ForbiddenException(
+                "Forbidden to delete event with id : " + eventId + " because you are not the owner with login : " + userLogin
             );
         }
 

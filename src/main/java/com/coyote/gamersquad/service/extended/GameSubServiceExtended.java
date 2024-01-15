@@ -11,11 +11,12 @@ import com.coyote.gamersquad.service.GameSubService;
 import com.coyote.gamersquad.service.dto.AppUserDTO;
 import com.coyote.gamersquad.service.dto.GameSubDTO;
 import com.coyote.gamersquad.service.dto.projection.PlayerFriendshipDTO;
+import com.coyote.gamersquad.service.errors.AppUserNotFoundException;
+import com.coyote.gamersquad.service.errors.ForbiddenException;
+import com.coyote.gamersquad.service.errors.GameNotFoundException;
 import com.coyote.gamersquad.service.mapper.AppUserMapper;
 import com.coyote.gamersquad.service.mapper.GameSubMapper;
 import java.util.List;
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -71,8 +72,9 @@ public class GameSubServiceExtended extends GameSubService {
 
         AppUser appUser = appUserRepository
             .getAppUserByInternalUser_Login(userLogin)
-            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
-        Game game = gameRepository.findById(gameId).orElseThrow(() -> new EntityNotFoundException("Game not found for id : " + gameId));
+            .orElseThrow(() -> new AppUserNotFoundException(userLogin));
+
+        Game game = gameRepository.findById(gameId).orElseThrow(() -> new GameNotFoundException(gameId));
 
         return gameSubRepository.existsByAppUserAndGame(appUser, game);
     }
@@ -89,11 +91,12 @@ public class GameSubServiceExtended extends GameSubService {
 
         AppUser appUser = appUserRepository
             .getAppUserByInternalUser_Login(userLogin)
-            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
-        Game game = gameRepository.findById(gameId).orElseThrow(() -> new EntityNotFoundException("Game not found for id : " + gameId));
+            .orElseThrow(() -> new AppUserNotFoundException(userLogin));
+
+        Game game = gameRepository.findById(gameId).orElseThrow(() -> new GameNotFoundException(gameId));
 
         if (gameSubRepository.existsByAppUserAndGame(appUser, game)) {
-            throw new EntityExistsException("User : " + userLogin + " is already subscribed to Game : " + gameId);
+            throw new ForbiddenException("User : " + userLogin + " is already subscribed to Game : " + gameId);
         }
 
         GameSub gameSub = new GameSub();
@@ -116,12 +119,13 @@ public class GameSubServiceExtended extends GameSubService {
 
         AppUser appUser = appUserRepository
             .getAppUserByInternalUser_Login(userLogin)
-            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
-        Game game = gameRepository.findById(gameId).orElseThrow(() -> new EntityNotFoundException("Game not found for id : " + gameId));
+            .orElseThrow(() -> new AppUserNotFoundException(userLogin));
+
+        Game game = gameRepository.findById(gameId).orElseThrow(() -> new GameNotFoundException(gameId));
 
         GameSub gameSub = gameSubRepository
             .findOneByAppUserAndGame(appUser, game)
-            .orElseThrow(() -> new EntityNotFoundException("User : " + userLogin + " is not subscribed to Game : " + gameId));
+            .orElseThrow(() -> new ForbiddenException("User : " + userLogin + " is not subscribed to Game : " + gameId));
 
         gameSubRepository.delete(gameSub);
     }
@@ -153,7 +157,7 @@ public class GameSubServiceExtended extends GameSubService {
 
         AppUser appUser = appUserRepository
             .getAppUserByInternalUser_Login(userLogin)
-            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+            .orElseThrow(() -> new AppUserNotFoundException(userLogin));
 
         return friendshipRepository.getAllPlayersSubToGame(appUser.getId(), gameId);
     }

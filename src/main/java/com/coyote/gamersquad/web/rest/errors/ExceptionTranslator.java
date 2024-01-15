@@ -1,5 +1,6 @@
 package com.coyote.gamersquad.web.rest.errors;
 
+import com.coyote.gamersquad.service.errors.*;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.Collection;
@@ -163,6 +164,81 @@ public class ExceptionTranslator implements ProblemHandling, SecurityAdviceTrait
         Problem problem = Problem.builder().withStatus(Status.CONFLICT).with(MESSAGE_KEY, ErrorConstants.ERR_CONCURRENCY_FAILURE).build();
         return create(ex, problem, request);
     }
+
+    //--------------------------------------------------
+    // ExceptionHandlers specific to GamerSquad : Start
+    //--------------------------------------------------
+
+    @ExceptionHandler
+    public ResponseEntity<Problem> handleForbiddenException(ForbiddenException ex, NativeWebRequest request) {
+        Problem problem = Problem.builder().withTitle("Forbidden").withStatus(Status.FORBIDDEN).with(MESSAGE_KEY, ex.getMessage()).build();
+
+        return create(ex, problem, request);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Problem> handleAppUserNotFoundException(AppUserNotFoundException ex, NativeWebRequest request) {
+        Problem problem = Problem
+            .builder()
+            .withTitle("AppUserNotFound")
+            .withStatus(Status.NOT_FOUND)
+            .with(MESSAGE_KEY, ex.getMessage())
+            .build();
+
+        return create(ex, problem, request);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Problem> handleEventNotFoundException(EventNotFoundException ex, NativeWebRequest request) {
+        Problem problem = Problem
+            .builder()
+            .withTitle("EventNotFound")
+            .withStatus(Status.NOT_FOUND)
+            .with(MESSAGE_KEY, ex.getMessage())
+            .build();
+
+        return create(ex, problem, request);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Problem> handleEventSubNotFoundException(EventSubNotFoundException ex, NativeWebRequest request) {
+        Problem problem = Problem
+            .builder()
+            .withTitle("EventSubNotFound")
+            .withStatus(Status.NOT_FOUND)
+            .with(MESSAGE_KEY, ex.getMessage())
+            .build();
+
+        return create(ex, problem, request);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Problem> handleFriendshipNotFoundException(FriendshipNotFoundException ex, NativeWebRequest request) {
+        Problem problem = Problem
+            .builder()
+            .withTitle("FriendshipNotFound")
+            .withStatus(Status.NOT_FOUND)
+            .with(MESSAGE_KEY, ex.getMessage())
+            .build();
+
+        return create(ex, problem, request);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Problem> handleGameNotFoundException(GameNotFoundException ex, NativeWebRequest request) {
+        Problem problem = Problem
+            .builder()
+            .withTitle("GameNotFound")
+            .withStatus(Status.NOT_FOUND)
+            .with(MESSAGE_KEY, ex.getMessage())
+            .build();
+
+        return create(ex, problem, request);
+    }
+
+    //--------------------------------------------------
+    // ExceptionHandlers specific to GamerSquad : End
+    //--------------------------------------------------
 
     @Override
     public ProblemBuilder prepare(final Throwable throwable, final StatusType status, final URI type) {

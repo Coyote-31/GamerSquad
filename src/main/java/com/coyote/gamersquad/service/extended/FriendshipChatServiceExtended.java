@@ -10,13 +10,14 @@ import com.coyote.gamersquad.service.FriendshipChatService;
 import com.coyote.gamersquad.service.dto.FriendshipChatDTO;
 import com.coyote.gamersquad.service.dto.form.FriendMessageDTO;
 import com.coyote.gamersquad.service.dto.projection.PlayerChatDTO;
+import com.coyote.gamersquad.service.errors.AppUserNotFoundException;
+import com.coyote.gamersquad.service.errors.ForbiddenException;
+import com.coyote.gamersquad.service.errors.FriendshipNotFoundException;
 import com.coyote.gamersquad.service.mapper.FriendshipChatMapper;
 import java.time.Instant;
 import java.util.List;
-import javax.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,20 +63,17 @@ public class FriendshipChatServiceExtended extends FriendshipChatService {
 
         AppUser appUser = appUserRepository
             .getAppUserByInternalUser_Login(userLogin)
-            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+            .orElseThrow(() -> new AppUserNotFoundException(userLogin));
 
         // Check if the friendship exist
         Friendship friendship = friendshipRepository
             .findById(friendshipId)
-            .orElseThrow(() -> new EntityNotFoundException("Friendship not found with id : " + friendshipId));
+            .orElseThrow(() -> new FriendshipNotFoundException(friendshipId));
 
         // Check if the appUser is part of this friendship
         if (!appUser.equals(friendship.getAppUserOwner()) && !appUser.equals(friendship.getAppUserReceiver())) {
-            throw new AccessDeniedException(
-                "Access Denied because appUser with id : " +
-                appUser.getId() +
-                " is not part of the friendship with id : " +
-                friendship.getId()
+            throw new ForbiddenException(
+                "Forbidden because appUser with id : " + appUser.getId() + " is not part of the friendship with id : " + friendship.getId()
             );
         }
 
@@ -95,26 +93,23 @@ public class FriendshipChatServiceExtended extends FriendshipChatService {
 
         AppUser appUser = appUserRepository
             .getAppUserByInternalUser_Login(userLogin)
-            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+            .orElseThrow(() -> new AppUserNotFoundException(userLogin));
 
         // Check if the friendship exist
         Friendship friendship = friendshipRepository
             .findById(friendshipId)
-            .orElseThrow(() -> new EntityNotFoundException("Friendship not found with id : " + friendshipId));
+            .orElseThrow(() -> new FriendshipNotFoundException(friendshipId));
 
         // Check if the appUser is part of this friendship
         if (!appUser.equals(friendship.getAppUserOwner()) && !appUser.equals(friendship.getAppUserReceiver())) {
-            throw new AccessDeniedException(
-                "Access Denied because appUser with id : " +
-                appUser.getId() +
-                " is not part of the friendship with id : " +
-                friendship.getId()
+            throw new ForbiddenException(
+                "Forbidden because appUser with id : " + appUser.getId() + " is not part of the friendship with id : " + friendship.getId()
             );
         }
 
         // Check if the friendship is activated
         if (!friendship.getIsAccepted()) {
-            throw new AccessDeniedException("Access Denied because friendship with id : " + friendship.getId() + " is not activated");
+            throw new ForbiddenException("Forbidden because friendship with id : " + friendship.getId() + " is not activated");
         }
 
         // Create the new friendshipChat to save

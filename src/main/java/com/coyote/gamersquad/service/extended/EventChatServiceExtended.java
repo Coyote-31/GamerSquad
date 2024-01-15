@@ -11,13 +11,14 @@ import com.coyote.gamersquad.service.EventChatService;
 import com.coyote.gamersquad.service.dto.EventChatDTO;
 import com.coyote.gamersquad.service.dto.form.EventMessageDTO;
 import com.coyote.gamersquad.service.dto.projection.EventPlayerChatDTO;
+import com.coyote.gamersquad.service.errors.AppUserNotFoundException;
+import com.coyote.gamersquad.service.errors.EventNotFoundException;
+import com.coyote.gamersquad.service.errors.ForbiddenException;
 import com.coyote.gamersquad.service.mapper.EventChatMapper;
 import java.time.Instant;
 import java.util.List;
-import javax.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,12 +71,10 @@ public class EventChatServiceExtended extends EventChatService {
         // Check if the appUser exists
         AppUser appUser = appUserRepository
             .getAppUserByInternalUser_Login(userLogin)
-            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+            .orElseThrow(() -> new AppUserNotFoundException(userLogin));
 
         // Check if the event exists
-        Event event = eventRepository
-            .findById(eventId)
-            .orElseThrow(() -> new EntityNotFoundException("Event not found with id : " + eventId));
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
 
         log.debug("--- event isPrivate : " + event.getIsPrivate() + " ---");
 
@@ -84,8 +83,8 @@ public class EventChatServiceExtended extends EventChatService {
 
         // Check if the appUser is the owner or an accepted user of this event
         if (!event.getOwner().equals(appUser) && !isAcceptedSub) {
-            throw new AccessDeniedException(
-                "Access Denied to get eventPlayerChats because appUser with id : " +
+            throw new ForbiddenException(
+                "Forbidden to get eventPlayerChats because appUser with id : " +
                 appUser.getId() +
                 " is not the owner or an accepted user of the event with id : " +
                 event.getId()
@@ -109,12 +108,10 @@ public class EventChatServiceExtended extends EventChatService {
         // Check if the appUser exists
         AppUser appUser = appUserRepository
             .getAppUserByInternalUser_Login(userLogin)
-            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+            .orElseThrow(() -> new AppUserNotFoundException(userLogin));
 
         // Check if the event exists
-        Event event = eventRepository
-            .findById(eventId)
-            .orElseThrow(() -> new EntityNotFoundException("Event not found with id : " + eventId));
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
 
         log.debug("--- event isPrivate : " + event.getIsPrivate() + " ---");
 
@@ -123,8 +120,8 @@ public class EventChatServiceExtended extends EventChatService {
 
         // Check if the appUser is the owner or an accepted user of this event
         if (!event.getOwner().equals(appUser) && !isAcceptedSub) {
-            throw new AccessDeniedException(
-                "Access Denied to create eventChat because appUser with id : " +
+            throw new ForbiddenException(
+                "Forbidden to create eventChat because appUser with id : " +
                 appUser.getId() +
                 " is not the owner or an accepted user of the event with id : " +
                 event.getId()

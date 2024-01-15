@@ -9,14 +9,14 @@ import com.coyote.gamersquad.service.FriendshipService;
 import com.coyote.gamersquad.service.dto.AppUserDTO;
 import com.coyote.gamersquad.service.dto.FriendshipDTO;
 import com.coyote.gamersquad.service.dto.projection.PlayerFriendshipDTO;
+import com.coyote.gamersquad.service.errors.AppUserNotFoundException;
+import com.coyote.gamersquad.service.errors.ForbiddenException;
+import com.coyote.gamersquad.service.errors.FriendshipNotFoundException;
 import com.coyote.gamersquad.service.mapper.AppUserMapper;
 import com.coyote.gamersquad.service.mapper.FriendshipMapper;
 import java.util.List;
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,7 +65,7 @@ public class FriendshipServiceExtended extends FriendshipService {
 
         AppUser appUser = appUserRepository
             .getAppUserByInternalUser_Login(userLogin)
-            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+            .orElseThrow(() -> new AppUserNotFoundException(userLogin));
 
         return appUserMapper.toDto(appUserRepository.findAllFriends(appUser.getId()));
     }
@@ -81,7 +81,7 @@ public class FriendshipServiceExtended extends FriendshipService {
 
         AppUser appUser = appUserRepository
             .getAppUserByInternalUser_Login(userLogin)
-            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+            .orElseThrow(() -> new AppUserNotFoundException(userLogin));
 
         return friendshipRepository.getAllPlayersFriends(appUser.getId());
     }
@@ -98,16 +98,16 @@ public class FriendshipServiceExtended extends FriendshipService {
 
         AppUser appUser = appUserRepository
             .getAppUserByInternalUser_Login(userLogin)
-            .orElseThrow(() -> new EntityNotFoundException("AppUser not found for login : " + userLogin));
+            .orElseThrow(() -> new AppUserNotFoundException(userLogin));
 
         // Check if the Friendship exist
         Friendship friendship = friendshipRepository
             .findById(friendshipId)
-            .orElseThrow(() -> new EntityNotFoundException("Friendship no found with ID : " + friendshipId));
+            .orElseThrow(() -> new FriendshipNotFoundException(friendshipId));
 
         // Check if the appUser is part of the Friendship
         if (!appUser.equals(friendship.getAppUserOwner()) && !appUser.equals(friendship.getAppUserReceiver())) {
-            throw new AccessDeniedException("User : " + userLogin + " is not part of the Friendship with ID : " + friendshipId);
+            throw new ForbiddenException("User : " + userLogin + " is not part of the Friendship with ID : " + friendshipId);
         }
 
         return friendshipRepository.getPlayerFriendByFriendshipId(friendshipId, appUser);
@@ -125,15 +125,13 @@ public class FriendshipServiceExtended extends FriendshipService {
 
         AppUser owner = appUserRepository
             .getAppUserByInternalUser_Login(userLogin)
-            .orElseThrow(() -> new EntityNotFoundException("AppUser owner not found for login : " + userLogin));
+            .orElseThrow(() -> new AppUserNotFoundException(userLogin));
 
-        AppUser receiver = appUserRepository
-            .findById(appUserId)
-            .orElseThrow(() -> new EntityNotFoundException("AppUser receiver not found for ID : " + appUserId));
+        AppUser receiver = appUserRepository.findById(appUserId).orElseThrow(() -> new AppUserNotFoundException(appUserId));
 
         // Check if friendship entity already exists between both users
         if (friendshipRepository.existsFriendshipBetweenAppUsers(owner, receiver)) {
-            throw new EntityExistsException(
+            throw new ForbiddenException(
                 "Friendship between AppUser IDs : " + owner.getId() + " and " + receiver.getId() + " already exists"
             );
         }
@@ -157,26 +155,20 @@ public class FriendshipServiceExtended extends FriendshipService {
     public FriendshipDTO acceptFriendshipDemand(Long appUserId, String userLogin) {
         log.debug("Request to acceptFriendshipDemand from AppUser : {} for User : {}", appUserId, userLogin);
 
-        AppUser owner = appUserRepository
-            .findById(appUserId)
-            .orElseThrow(() -> new EntityNotFoundException("AppUser owner not found for ID : " + appUserId));
+        AppUser owner = appUserRepository.findById(appUserId).orElseThrow(() -> new AppUserNotFoundException(appUserId));
 
         AppUser receiver = appUserRepository
             .getAppUserByInternalUser_Login(userLogin)
-            .orElseThrow(() -> new EntityNotFoundException("AppUser receiver not found for login : " + userLogin));
+            .orElseThrow(() -> new AppUserNotFoundException(userLogin));
 
         // Check if the friendship entity exist with the AppUser receiver as receiver and retrieve it
         Friendship friendshipToUpdate = friendshipRepository
             .findByAppUserOwnerAndAppUserReceiver(owner, receiver)
-            .orElseThrow(() ->
-                new EntityNotFoundException(
-                    "Friendship not found with AppUser owner : " + owner.getId() + " and AppUser receiver : " + receiver.getId()
-                )
-            );
+            .orElseThrow(() -> new FriendshipNotFoundException(owner.getId(), receiver.getId()));
 
         // Check if already accepted
         if (friendshipToUpdate.getIsAccepted()) {
-            throw new IllegalStateException(
+            throw new ForbiddenException(
                 "Friendship already accepted between AppUser owner : " + owner.getId() + " and AppUser receiver : " + receiver.getId()
             );
         }
@@ -194,20 +186,16 @@ public class FriendshipServiceExtended extends FriendshipService {
      * @param userLogin the Login of the User deleting the friendship.
      */
     public void deleteFriendship(Long appUserId, String userLogin) {
-        AppUser appUser1 = appUserRepository
-            .findById(appUserId)
-            .orElseThrow(() -> new EntityNotFoundException("AppUser appUser1 not found for ID : " + appUserId));
+        AppUser appUser1 = appUserRepository.findById(appUserId).orElseThrow(() -> new AppUserNotFoundException(appUserId));
 
         AppUser appUser2 = appUserRepository
             .getAppUserByInternalUser_Login(userLogin)
-            .orElseThrow(() -> new EntityNotFoundException("AppUser appUser2 not found for login : " + userLogin));
+            .orElseThrow(() -> new AppUserNotFoundException(userLogin));
 
         // Check if the friendship entity exist between appUser1 and appUser2 and retrieve it
         Friendship friendshipToDelete = friendshipRepository
             .findFriendshipBetweenAppUsers(appUser1, appUser2)
-            .orElseThrow(() ->
-                new EntityNotFoundException("Friendship not found between appUser1 : " + appUserId + " and appUser2 : " + userLogin)
-            );
+            .orElseThrow(() -> new FriendshipNotFoundException(appUserId, userLogin));
 
         // Delete all friendshipChats
         friendshipChatRepository.deleteAllByFriendship_Id(friendshipToDelete.getId());
