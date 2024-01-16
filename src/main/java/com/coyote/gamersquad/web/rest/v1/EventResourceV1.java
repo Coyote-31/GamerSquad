@@ -1,7 +1,7 @@
 package com.coyote.gamersquad.web.rest.v1;
 
+import com.coyote.gamersquad.domain.dto.projection.EventDetailDTO;
 import com.coyote.gamersquad.service.dto.form.EventCreateDTO;
-import com.coyote.gamersquad.service.dto.projection.EventDetailDTO;
 import com.coyote.gamersquad.service.extended.EventServiceExtended;
 import java.net.URI;
 import java.net.URISyntaxException;

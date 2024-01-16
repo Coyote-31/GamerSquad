@@ -1,12 +1,12 @@
-package com.coyote.gamersquad.service.dto.projection;
+package com.coyote.gamersquad.domain.dto.projection;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A DTO to display a player in the view with friendship info.
+ * A DTO to display a player in the event view.
  */
-public class PlayerFriendshipDTO implements Serializable {
+public class EventPlayerDTO implements Serializable {
 
     private Long userId;
 
@@ -16,32 +16,28 @@ public class PlayerFriendshipDTO implements Serializable {
 
     private Long appUserId;
 
-    private Long friendshipId;
+    private Long eventId;
+
+    private Long eventSubId;
 
     private Boolean accepted;
 
-    private Boolean owned;
-
-    private Boolean received;
-
-    public PlayerFriendshipDTO(
+    public EventPlayerDTO(
         Long userId,
         String userLogin,
         String userImageUrl,
         Long appUserId,
-        Long friendshipId,
-        Boolean accepted,
-        Boolean owned,
-        Boolean received
+        Long eventId,
+        Long eventSubId,
+        Boolean accepted
     ) {
         this.userId = userId;
         this.userLogin = userLogin;
         this.userImageUrl = userImageUrl;
         this.appUserId = appUserId;
-        this.friendshipId = friendshipId;
+        this.eventId = eventId;
+        this.eventSubId = eventSubId;
         this.accepted = accepted;
-        this.owned = owned;
-        this.received = received;
     }
 
     public Long getUserId() {
@@ -76,12 +72,20 @@ public class PlayerFriendshipDTO implements Serializable {
         this.appUserId = appUserId;
     }
 
-    public Long getFriendshipId() {
-        return friendshipId;
+    public Long getEventId() {
+        return eventId;
     }
 
-    public void setFriendshipId(Long friendshipId) {
-        this.friendshipId = friendshipId;
+    public void setEventId(Long eventId) {
+        this.eventId = eventId;
+    }
+
+    public Long getEventSubId() {
+        return eventSubId;
+    }
+
+    public void setEventSubId(Long eventSubId) {
+        this.eventSubId = eventSubId;
     }
 
     public Boolean isAccepted() {
@@ -92,48 +96,31 @@ public class PlayerFriendshipDTO implements Serializable {
         this.accepted = accepted;
     }
 
-    public Boolean isOwned() {
-        return owned;
-    }
-
-    public void setOwned(Boolean owned) {
-        this.owned = owned;
-    }
-
-    public Boolean isReceived() {
-        return received;
-    }
-
-    public void setReceived(Boolean received) {
-        this.received = received;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PlayerFriendshipDTO)) return false;
-        PlayerFriendshipDTO that = (PlayerFriendshipDTO) o;
+        if (!(o instanceof EventPlayerDTO)) return false;
+        EventPlayerDTO that = (EventPlayerDTO) o;
         return (
-            accepted == that.accepted &&
-            owned == that.owned &&
-            received == that.received &&
             Objects.equals(userId, that.userId) &&
             Objects.equals(userLogin, that.userLogin) &&
             Objects.equals(userImageUrl, that.userImageUrl) &&
             Objects.equals(appUserId, that.appUserId) &&
-            Objects.equals(friendshipId, that.friendshipId)
+            Objects.equals(eventId, that.eventId) &&
+            Objects.equals(eventSubId, that.eventSubId) &&
+            Objects.equals(accepted, that.accepted)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, userLogin, userImageUrl, appUserId, friendshipId, accepted, owned, received);
+        return Objects.hash(userId, userLogin, userImageUrl, appUserId, eventId, eventSubId, accepted);
     }
 
     @Override
     public String toString() {
         return (
-            "PlayerFriendshipDTO{" +
+            "EventPlayerDTO{" +
             "userId=" +
             userId +
             ", userLogin='" +
@@ -144,14 +131,12 @@ public class PlayerFriendshipDTO implements Serializable {
             '\'' +
             ", appUserId=" +
             appUserId +
-            ", friendshipId=" +
-            friendshipId +
+            ", eventId=" +
+            eventId +
+            ", eventSubId=" +
+            eventSubId +
             ", accepted=" +
             accepted +
-            ", owned=" +
-            owned +
-            ", received=" +
-            received +
             '}'
         );
     }

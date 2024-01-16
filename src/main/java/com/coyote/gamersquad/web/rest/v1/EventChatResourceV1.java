@@ -1,8 +1,8 @@
 package com.coyote.gamersquad.web.rest.v1;
 
+import com.coyote.gamersquad.domain.dto.projection.EventPlayerChatDTO;
 import com.coyote.gamersquad.service.dto.EventChatDTO;
 import com.coyote.gamersquad.service.dto.form.EventMessageDTO;
-import com.coyote.gamersquad.service.dto.projection.EventPlayerChatDTO;
 import com.coyote.gamersquad.service.extended.EventChatServiceExtended;
 import java.net.URI;
 import java.net.URISyntaxException;

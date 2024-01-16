@@ -1,8 +1,8 @@
 package com.coyote.gamersquad.repository.extended;
 
 import com.coyote.gamersquad.domain.Event;
+import com.coyote.gamersquad.domain.dto.projection.EventPlayerChatDTO;
 import com.coyote.gamersquad.repository.EventChatRepository;
-import com.coyote.gamersquad.service.dto.projection.EventPlayerChatDTO;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EventChatRepositoryExtended extends EventChatRepository {
     @Query(
-        "select new com.coyote.gamersquad.service.dto.projection.EventPlayerChatDTO(" +
+        "select new com.coyote.gamersquad.domain.dto.projection.EventPlayerChatDTO(" +
         "eventChat.appUser.internalUser.id, " +
         "eventChat.appUser.internalUser.login, " +
         "eventChat.appUser.internalUser.imageUrl, " +

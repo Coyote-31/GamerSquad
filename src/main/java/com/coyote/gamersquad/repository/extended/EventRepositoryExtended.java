@@ -2,8 +2,8 @@ package com.coyote.gamersquad.repository.extended;
 
 import com.coyote.gamersquad.domain.AppUser;
 import com.coyote.gamersquad.domain.Game;
+import com.coyote.gamersquad.domain.dto.projection.EventDetailDTO;
 import com.coyote.gamersquad.repository.EventRepository;
-import com.coyote.gamersquad.service.dto.projection.EventDetailDTO;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EventRepositoryExtended extends EventRepository {
     @Query(
-        "select new com.coyote.gamersquad.service.dto.projection.EventDetailDTO(" +
+        "select new com.coyote.gamersquad.domain.dto.projection.EventDetailDTO(" +
         "event.id, " +
         "event.title, " +
         "event.description, " +
@@ -37,7 +37,7 @@ public interface EventRepositoryExtended extends EventRepository {
     List<EventDetailDTO> getAllEventDetailsPublicByGameId(@Param("game") Game game);
 
     @Query(
-        "select new com.coyote.gamersquad.service.dto.projection.EventDetailDTO(" +
+        "select new com.coyote.gamersquad.domain.dto.projection.EventDetailDTO(" +
         "event.id, " +
         "event.title, " +
         "event.description, " +
@@ -55,7 +55,7 @@ public interface EventRepositoryExtended extends EventRepository {
     EventDetailDTO getEventDetailByEventId(@Param("eventId") Long eventId);
 
     @Query(
-        "select new com.coyote.gamersquad.service.dto.projection.EventDetailDTO(" +
+        "select new com.coyote.gamersquad.domain.dto.projection.EventDetailDTO(" +
         "event.id, " +
         "event.title, " +
         "event.description, " +
@@ -74,7 +74,7 @@ public interface EventRepositoryExtended extends EventRepository {
     List<EventDetailDTO> getAllEventDetailsOwnedByAppUser(@Param("appUser") AppUser appUser);
 
     @Query(
-        "select new com.coyote.gamersquad.service.dto.projection.EventDetailDTO(" +
+        "select new com.coyote.gamersquad.domain.dto.projection.EventDetailDTO(" +
         "event.id, " +
         "event.title, " +
         "event.description, " +
@@ -95,7 +95,7 @@ public interface EventRepositoryExtended extends EventRepository {
     List<EventDetailDTO> getAllEventDetailsSubscribedByAppUser(@Param("appUser") AppUser appUser);
 
     @Query(
-        "select new com.coyote.gamersquad.service.dto.projection.EventDetailDTO(" +
+        "select new com.coyote.gamersquad.domain.dto.projection.EventDetailDTO(" +
         "event.id, " +
         "event.title, " +
         "event.description, " +

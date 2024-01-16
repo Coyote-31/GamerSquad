@@ -1,7 +1,7 @@
 package com.coyote.gamersquad.repository.extended;
 
+import com.coyote.gamersquad.domain.dto.projection.PlayerChatDTO;
 import com.coyote.gamersquad.repository.FriendshipChatRepository;
-import com.coyote.gamersquad.service.dto.projection.PlayerChatDTO;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FriendshipChatRepositoryExtended extends FriendshipChatRepository {
     @Query(
-        "select new com.coyote.gamersquad.service.dto.projection.PlayerChatDTO(" +
+        "select new com.coyote.gamersquad.domain.dto.projection.PlayerChatDTO(" +
         "fc.sender.internalUser.id, " +
         "fc.sender.internalUser.login, " +
         "fc.sender.internalUser.imageUrl, " +

@@ -1,8 +1,8 @@
 package com.coyote.gamersquad.web.rest.v1;
 
+import com.coyote.gamersquad.domain.dto.projection.PlayerChatDTO;
 import com.coyote.gamersquad.service.dto.FriendshipChatDTO;
 import com.coyote.gamersquad.service.dto.form.FriendMessageDTO;
-import com.coyote.gamersquad.service.dto.projection.PlayerChatDTO;
 import com.coyote.gamersquad.service.extended.FriendshipChatServiceExtended;
 import java.net.URI;
 import java.net.URISyntaxException;

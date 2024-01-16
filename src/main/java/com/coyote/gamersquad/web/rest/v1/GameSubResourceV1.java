@@ -1,9 +1,9 @@
 package com.coyote.gamersquad.web.rest.v1;
 
+import com.coyote.gamersquad.domain.dto.projection.PlayerFriendshipDTO;
 import com.coyote.gamersquad.repository.extended.GameRepositoryExtended;
 import com.coyote.gamersquad.service.dto.AppUserDTO;
 import com.coyote.gamersquad.service.dto.GameSubDTO;
-import com.coyote.gamersquad.service.dto.projection.PlayerFriendshipDTO;
 import com.coyote.gamersquad.service.extended.GameSubServiceExtended;
 import com.coyote.gamersquad.web.rest.errors.BadRequestAlertException;
 import java.net.URI;

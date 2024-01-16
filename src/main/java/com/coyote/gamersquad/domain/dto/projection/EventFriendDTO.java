@@ -1,4 +1,4 @@
-package com.coyote.gamersquad.service.dto.projection;
+package com.coyote.gamersquad.domain.dto.projection;
 
 import java.io.Serializable;
 import java.util.Objects;

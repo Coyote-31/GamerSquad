@@ -1,8 +1,8 @@
 package com.coyote.gamersquad.web.rest.v1;
 
+import com.coyote.gamersquad.domain.dto.projection.PlayerFriendshipDTO;
 import com.coyote.gamersquad.service.dto.AppUserDTO;
 import com.coyote.gamersquad.service.dto.FriendshipDTO;
-import com.coyote.gamersquad.service.dto.projection.PlayerFriendshipDTO;
 import com.coyote.gamersquad.service.extended.FriendshipServiceExtended;
 import java.net.URI;
 import java.net.URISyntaxException;

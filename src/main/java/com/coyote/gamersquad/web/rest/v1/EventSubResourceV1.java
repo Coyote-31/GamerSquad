@@ -1,8 +1,8 @@
 package com.coyote.gamersquad.web.rest.v1;
 
+import com.coyote.gamersquad.domain.dto.projection.EventFriendDTO;
+import com.coyote.gamersquad.domain.dto.projection.EventPlayerDTO;
 import com.coyote.gamersquad.service.dto.EventSubDTO;
-import com.coyote.gamersquad.service.dto.projection.EventFriendDTO;
-import com.coyote.gamersquad.service.dto.projection.EventPlayerDTO;
 import com.coyote.gamersquad.service.extended.EventSubServiceExtended;
 import java.net.URI;
 import java.net.URISyntaxException;

@@ -2,13 +2,13 @@ package com.coyote.gamersquad.service.extended;
 
 import com.coyote.gamersquad.domain.AppUser;
 import com.coyote.gamersquad.domain.Friendship;
+import com.coyote.gamersquad.domain.dto.projection.PlayerFriendshipDTO;
 import com.coyote.gamersquad.repository.extended.AppUserRepositoryExtended;
 import com.coyote.gamersquad.repository.extended.FriendshipChatRepositoryExtended;
 import com.coyote.gamersquad.repository.extended.FriendshipRepositoryExtended;
 import com.coyote.gamersquad.service.FriendshipService;
 import com.coyote.gamersquad.service.dto.AppUserDTO;
 import com.coyote.gamersquad.service.dto.FriendshipDTO;
-import com.coyote.gamersquad.service.dto.projection.PlayerFriendshipDTO;
 import com.coyote.gamersquad.service.errors.AppUserNotFoundException;
 import com.coyote.gamersquad.service.errors.ForbiddenException;
 import com.coyote.gamersquad.service.errors.FriendshipNotFoundException;

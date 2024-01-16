@@ -3,9 +3,9 @@ package com.coyote.gamersquad.repository.extended;
 import com.coyote.gamersquad.domain.AppUser;
 import com.coyote.gamersquad.domain.Event;
 import com.coyote.gamersquad.domain.EventSub;
+import com.coyote.gamersquad.domain.dto.projection.EventFriendDTO;
+import com.coyote.gamersquad.domain.dto.projection.EventPlayerDTO;
 import com.coyote.gamersquad.repository.EventSubRepository;
-import com.coyote.gamersquad.service.dto.projection.EventFriendDTO;
-import com.coyote.gamersquad.service.dto.projection.EventPlayerDTO;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EventSubRepositoryExtended extends EventSubRepository {
     @Query(
-        "select new com.coyote.gamersquad.service.dto.projection.EventPlayerDTO(" +
+        "select new com.coyote.gamersquad.domain.dto.projection.EventPlayerDTO(" +
         "eventSub.appUser.internalUser.id, " +
         "eventSub.appUser.internalUser.login, " +
         "eventSub.appUser.internalUser.imageUrl, " +
@@ -50,7 +50,7 @@ public interface EventSubRepositoryExtended extends EventSubRepository {
     boolean isAcceptedSubscriber(@Param("appUser") AppUser appUser, @Param("event") Event event);
 
     @Query(
-        "select new com.coyote.gamersquad.service.dto.projection.EventFriendDTO(" +
+        "select new com.coyote.gamersquad.domain.dto.projection.EventFriendDTO(" +
         "appUser.internalUser.id, " +
         "appUser.internalUser.login, " +
         "appUser.internalUser.imageUrl, " +

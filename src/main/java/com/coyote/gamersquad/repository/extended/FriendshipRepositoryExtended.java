@@ -2,8 +2,8 @@ package com.coyote.gamersquad.repository.extended;
 
 import com.coyote.gamersquad.domain.AppUser;
 import com.coyote.gamersquad.domain.Friendship;
+import com.coyote.gamersquad.domain.dto.projection.PlayerFriendshipDTO;
 import com.coyote.gamersquad.repository.FriendshipRepository;
-import com.coyote.gamersquad.service.dto.projection.PlayerFriendshipDTO;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FriendshipRepositoryExtended extends FriendshipRepository {
     @Query(
-        "select new com.coyote.gamersquad.service.dto.projection.PlayerFriendshipDTO(" +
+        "select new com.coyote.gamersquad.domain.dto.projection.PlayerFriendshipDTO(" +
         "appUser.internalUser.id, " +
         "appUser.internalUser.login, " +
         "appUser.internalUser.imageUrl, " +
@@ -36,7 +36,7 @@ public interface FriendshipRepositoryExtended extends FriendshipRepository {
     List<PlayerFriendshipDTO> getAllPlayersFriends(@Param("appUserId") Long appUserId);
 
     @Query(
-        "select new com.coyote.gamersquad.service.dto.projection.PlayerFriendshipDTO(" +
+        "select new com.coyote.gamersquad.domain.dto.projection.PlayerFriendshipDTO(" +
         "appUser.internalUser.id, " +
         "appUser.internalUser.login, " +
         "appUser.internalUser.imageUrl, " +
@@ -54,7 +54,7 @@ public interface FriendshipRepositoryExtended extends FriendshipRepository {
     PlayerFriendshipDTO getPlayerFriendByFriendshipId(@Param("friendshipId") Long friendshipId, @Param("appUser") AppUser appUser);
 
     @Query(
-        "select new com.coyote.gamersquad.service.dto.projection.PlayerFriendshipDTO(" +
+        "select new com.coyote.gamersquad.domain.dto.projection.PlayerFriendshipDTO(" +
         "appUser.internalUser.id, " +
         "appUser.internalUser.login, " +
         "appUser.internalUser.imageUrl, " +

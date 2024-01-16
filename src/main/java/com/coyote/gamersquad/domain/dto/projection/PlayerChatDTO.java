@@ -1,13 +1,13 @@
-package com.coyote.gamersquad.service.dto.projection;
+package com.coyote.gamersquad.domain.dto.projection;
 
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
 /**
- * A DTO to display an event chat message in the view.
+ * A DTO to display a player chat message between two friends in the view.
  */
-public class EventPlayerChatDTO implements Serializable {
+public class PlayerChatDTO implements Serializable {
 
     private Long senderUserId;
 
@@ -17,32 +17,32 @@ public class EventPlayerChatDTO implements Serializable {
 
     private Long senderAppUserId;
 
-    private Long eventId;
+    private Long friendshipId;
 
-    private Long eventChatId;
+    private Long friendshipChatId;
 
-    private String eventChatMessage;
+    private String friendshipChatMessage;
 
-    private Instant eventChatSendAt;
+    private Instant friendshipChatSendAt;
 
-    public EventPlayerChatDTO(
+    public PlayerChatDTO(
         Long senderUserId,
         String senderUserLogin,
         String senderUserImageUrl,
         Long senderAppUserId,
-        Long eventId,
-        Long eventChatId,
-        String eventChatMessage,
-        Instant eventChatSendAt
+        Long friendshipId,
+        Long friendshipChatId,
+        String friendshipChatMessage,
+        Instant friendshipChatSendAt
     ) {
         this.senderUserId = senderUserId;
         this.senderUserLogin = senderUserLogin;
         this.senderUserImageUrl = senderUserImageUrl;
         this.senderAppUserId = senderAppUserId;
-        this.eventId = eventId;
-        this.eventChatId = eventChatId;
-        this.eventChatMessage = eventChatMessage;
-        this.eventChatSendAt = eventChatSendAt;
+        this.friendshipId = friendshipId;
+        this.friendshipChatId = friendshipChatId;
+        this.friendshipChatMessage = friendshipChatMessage;
+        this.friendshipChatSendAt = friendshipChatSendAt;
     }
 
     public Long getSenderUserId() {
@@ -77,52 +77,52 @@ public class EventPlayerChatDTO implements Serializable {
         this.senderAppUserId = senderAppUserId;
     }
 
-    public Long getEventId() {
-        return eventId;
+    public Long getFriendshipId() {
+        return friendshipId;
     }
 
-    public void setEventId(Long eventId) {
-        this.eventId = eventId;
+    public void setFriendshipId(Long friendshipId) {
+        this.friendshipId = friendshipId;
     }
 
-    public Long getEventChatId() {
-        return eventChatId;
+    public Long getFriendshipChatId() {
+        return friendshipChatId;
     }
 
-    public void setEventChatId(Long eventChatId) {
-        this.eventChatId = eventChatId;
+    public void setFriendshipChatId(Long friendshipChatId) {
+        this.friendshipChatId = friendshipChatId;
     }
 
-    public String getEventChatMessage() {
-        return eventChatMessage;
+    public String getFriendshipChatMessage() {
+        return friendshipChatMessage;
     }
 
-    public void setEventChatMessage(String eventChatMessage) {
-        this.eventChatMessage = eventChatMessage;
+    public void setFriendshipChatMessage(String friendshipChatMessage) {
+        this.friendshipChatMessage = friendshipChatMessage;
     }
 
-    public Instant getEventChatSendAt() {
-        return eventChatSendAt;
+    public Instant getFriendshipChatSendAt() {
+        return friendshipChatSendAt;
     }
 
-    public void setEventChatSendAt(Instant eventChatSendAt) {
-        this.eventChatSendAt = eventChatSendAt;
+    public void setFriendshipChatSendAt(Instant friendshipChatSendAt) {
+        this.friendshipChatSendAt = friendshipChatSendAt;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof EventPlayerChatDTO)) return false;
-        EventPlayerChatDTO that = (EventPlayerChatDTO) o;
+        if (!(o instanceof PlayerChatDTO)) return false;
+        PlayerChatDTO that = (PlayerChatDTO) o;
         return (
             Objects.equals(senderUserId, that.senderUserId) &&
             Objects.equals(senderUserLogin, that.senderUserLogin) &&
             Objects.equals(senderUserImageUrl, that.senderUserImageUrl) &&
             Objects.equals(senderAppUserId, that.senderAppUserId) &&
-            Objects.equals(eventId, that.eventId) &&
-            Objects.equals(eventChatId, that.eventChatId) &&
-            Objects.equals(eventChatMessage, that.eventChatMessage) &&
-            Objects.equals(eventChatSendAt, that.eventChatSendAt)
+            Objects.equals(friendshipId, that.friendshipId) &&
+            Objects.equals(friendshipChatId, that.friendshipChatId) &&
+            Objects.equals(friendshipChatMessage, that.friendshipChatMessage) &&
+            Objects.equals(friendshipChatSendAt, that.friendshipChatSendAt)
         );
     }
 
@@ -133,17 +133,17 @@ public class EventPlayerChatDTO implements Serializable {
             senderUserLogin,
             senderUserImageUrl,
             senderAppUserId,
-            eventId,
-            eventChatId,
-            eventChatMessage,
-            eventChatSendAt
+            friendshipId,
+            friendshipChatId,
+            friendshipChatMessage,
+            friendshipChatSendAt
         );
     }
 
     @Override
     public String toString() {
         return (
-            "EventChatDTO{" +
+            "PlayerChatDTO{" +
             "senderUserId=" +
             senderUserId +
             ", senderUserLogin='" +
@@ -154,15 +154,15 @@ public class EventPlayerChatDTO implements Serializable {
             '\'' +
             ", senderAppUserId=" +
             senderAppUserId +
-            ", eventId=" +
-            eventId +
-            ", eventChatId=" +
-            eventChatId +
-            ", eventChatMessage='" +
-            eventChatMessage +
+            ", friendshipId=" +
+            friendshipId +
+            ", friendshipChatId=" +
+            friendshipChatId +
+            ", friendshipChatMessage='" +
+            friendshipChatMessage +
             '\'' +
-            ", eventChatSendAt=" +
-            eventChatSendAt +
+            ", friendshipChatSendAt=" +
+            friendshipChatSendAt +
             '}'
         );
     }
