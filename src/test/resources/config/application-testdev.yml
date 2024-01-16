@@ -13,6 +13,9 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
       auto-commit: false
+  # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
+  liquibase:
+    contexts: test, faker
   jpa:
     open-in-view: false
     hibernate:
