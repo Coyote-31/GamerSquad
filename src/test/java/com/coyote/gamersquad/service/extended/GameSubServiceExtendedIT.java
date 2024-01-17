@@ -13,6 +13,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Integration tests for {@link GameSubServiceExtended}.
+ */
 @IntegrationTest
 @Transactional
 class GameSubServiceExtendedIT {
