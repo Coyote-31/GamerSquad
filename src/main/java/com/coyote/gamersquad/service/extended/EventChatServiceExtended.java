@@ -58,8 +58,7 @@ public class EventChatServiceExtended extends EventChatService {
 
     /**
      * Get all EventPlayerChats by eventId.
-     * Only send to everyone when the event is public.
-     * If the event is private, the logged-in User has to be the owner or an accepted user for this event.
+     * The logged-in User has to be the owner or an accepted user for this event.
      *
      * @param eventId the id of the event.
      * @param userLogin the login of user requesting.
