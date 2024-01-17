@@ -2,10 +2,6 @@ package com.coyote.gamersquad.service.extended;
 
 import com.coyote.gamersquad.domain.User;
 import com.coyote.gamersquad.service.MailService;
-import java.nio.charset.StandardCharsets;
-import java.util.Locale;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -17,6 +13,11 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import tech.jhipster.config.JHipsterProperties;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 
 /**
  * Service extended for sending emails.
@@ -54,6 +55,7 @@ public class MailServiceExtended extends MailService {
     }
 
     @Async
+    @Override
     public void sendEmail(String to, String subject, String content, boolean isMultipart, boolean isHtml) {
         log.debug(
             "Send email[multipart '{}' and html '{}'] to '{}' with subject '{}' and content={}",
@@ -80,6 +82,7 @@ public class MailServiceExtended extends MailService {
     }
 
     @Async
+    @Override
     public void sendEmailFromTemplate(User user, String templateName, String titleKey) {
         if (user.getEmail() == null) {
             log.debug("Email doesn't exist for user '{}'", user.getLogin());
@@ -95,18 +98,21 @@ public class MailServiceExtended extends MailService {
     }
 
     @Async
+    @Override
     public void sendActivationEmail(User user) {
         log.debug("Sending activation email to '{}'", user.getEmail());
         sendEmailFromTemplate(user, "mail/activationEmail", "email.activation.title");
     }
 
     @Async
+    @Override
     public void sendCreationEmail(User user) {
         log.debug("Sending creation email to '{}'", user.getEmail());
         sendEmailFromTemplate(user, "mail/creationEmail", "email.activation.title");
     }
 
     @Async
+    @Override
     public void sendPasswordResetMail(User user) {
         log.debug("Sending password reset email to '{}'", user.getEmail());
         sendEmailFromTemplate(user, "mail/passwordResetEmail", "email.reset.title");
