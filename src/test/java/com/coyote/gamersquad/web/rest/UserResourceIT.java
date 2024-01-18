@@ -1,10 +1,5 @@
 package com.coyote.gamersquad.web.rest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import com.coyote.gamersquad.IntegrationTest;
 import com.coyote.gamersquad.domain.Authority;
 import com.coyote.gamersquad.domain.User;
@@ -13,10 +8,6 @@ import com.coyote.gamersquad.security.AuthoritiesConstants;
 import com.coyote.gamersquad.service.dto.AdminUserDTO;
 import com.coyote.gamersquad.service.mapper.UserMapper;
 import com.coyote.gamersquad.web.rest.vm.ManagedUserVM;
-import java.time.Instant;
-import java.util.*;
-import java.util.function.Consumer;
-import javax.persistence.EntityManager;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,8 +16,22 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.cache.CacheManager;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import java.time.Instant;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Consumer;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests for the {@link UserResource} REST controller.
@@ -34,6 +39,17 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
 @IntegrationTest
+@Sql(statements= {
+    "DELETE FROM FRIENDSHIP_CHAT",
+    "DELETE FROM FRIENDSHIP",
+    "DELETE FROM EVENT_CHAT",
+    "DELETE FROM EVENT_SUB",
+    "DELETE FROM EVENT",
+    "DELETE FROM GAME_SUB",
+    "DELETE FROM GAME",
+    "DELETE FROM APP_USER",
+    "DELETE FROM JHI_USER_AUTHORITY"
+})
 class UserResourceIT {
 
     private static final String DEFAULT_LOGIN = "johndoe";
