@@ -3,13 +3,14 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { SessionStorageService } from 'ngx-webstorage';
-import { Observable, ReplaySubject, of } from 'rxjs';
-import { shareReplay, tap, catchError } from 'rxjs/operators';
+import { Observable, of, ReplaySubject } from 'rxjs';
+import { catchError, shareReplay, tap } from 'rxjs/operators';
 
 import { StateStorageService } from 'app/core/auth/state-storage.service';
 import { ApplicationConfigService } from '../config/application-config.service';
 import { Account } from 'app/core/auth/account.model';
 import { TrackerService } from '../tracker/tracker.service';
+import { AuthServerProvider } from './auth-jwt.service';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
@@ -20,6 +21,7 @@ export class AccountService {
   constructor(
     private translateService: TranslateService,
     private sessionStorageService: SessionStorageService,
+    private authJWT: AuthServerProvider,
     private http: HttpClient,
     private trackerService: TrackerService,
     private stateStorageService: StateStorageService,
@@ -56,23 +58,28 @@ export class AccountService {
 
   identity(force?: boolean): Observable<Account | null> {
     if (!this.accountCache$ || force) {
-      this.accountCache$ = this.fetch().pipe(
-        tap((account: Account) => {
-          this.authenticate(account);
+      if (this.authJWT.getToken()) {
+        this.accountCache$ = this.fetch().pipe(
+          tap((account: Account) => {
+            this.authenticate(account);
 
-          // After retrieve the account info, the language will be changed to
-          // the user's preferred language configured in the account setting
-          // unless user have choosed other language in the current session
-          if (!this.sessionStorageService.retrieve('locale')) {
-            this.translateService.use(account.langKey);
-          }
+            // After retrieve the account info, the language will be changed to
+            // the user's preferred language configured in the account setting
+            // unless user have choosed other language in the current session
+            if (!this.sessionStorageService.retrieve('locale')) {
+              this.translateService.use(account.langKey);
+            }
 
-          this.navigateToStoredUrl();
-        }),
-        shareReplay()
-      );
+            this.navigateToStoredUrl();
+          }),
+          shareReplay()
+        );
+      }
     }
-    return this.accountCache$.pipe(catchError(() => of(null)));
+    if (this.accountCache$) {
+      return this.accountCache$.pipe(catchError(() => of(null)));
+    }
+    return of(null);
   }
 
   isAuthenticated(): boolean {
