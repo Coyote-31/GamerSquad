@@ -6,7 +6,7 @@
       "firstname.placeholder": "Votre prénom",
       "lastname": "Nom",
       "lastname.placeholder": "Votre nom",
-      "imageUrl": "Image de profil",
+      "imageUrl": "Url de l'image de profil <small>(max 512x512 pixels)</small>",
       "imageUrl.placeholder": "Url de votre image de profil",
       "language": "Langue",
       "button": "Sauvegarder"

@@ -49,7 +49,7 @@ export class SettingsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.accountService.identity().subscribe(account => {
+    this.accountService.identity(true).subscribe(account => {
       if (account) {
         this.settingsForm.patchValue(account);
       }
