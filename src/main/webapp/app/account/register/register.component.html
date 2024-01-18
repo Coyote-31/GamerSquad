@@ -30,11 +30,11 @@
     <div class="col-md-8">
       <form name="form" role="form" (ngSubmit)="register()" [formGroup]="registerForm" *ngIf="!success">
         <div class="mb-3">
-          <label class="form-label" for="login" jhiTranslate="global.form.username.label">Nom d'utilisateur</label>
+          <label class="form-label" for="login_" jhiTranslate="global.form.username.label">Nom d'utilisateur</label>
           <input
             type="text"
             class="form-control"
-            id="login"
+            id="login_"
             name="login"
             placeholder="{{ 'global.form.username.placeholder' | translate }}"
             formControlName="login"
@@ -78,11 +78,11 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" for="email" jhiTranslate="global.form.email.label">Email</label>
+          <label class="form-label" for="email_" jhiTranslate="global.form.email.label">Email</label>
           <input
             type="email"
             class="form-control"
-            id="email"
+            id="email_"
             name="email"
             placeholder="{{ 'global.form.email.placeholder' | translate }}"
             formControlName="email"
@@ -125,11 +125,11 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" for="password" jhiTranslate="global.form.newpassword.label">Nouveau mot de passe</label>
+          <label class="form-label" for="password_" jhiTranslate="global.form.newpassword.label">Nouveau mot de passe</label>
           <input
             type="password"
             class="form-control"
-            id="password"
+            id="password_"
             name="password"
             placeholder="{{ 'global.form.newpassword.placeholder' | translate }}"
             formControlName="password"
@@ -168,13 +168,13 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label" for="confirmPassword" jhiTranslate="global.form.confirmpassword.label"
+          <label class="form-label" for="confirmPassword_" jhiTranslate="global.form.confirmpassword.label"
             >Confirmation du nouveau mot de passe</label
           >
           <input
             type="password"
             class="form-control"
-            id="confirmPassword"
+            id="confirmPassword_"
             name="confirmPassword"
             placeholder="{{ 'global.form.confirmpassword.placeholder' | translate }}"
             formControlName="confirmPassword"
