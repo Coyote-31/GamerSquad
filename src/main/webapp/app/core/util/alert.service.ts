@@ -1,4 +1,4 @@
-import { Injectable, SecurityContext, NgZone } from '@angular/core';
+import { Injectable, NgZone, SecurityContext } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -24,7 +24,7 @@ export interface Alert {
 export class AlertService {
   timeout = 5000;
   toast = false;
-  position = 'top right';
+  position = 'd-flex justify-content-center';
 
   // unique id for each alert. Starts from 0.
   private alertId = 0;

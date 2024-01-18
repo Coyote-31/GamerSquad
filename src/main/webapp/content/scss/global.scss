@@ -126,6 +126,7 @@ Custom alerts for notification
 
   .alert {
     text-overflow: ellipsis;
+    width: 100%;
 
     pre {
       background: none;
@@ -168,10 +169,8 @@ Custom alerts for notification
 }
 
 @include media-breakpoint-up(md) {
-  .alert {
+  .alerts .alert {
     display: inline-block;
-    margin-inline: 50%;
-    transform: translateX(-50%);
     width: max-content;
   }
 }
