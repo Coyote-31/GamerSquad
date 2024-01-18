@@ -30,13 +30,13 @@ public class FriendshipChatServiceExtended extends FriendshipChatService {
 
     private final Logger log = LoggerFactory.getLogger(FriendshipChatServiceExtended.class);
 
-    FriendshipChatRepositoryExtended friendshipChatRepository;
+    private final FriendshipChatRepositoryExtended friendshipChatRepository;
 
-    FriendshipChatMapper friendshipChatMapper;
+    private final FriendshipChatMapper friendshipChatMapper;
 
-    AppUserRepositoryExtended appUserRepository;
+    private final AppUserRepositoryExtended appUserRepository;
 
-    FriendshipRepositoryExtended friendshipRepository;
+    private final FriendshipRepositoryExtended friendshipRepository;
 
     public FriendshipChatServiceExtended(
         FriendshipChatRepositoryExtended friendshipChatRepository,

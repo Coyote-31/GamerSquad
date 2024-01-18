@@ -31,15 +31,15 @@ public class EventChatServiceExtended extends EventChatService {
 
     private final Logger log = LoggerFactory.getLogger(EventChatServiceExtended.class);
 
-    EventChatRepositoryExtended eventChatRepository;
+    private final EventChatRepositoryExtended eventChatRepository;
 
-    EventChatMapper eventChatMapper;
+    private final EventChatMapper eventChatMapper;
 
-    AppUserRepositoryExtended appUserRepository;
+    private final AppUserRepositoryExtended appUserRepository;
 
-    EventRepositoryExtended eventRepository;
+    private final EventRepositoryExtended eventRepository;
 
-    EventSubRepositoryExtended eventSubRepository;
+    private final EventSubRepositoryExtended eventSubRepository;
 
     public EventChatServiceExtended(
         EventChatRepositoryExtended eventChatRepository,

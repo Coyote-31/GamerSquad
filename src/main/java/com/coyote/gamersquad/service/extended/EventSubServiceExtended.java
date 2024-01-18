@@ -32,15 +32,15 @@ public class EventSubServiceExtended extends EventSubService {
 
     private final Logger log = LoggerFactory.getLogger(EventSubServiceExtended.class);
 
-    EventSubRepositoryExtended eventSubRepository;
+    private final EventSubRepositoryExtended eventSubRepository;
 
-    EventSubMapper eventSubMapper;
+    private final EventSubMapper eventSubMapper;
 
-    EventRepositoryExtended eventRepository;
+    private final EventRepositoryExtended eventRepository;
 
-    AppUserRepositoryExtended appUserRepository;
+    private final AppUserRepositoryExtended appUserRepository;
 
-    FriendshipRepositoryExtended friendshipRepository;
+    private final FriendshipRepositoryExtended friendshipRepository;
 
     public EventSubServiceExtended(
         EventSubRepositoryExtended eventSubRepository,

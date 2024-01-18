@@ -27,17 +27,17 @@ public class EventServiceExtended extends EventService {
 
     private final Logger log = LoggerFactory.getLogger(EventServiceExtended.class);
 
-    EventRepositoryExtended eventRepository;
+    private final EventRepositoryExtended eventRepository;
 
-    EventSubServiceExtended eventSubService;
+    private final EventSubServiceExtended eventSubService;
 
-    EventSubRepositoryExtended eventSubRepository;
+    private final EventSubRepositoryExtended eventSubRepository;
 
-    EventChatRepositoryExtended eventChatRepository;
+    private final EventChatRepositoryExtended eventChatRepository;
 
-    AppUserRepositoryExtended appUserRepository;
+    private final AppUserRepositoryExtended appUserRepository;
 
-    GameRepositoryExtended gameRepository;
+    private final GameRepositoryExtended gameRepository;
 
     public EventServiceExtended(
         EventRepositoryExtended eventRepository,
