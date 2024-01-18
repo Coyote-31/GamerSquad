@@ -16,11 +16,12 @@ import com.coyote.gamersquad.service.errors.EventNotFoundException;
 import com.coyote.gamersquad.service.errors.EventSubNotFoundException;
 import com.coyote.gamersquad.service.errors.ForbiddenException;
 import com.coyote.gamersquad.service.mapper.EventSubMapper;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Service Implementation extended for managing {@link EventSub}.
@@ -195,7 +196,9 @@ public class EventSubServiceExtended extends EventSubService {
             .orElseThrow(() -> new AppUserNotFoundException(userLogin));
 
         // Check if Event exists
-        Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
+        Event event = eventRepository
+            .findById(eventId)
+            .orElseThrow(() -> new EventNotFoundException(eventId));
 
         // Check if the AppUser is the owner of the Event
         if (appUser.equals(event.getOwner())) {
@@ -220,7 +223,11 @@ public class EventSubServiceExtended extends EventSubService {
 
         // Construct the eventSub
         EventSub eventSub = new EventSub();
-        eventSub.id(null).isAccepted(true).event(event).appUser(appUser);
+        eventSub
+            .id(null)
+            .isAccepted(true)
+            .event(event)
+            .appUser(appUser);
 
         return eventSubMapper.toDto(eventSubRepository.save(eventSub));
     }
@@ -438,7 +445,9 @@ public class EventSubServiceExtended extends EventSubService {
             .orElseThrow(() -> new AppUserNotFoundException(userLogin));
 
         // Check if the event exists
-        Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException(eventId));
+        Event event = eventRepository
+            .findById(eventId)
+            .orElseThrow(() -> new EventNotFoundException(eventId));
 
         // Check if the appUserOwner owned the event
         if (!event.getOwner().equals(appUserOwner)) {
@@ -453,7 +462,9 @@ public class EventSubServiceExtended extends EventSubService {
         }
 
         // Check if the appUser to delete exists
-        AppUser appUserToDelete = appUserRepository.findById(appUserId).orElseThrow(() -> new AppUserNotFoundException(appUserId));
+        AppUser appUserToDelete = appUserRepository
+            .findById(appUserId)
+            .orElseThrow(() -> new AppUserNotFoundException(appUserId));
 
         // Check if the appUser to delete is subscribed to the event (eventSub exist)
         EventSub eventSubToDelete = eventSubRepository
