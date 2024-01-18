@@ -7,6 +7,7 @@ import { IEventDetail } from '../../models/event-detail.model';
 import { IEventEdit } from '../../models/event-edit.model';
 import { DATE_TIME_FORMAT } from '../../../../config/input.constants';
 import { EventValidatorService } from '../../../../shared/validators/event-validator.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-events-edit',
@@ -32,7 +33,9 @@ export class EventsEditComponent implements OnInit {
         this.event = event;
         this.initForm();
       },
-      error: () => this.redirectTo404(),
+      error: err => {
+        this.handleError(err);
+      },
     });
   }
 
@@ -70,6 +73,22 @@ export class EventsEditComponent implements OnInit {
 
   cancel(): void {
     this.router.navigate(['events', this.event.id]);
+  }
+
+  handleError(error: Error): void {
+    if (!(error instanceof HttpErrorResponse)) {
+      return;
+    }
+    if (error.status === 403) {
+      this.redirectTo403();
+    }
+    if (error.status === 404) {
+      this.redirectTo404();
+    }
+  }
+
+  redirectTo403(): void {
+    this.router.navigate(['accessdenied'], { skipLocationChange: true });
   }
 
   redirectTo404(): void {

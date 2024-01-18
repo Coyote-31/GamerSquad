@@ -10,6 +10,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { EventsInviteModalComponent } from '../events-invite-modal/events-invite-modal.component';
 import { EventsDeleteModalComponent } from '../events-delete-modal/events-delete-modal.component';
 import { switchMap } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-events-detail',
@@ -49,7 +50,9 @@ export class EventsDetailComponent implements OnInit {
         this.refreshPlayers();
         this.isUserLoggedInOwner = this.userLogin === this.event.ownerLogin;
       },
-      error: () => this.redirectTo404(),
+      error: err => {
+        this.handleError(err);
+      },
     });
   }
 
@@ -122,6 +125,22 @@ export class EventsDetailComponent implements OnInit {
 
   navigateToMyEventsPending(): void {
     this.router.navigate(['/events', 'my-events', 'pending']);
+  }
+
+  handleError(error: Error): void {
+    if (!(error instanceof HttpErrorResponse)) {
+      return;
+    }
+    if (error.status === 403) {
+      this.redirectTo403();
+    }
+    if (error.status === 404) {
+      this.redirectTo404();
+    }
+  }
+
+  redirectTo403(): void {
+    this.router.navigate(['accessdenied'], { skipLocationChange: true });
   }
 
   redirectTo404(): void {
