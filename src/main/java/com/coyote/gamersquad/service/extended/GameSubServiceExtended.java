@@ -16,11 +16,12 @@ import com.coyote.gamersquad.service.errors.ForbiddenException;
 import com.coyote.gamersquad.service.errors.GameNotFoundException;
 import com.coyote.gamersquad.service.mapper.AppUserMapper;
 import com.coyote.gamersquad.service.mapper.GameSubMapper;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Service Implementation extended for managing {@link GameSub}.
@@ -93,10 +94,16 @@ public class GameSubServiceExtended extends GameSubService {
             .getAppUserByInternalUser_Login(userLogin)
             .orElseThrow(() -> new AppUserNotFoundException(userLogin));
 
-        Game game = gameRepository.findById(gameId).orElseThrow(() -> new GameNotFoundException(gameId));
+        Game game = gameRepository
+            .findById(gameId)
+            .orElseThrow(() -> new GameNotFoundException(gameId));
 
         if (gameSubRepository.existsByAppUserAndGame(appUser, game)) {
-            throw new ForbiddenException("User : " + userLogin + " is already subscribed to Game : " + gameId);
+            throw new ForbiddenException(
+                "User : " +
+                userLogin +
+                " is already subscribed to Game : " +
+                gameId);
         }
 
         GameSub gameSub = new GameSub();

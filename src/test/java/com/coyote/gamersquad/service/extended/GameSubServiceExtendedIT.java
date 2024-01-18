@@ -1,17 +1,20 @@
 package com.coyote.gamersquad.service.extended;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.coyote.gamersquad.IntegrationTest;
 import com.coyote.gamersquad.domain.dto.projection.PlayerFriendshipDTO;
 import com.coyote.gamersquad.service.dto.AppUserDTO;
 import com.coyote.gamersquad.service.dto.GameSubDTO;
-import java.util.List;
+import com.coyote.gamersquad.service.errors.ForbiddenException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Integration tests for {@link GameSubServiceExtended}.
@@ -72,6 +75,18 @@ class GameSubServiceExtendedIT {
         assertThat(result.getId()).isNotNull();
         assertThat(result.getAppUser().getId()).isEqualTo(11L);
         assertThat(result.getGame().getId()).isEqualTo(1L);
+    }
+
+    @Test
+    @Transactional
+    void subscribe_throwForbiddenException_whenAlreadySubscribed() {
+        // Given
+        String userLogin = "daniel";
+        Long gameId = 1L;
+
+        // Then
+        assertThatThrownBy(() -> underTest.subscribe(userLogin, gameId))
+            .isInstanceOf(ForbiddenException.class);
     }
 
     @Test
