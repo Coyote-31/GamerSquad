@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { IGame } from '../../../../entities/game/game.model';
-import { Observable, switchMap, tap } from 'rxjs';
+import { EMPTY, Observable, switchMap, tap } from 'rxjs';
 import { GamesService } from '../../services/games.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GameSubsService } from '../../services/game-subs.service';
 import { catchError } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
@@ -23,12 +23,19 @@ export class GamesDetailComponent implements OnInit {
     private title: Title,
     private gamesService: GamesService,
     private gameSubsService: GameSubsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.gameId = +this.route.snapshot.params['id'];
-    this.game$ = this.gamesService.find(this.gameId).pipe(tap(game => this.title.setTitle(this.title.getTitle() + ' - ' + game.title!)));
+    this.game$ = this.gamesService.find(this.gameId).pipe(
+      tap(game => this.title.setTitle(this.title.getTitle() + ' - ' + game.title!)),
+      catchError(() => {
+        this.redirectTo404();
+        return EMPTY;
+      })
+    );
     this.isSubscribed$ = this.gameSubsService.isSubscribed(this.gameId);
   }
 
@@ -48,5 +55,9 @@ export class GamesDetailComponent implements OnInit {
 
   onMenu(menu: 'players' | 'events'): void {
     this.activeMenu = menu;
+  }
+
+  redirectTo404(): void {
+    this.router.navigate(['404'], { skipLocationChange: true });
   }
 }

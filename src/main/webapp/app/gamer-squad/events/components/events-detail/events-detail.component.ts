@@ -40,13 +40,16 @@ export class EventsDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.eventId = +this.route.snapshot.params['id'];
-    this.eventsService.getEventDetailByEventId(this.eventId).subscribe(eventDetail => {
-      this.event = eventDetail;
-      this.event.meetingDate = dayjs(this.event.meetingDate);
-      this.accountService.identity().subscribe(account => (this.userLogin = account!.login));
-      this.refreshIsAlready();
-      this.refreshPlayers();
-      this.isUserLoggedInOwner = this.userLogin === this.event.ownerLogin;
+    this.eventsService.getEventDetailByEventId(this.eventId).subscribe({
+      next: eventDetail => {
+        this.event = eventDetail;
+        this.event.meetingDate = dayjs(this.event.meetingDate);
+        this.accountService.identity().subscribe(account => (this.userLogin = account!.login));
+        this.refreshIsAlready();
+        this.refreshPlayers();
+        this.isUserLoggedInOwner = this.userLogin === this.event.ownerLogin;
+      },
+      error: () => this.redirectTo404(),
     });
   }
 
@@ -119,6 +122,10 @@ export class EventsDetailComponent implements OnInit {
 
   navigateToMyEventsPending(): void {
     this.router.navigate(['/events', 'my-events', 'pending']);
+  }
+
+  redirectTo404(): void {
+    this.router.navigate(['404'], { skipLocationChange: true });
   }
 
   onAcceptInvite(): void {

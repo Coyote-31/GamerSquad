@@ -52,7 +52,10 @@ export class EventsCreateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.gamesService.find(+this.route.snapshot.params['gameId']).subscribe(game => (this.game = game));
+    this.gamesService.find(+this.route.snapshot.params['gameId']).subscribe({
+      next: game => (this.game = game),
+      error: () => this.redirectTo404(),
+    });
   }
 
   OnSubmit(): void {
@@ -75,5 +78,9 @@ export class EventsCreateComponent implements OnInit {
 
   cancel(): void {
     this.router.navigate(['games', this.game.id]);
+  }
+
+  redirectTo404(): void {
+    this.router.navigate(['404'], { skipLocationChange: true });
   }
 }

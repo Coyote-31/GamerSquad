@@ -1,13 +1,14 @@
 import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { IPlayerChat } from '../../../models/player-chat.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FriendChatsService } from '../../services/friend-chats.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { interval, Observable, Subscription, switchMap, tap } from 'rxjs';
+import { EMPTY, interval, Observable, Subscription, switchMap, tap } from 'rxjs';
 import { IPlayerFriendship } from '../../models/player-friendship.model';
 import { FriendsService } from '../../services/friends.service';
 import { ChatValidatorService } from '../../../../shared/validators/chat-validator.service';
 import { IFriendMessage } from '../../models/friend-message.model';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-friend-chats-list',
@@ -33,6 +34,7 @@ export class FriendChatsListComponent implements OnInit, AfterViewChecked, OnDes
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private friendChatsService: FriendChatsService,
     private friendsService: FriendsService,
     private chatValidatorService: ChatValidatorService
@@ -42,7 +44,13 @@ export class FriendChatsListComponent implements OnInit, AfterViewChecked, OnDes
     this.friendshipId = +this.route.snapshot.params['id'];
     this.friendChatsService
       .getAllPlayerChatsByFriendshipId(this.friendshipId)
-      .pipe(tap(playerChats => (this.playerChats = playerChats)))
+      .pipe(
+        tap(playerChats => (this.playerChats = playerChats)),
+        catchError(() => {
+          this.redirectTo404();
+          return EMPTY;
+        })
+      )
       .subscribe();
 
     this.playerFriend$ = this.friendsService.getMyPlayerFriendByFriendshipId(this.friendshipId);
@@ -109,6 +117,10 @@ export class FriendChatsListComponent implements OnInit, AfterViewChecked, OnDes
           .subscribe();
       }
     });
+  }
+
+  redirectTo404(): void {
+    this.router.navigate(['404'], { skipLocationChange: true });
   }
 
   ngOnDestroy(): void {

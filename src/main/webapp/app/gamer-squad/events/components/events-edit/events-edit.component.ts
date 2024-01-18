@@ -26,10 +26,13 @@ export class EventsEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.eventsService.getEventDetailByEventId(+this.route.snapshot.params['eventId']).subscribe(event => {
-      event.meetingDate = dayjs(event.meetingDate);
-      this.event = event;
-      this.initForm();
+    this.eventsService.getEventDetailByEventId(+this.route.snapshot.params['eventId']).subscribe({
+      next: event => {
+        event.meetingDate = dayjs(event.meetingDate);
+        this.event = event;
+        this.initForm();
+      },
+      error: () => this.redirectTo404(),
     });
   }
 
@@ -67,5 +70,9 @@ export class EventsEditComponent implements OnInit {
 
   cancel(): void {
     this.router.navigate(['events', this.event.id]);
+  }
+
+  redirectTo404(): void {
+    this.router.navigate(['404'], { skipLocationChange: true });
   }
 }
