@@ -71,7 +71,7 @@ Generic styles
 /* other generic styles */
 
 .jh-card {
-  padding: 1.5%;
+  padding: 1.3rem;
   margin: 0;
   border: none;
 }
@@ -423,6 +423,7 @@ fa-icon:not(:last-child) {
   object-fit: cover;
   height: 100%;
   width: 100%;
+  vertical-align: unset;
 }
 
 /* jhipster-needle-scss-add-main JHipster will add new css style */

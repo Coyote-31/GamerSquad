@@ -13,7 +13,8 @@ h1 {
 }
 
 .messages-container {
-  height: calc(100vh - 28rem);
+  height: calc(100vh - 26.5rem);
+  min-height: 9rem;
   overflow: auto;
 }
 
@@ -38,6 +39,11 @@ h1 {
 
   .friend-chats-container {
     width: 80%;
+  }
+
+  .messages-container {
+    height: calc(100vh - 27rem);
+    overflow: auto;
   }
 }
 
