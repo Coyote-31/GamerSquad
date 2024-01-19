@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project xmlns="http://maven.apache.org/DECORATION/1.8.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/DECORATION/1.8.0 https://maven.apache.org/xsd/decoration-1.8.0.xsd"
+         name="Maven">
+
+    <!-- Utilisation du template de site fluido -->
+    <skin>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-fluido-skin</artifactId>
+        <version>1.8</version>
+    </skin>
+
+    <!-- Affichage de la date et de la version à droite dans le bandeau du haut -->
+    <publishDate position="right"/>
+    <version position="right"/>
+
+    <body>
+        <breadcrumbs>
+            <item name="Accueil" href="index.html"/>
+        </breadcrumbs>
+
+        <!-- ===== Menus ===== -->
+        <menu ref="reports" inherit="top"/>
+    </body>
+</project>
