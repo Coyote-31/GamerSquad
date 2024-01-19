@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.DATABASE:GAMERSQUAD</OriginalElement>
+  <nodes>
+    <node x="-1875.5" y="140.85492114385934">e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.EVENT_CHAT</node>
+    <node x="-1511.3002219755824" y="530.0">e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.GAME_SUB</node>
+    <node x="-1902.5" y="698.5138734739179">e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.JHI_USER</node>
+    <node x="-219.5" y="1100.5">e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.DATABASECHANGELOG</node>
+    <node x="-1470.8002219755824" y="971.0255271920088">e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.JHI_AUTHORITY</node>
+    <node x="-1528.3002219755824" y="280.76137624861263">e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.EVENT_SUB</node>
+    <node x="-1511.3002219755824" y="755.2386237513874">e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.JHI_USER_AUTHORITY</node>
+    <node x="-2274.075471698113" y="350.3751387347392">e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.FRIENDSHIP_CHAT</node>
+    <node x="354.5" y="860.0">e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.DATABASECHANGELOGLOCK</node>
+    <node x="-1208.6004439511648" y="518.0">e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.GAME</node>
+    <node x="-2265.075471698113" y="675.0">e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.FRIENDSHIP</node>
+    <node x="-1852.0" y="542.0">e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.APP_USER</node>
+    <node x="-1208.6004439511648" y="161.15649278579355">e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.EVENT</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.EVENT" target="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.GAME" relationship="REFERENCES">
+      <point x="-133.99955604883507" y="12.604507214206478" />
+      <point x="-1282.0" y="278.261" />
+      <point x="-1282.0" y="586.5" />
+      <point x="-133.99955604883507" y="0.0" />
+    </edge>
+    <edge source="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.EVENT_CHAT" target="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.APP_USER" relationship="REFERENCES">
+      <point x="119.5" y="7.88561406466215E-5" />
+      <point x="-1582.0" y="221.355" />
+      <point x="-1582.0" y="586.5" />
+      <point x="96.0" y="0.0" />
+    </edge>
+    <edge source="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.EVENT" target="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.APP_USER" relationship="REFERENCES">
+      <point x="0.0" y="104.5" />
+      <point x="-1074.6004439511648" y="480.26137624861263" />
+      <point x="-1741.0" y="480.26137624861263" />
+      <point x="15.0" y="-44.5" />
+    </edge>
+    <edge source="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.GAME_SUB" target="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.GAME" relationship="REFERENCES">
+      <point x="77.00022197558246" y="0.0" />
+      <point x="-133.99955604883507" y="0.0" />
+    </edge>
+    <edge source="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.EVENT_CHAT" target="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.EVENT" relationship="REFERENCES">
+      <point x="119.5" y="-14.999921143859353" />
+      <point x="-1555.0" y="206.355" />
+      <point x="-1555.0" y="263.261" />
+      <point x="-133.99955604883507" y="-2.3954927857935218" />
+    </edge>
+    <edge source="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.FRIENDSHIP_CHAT" target="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.APP_USER" relationship="REFERENCES">
+      <point x="119.5" y="4.386237513873425" />
+      <point x="-1756.0" y="435.26137624861263" />
+      <point x="0.0" y="-44.5" />
+    </edge>
+    <edge source="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.JHI_USER_AUTHORITY" target="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.JHI_AUTHORITY" relationship="REFERENCES">
+      <point x="0.0" y="43.5" />
+      <point x="0.0" y="-31.5" />
+    </edge>
+    <edge source="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.GAME_SUB" target="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.APP_USER" relationship="REFERENCES">
+      <point x="-76.99977802441754" y="0.0" />
+      <point x="96.0" y="0.0" />
+    </edge>
+    <edge source="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.FRIENDSHIP" target="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.APP_USER" relationship="REFERENCES">
+      <point x="15.0" y="-68.5" />
+      <point x="-2130.575471698113" y="586.5" />
+      <point x="-96.0" y="0.0" />
+    </edge>
+    <edge source="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.JHI_USER_AUTHORITY" target="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.JHI_USER" relationship="REFERENCES">
+      <point x="-145.0" y="0.0" />
+      <point x="146.5" y="-112.27524972253048" />
+    </edge>
+    <edge source="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.APP_USER" target="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.JHI_USER" relationship="REFERENCES">
+      <point x="0.0" y="44.5" />
+      <point x="0.0" y="-212.5" />
+    </edge>
+    <edge source="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.EVENT_SUB" target="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.APP_USER" relationship="REFERENCES">
+      <point x="-85.49977802441754" y="-3.7624861261065234E-4" />
+      <point x="-1582.0" y="349.261" />
+      <point x="-1582.0" y="586.5" />
+      <point x="96.0" y="0.0" />
+    </edge>
+    <edge source="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.FRIENDSHIP_CHAT" target="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.FRIENDSHIP" relationship="REFERENCES">
+      <point x="9.0" y="80.5" />
+      <point x="0.0" y="-68.5" />
+    </edge>
+    <edge source="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.EVENT_SUB" target="e40d26a5-c0c2-4ecc-bb7d-fe7f074d9532.TABLE:GAMERSQUAD.PUBLIC.EVENT" relationship="REFERENCES">
+      <point x="-85.49977802441754" y="14.99962375138739" />
+      <point x="-1555.0" y="364.261" />
+      <point x="-1555.0" y="263.261" />
+      <point x="-133.99955604883507" y="-2.3954927857935218" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.8874501992031872" showDependencies="false" x="-1597.5" y="642.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Columns</Category>
+    <Category>Key columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+
