@@ -11,6 +11,11 @@
     <packaging>jar</packaging>
     <name>Gamer Squad</name>
     <description>Description for GamerSquad</description>
+    <licenses>
+        <license>
+            <name>MIT</name>
+        </license>
+    </licenses>
 
     <repositories>
         <!-- jhipster-needle-maven-repository -->
