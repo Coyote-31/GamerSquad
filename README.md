@@ -46,8 +46,6 @@ Members registered for this event will have access to group messaging.
 > [!NOTE]
 > This application was generated using JHipster 7.9.4, you can find documentation and help at [JHipster](https://www.jhipster.tech/documentation-archive/v7.9.4).
 
----
-
 ## 🔧 Settings
 
 ### Mail :
@@ -58,8 +56,6 @@ You have to create 2 environments variables to access smtp server :
 
 - `GAMERSQUAD_MAIL_USERNAME` = _myMailUsername_
 - `GAMERSQUAD_MAIL_PASSWORD` = _myMailPassword_
-
----
 
 ## 💾 Database
 
@@ -73,7 +69,9 @@ The application use **Liquibase** to create the database : `H2` for dev profile 
 
 And populate the database with data from `.csv` files. You can find these files inside `data` & `fake-data` directories from `src/main/resources/config/liquibase`
 
-> An important note is that the data from files inside these directories is used during integration testing so be careful if you modify these files.
+> [!CAUTION]
+> An important note is that the data from files inside these directories is used during integration testing.
+> So be careful if you modify these files.
 
 So we have some data to play with when we launch the application with the command : `./mvnw`
 
@@ -93,8 +91,6 @@ The useful data to know are the user identifiers to be able to connect to their 
 | helene  | helene   |     USER     |
 | ivan    | ivan     |     USER     |
 | jeanne  | jeanne   |     USER     |
-
----
 
 ## 📁 Project Structure
 
@@ -119,8 +115,6 @@ In the project root, JHipster generates configuration files for tools like git, 
 - `npmw` - wrapper to use locally installed npm.
   JHipster installs Node and npm locally using the build tool by default. This wrapper makes sure npm is installed locally and uses it avoiding some differences different versions can cause. By using `./npmw` instead of the traditional `npm` you can configure a Node-less environment to develop or test your application.
 - `/src/main/docker` - Docker configurations for the application and services that the application depends on
-
----
 
 ## 💻 Development
 
@@ -219,8 +213,6 @@ JHipster Control Center can help you manage and control your application(s). You
 docker-compose -f src/main/docker/jhipster-control-center.yml up
 ```
 
----
-
 ## 📦 Building for production
 
 ### Packaging as jar
@@ -249,8 +241,6 @@ To package your application as a war in order to deploy it to an application ser
 ```
 ./mvnw -Pprod,war clean verify
 ```
-
----
 
 ## ✅ Testing
 
@@ -305,8 +295,6 @@ If you need to re-run the Sonar phase, please be sure to specify at least the `i
 
 For more information, refer to the [Code quality page][].
 
----
-
 ## 🐳 Using Docker to simplify development (optional)
 
 You can use Docker to improve your JHipster development experience. A number of docker-compose configuration are available in the [src/main/docker](src/main/docker) folder to launch required third party services.
@@ -345,8 +333,6 @@ docker-compose -f src/main/docker/app.yml up -d
 When running Docker Desktop on macOS Big Sur or later, consider enabling experimental `Use the new Virtualization framework` for better processing performance ([disk access performance is worse](https://github.com/docker/roadmap/issues/7)).
 
 For more information refer to [Using Docker and Docker-Compose][], this page also contains information on the docker-compose sub-generator (`jhipster docker-compose`), which is able to generate docker configurations for one or several JHipster applications.
-
----
 
 ## 💚 Continuous Integration (optional)
 
